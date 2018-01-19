@@ -1,0 +1,7 @@
+node_modules/
+share/
+data-old/
+
+packages.json
+*.zip
+*.jpg

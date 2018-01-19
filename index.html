@@ -1,0 +1,48 @@
+<html>
+
+	<head>
+
+		<title> LIVABILITY CALCULATOR </title>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
+
+        <style>
+
+            body {
+                background-color: #eee;
+                font-family: sans-serif;
+            }
+
+            #map {
+                margin: 0 auto;
+                width: 100%;
+                height: 90%;
+                border: 1px solid black;
+            }
+
+            #title {
+                text-align: center;
+            }
+
+            .leaflet-interactive {
+                stroke: 'red';
+            }
+
+        </style>
+
+	</head>
+
+	
+	<body>
+        <h1 id="title"> CORRIDOR VMT CALCULATOR </h1>
+
+        <div id="map"> </div>
+
+        <div id="readout"> </div>
+
+        <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+	</body>
+
+</html>
+
