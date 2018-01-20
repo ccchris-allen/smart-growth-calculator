@@ -4,8 +4,13 @@ import * as turf from '@turf/turf';
 
 var leafletDraw = require('leaflet-draw');
 var selectArea = require('leaflet-area-select');
-require('leaflet-choropleth');
 var topojson = require('topojson');
+require('leaflet-choropleth');
+
+// these only being added to allow for choropleth extension (delete eventually...)
+var chroma = require('chroma-js');
+var _ = require('lodash/object');
+
 
 const BUFFER_RADIUS = 0.5;
 
@@ -25,6 +30,8 @@ L.TopoJSON = L.GeoJSON.extend({
 
 const topoLayer = new L.TopoJSON();
 const geojsonLayer = new L.GeoJSON();
+
+var choro;
 
 var map = L.map('map').setView([32.7157, -117.11], 12);
 
@@ -57,7 +64,7 @@ axios.get('data/sd_cbgs_vmt.geojson')
 
         geojsonLayer.addTo(map); 
 
-        L.choropleth(resp.data, {
+        choro = L.choropleth(resp.data, {
             valueProperty: 'vmt_hh_type1_vmt',
             scale: ['white', 'red'],
             steps: 5, 
@@ -223,3 +230,62 @@ map.on(L.Draw.Event.CREATED, (e) => {
     */
 });
 
+
+
+var selection = document.getElementById("selected-property");
+
+selection.onchange = () => {
+    // this is an incredibly crappy hack to allow for dynamic changing of choropleth properties
+    // TODO: extend library to allow this...
+    var opts = {
+        valueProperty: (selection.value === 'vmt') ? 'vmt_hh_type1_vmt' : 'TOTPOP1',
+        scale: ['white', 'red'],
+        steps: 5, 
+        mode: 'q',
+        style: {
+            color: '#fff',
+            weight: 0.5,
+            fillOpacity: 0.4
+        }
+    };
+    var userStyle = opts.style;
+
+    var chorogeojson = choro.toGeoJSON();
+
+    var values = chorogeojson.features.map(
+                typeof opts.valueProperty === 'function' ?
+                    opts.valueProperty :
+                        function (item) {
+                                  return item.properties[opts.valueProperty]
+                                          })
+    var limits = chroma.limits(values, opts.mode, opts.steps - 1);
+
+
+      var colors = (opts.colors && opts.colors.length === limits.length ?
+                              opts.colors :
+                              chroma.scale(opts.scale).colors(limits.length))
+
+    
+
+    choro.setStyle((f) => {
+        var style = {};
+        var featureValue;
+        
+        if (typeof opts.valueProperty === 'function') {
+            featureValue = opts.valueProperty(f);
+        } else {
+            featureValue = f.properties[opts.valueProperty];
+        }
+
+        if (!isNaN(featureValue)) {
+            for (var i = 0; i < limits.length; i++) {
+                if (featureValue <= limits[i]) {
+                    style.fillColor = colors[i];
+                    break;
+                }
+            }
+        }
+
+        return _.defaults(style, userStyle);
+    });
+};
