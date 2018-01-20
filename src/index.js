@@ -75,7 +75,7 @@ axios.get('data/sd_cbgs_vmt.geojson')
             style: {
                 color: '#fff',
                 opacity: 1.0,
-                weight: 0.25,
+                weight: 0.0,
                 fillOpacity: 0.4
             }
         }).addTo(map);
@@ -107,6 +107,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
 
         return {
             color: '#fff',
+            weight: 0.0
         };
     });
 });
@@ -178,8 +179,8 @@ map.on(L.Draw.Event.CREATED, (e) => {
     // set style of selected CBGs
     geojsonLayer.setStyle((f) => {
         return {
-            color: f.properties._selected ? '#000' : '#fff',
-            weight: f.properties._selected ? 1. : 0.25
+            color: f.properties._selected ? '#ffd700' : '#fff',
+            weight: f.properties._selected ? 2. : 0.0
         };
     });
 
@@ -254,7 +255,7 @@ selection.onchange = () => {
         mode: 'q',
         style: {
             color: '#fff',
-            weight: 0.25,
+            weight: 0.0,
             opacity: 1.0,
             fillOpacity: 0.4
         }
@@ -287,8 +288,8 @@ selection.onchange = () => {
             featureValue = f.properties[opts.valueProperty];
         }
 
-        style.color = f.properties._selected ? '#000' : '#fff';
-        style.weight = f.properties._selected ? 1. : 0.15;
+        style.color = f.properties._selected ? '#ffd700' : '#fff';
+        style.weight = f.properties._selected ? 2. : 0.15;
 
         if (!isNaN(featureValue)) {
             for (var i = 0; i < limits.length; i++) {
