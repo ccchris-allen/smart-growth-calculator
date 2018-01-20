@@ -52032,7 +52032,8 @@ map.on(L.Draw.Event.CREATED, (e) => {
     // set style of selected CBGs
     geojsonLayer.setStyle((f) => {
         return {
-            color: f.properties._selected ? '#000' : '#fff'
+            color: f.properties._selected ? '#000' : '#fff',
+            weight: f.properties._selected ? 1. : 0.25
         };
     });
 
@@ -52141,6 +52142,7 @@ selection.onchange = () => {
         }
 
         style.color = f.properties._selected ? '#000' : '#fff';
+        style.weight = f.properties._selected ? 1. : 0.15;
 
         if (!isNaN(featureValue)) {
             for (var i = 0; i < limits.length; i++) {
