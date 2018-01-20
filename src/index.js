@@ -29,7 +29,7 @@ L.TopoJSON = L.GeoJSON.extend({
 });
 
 const topoLayer = new L.TopoJSON();
-const geojsonLayer = new L.GeoJSON();
+var geojsonLayer = new L.GeoJSON();
 
 var choro;
 
@@ -52,6 +52,8 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 axios.get('data/sd_cbgs_vmt.geojson')
     .then((resp) => {
         console.log(resp.data);
+
+        /*
         geojsonLayer.addData(resp.data);
 
         geojsonLayer.setStyle({
@@ -64,14 +66,16 @@ axios.get('data/sd_cbgs_vmt.geojson')
 
         geojsonLayer.addTo(map); 
 
-        choro = L.choropleth(resp.data, {
+        */
+        geojsonLayer = L.choropleth(resp.data, {
             valueProperty: 'vmt_hh_type1_vmt',
             scale: ['white', 'red'],
             steps: 5, 
             mode: 'q',
             style: {
                 color: '#fff',
-                weight: 0.5,
+                opacity: 1.0,
+                weight: 0.25,
                 fillOpacity: 0.4
             }
         }).addTo(map);
@@ -102,8 +106,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         f.properties._selected = false; // BAD!!! SIDE EFFECT!!!
 
         return {
-            opacity: 0.25,
-            fillOpacity: 0.5
+            color: '#fff',
         };
     });
 });
@@ -175,8 +178,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     // set style of selected CBGs
     geojsonLayer.setStyle((f) => {
         return {
-            opacity: f.properties._selected ? 0.5 : 0.25,
-            fillOpacity: f.properties._selected ? 0.5 : 0.25
+            color: f.properties._selected ? '#000' : '#fff'
         };
     });
 
@@ -235,13 +237,15 @@ map.on(L.Draw.Event.CREATED, (e) => {
 var selection = document.getElementById("selected-property");
 
 selection.onchange = () => {
-    var prop = {
-        vmt: 'vmt_hh_type1_vmt',
-        population: 'TOTPOP1'
-    }[selection.value];
-
     // this is an incredibly crappy hack to allow for dynamic changing of choropleth properties
     // TODO: extend library to allow this...
+
+    var prop = {
+        vmt: 'vmt_hh_type1_vmt',
+        population: 'TOTPOP1',
+        land: 'AC_LAND'
+    }[selection.value];
+
     var opts = {
         valueProperty: prop,
         scale: ['white', 'red'],
@@ -249,30 +253,30 @@ selection.onchange = () => {
         mode: 'q',
         style: {
             color: '#fff',
-            weight: 0.5,
+            weight: 0.25,
+            opacity: 1.0,
             fillOpacity: 0.4
         }
     };
     var userStyle = opts.style;
 
-    var chorogeojson = choro.toGeoJSON();
+    var chorogeojson = geojsonLayer.toGeoJSON();
 
     var values = chorogeojson.features.map(
-                typeof opts.valueProperty === 'function' ?
-                    opts.valueProperty :
-                        function (item) {
-                                  return item.properties[opts.valueProperty]
-                                          })
+        (typeof opts.valueProperty === 'function') ?
+            opts.valueProperty :
+            function (item) {
+                return item.properties[opts.valueProperty]
+            }
+    );
+
     var limits = chroma.limits(values, opts.mode, opts.steps - 1);
 
+    var colors = (opts.colors && opts.colors.length === limits.length ?
+                      opts.colors :
+                      chroma.scale(opts.scale).colors(limits.length));
 
-      var colors = (opts.colors && opts.colors.length === limits.length ?
-                              opts.colors :
-                              chroma.scale(opts.scale).colors(limits.length))
-
-    
-
-    choro.setStyle((f) => {
+    geojsonLayer.setStyle((f) => {
         var style = {};
         var featureValue;
         
@@ -281,6 +285,8 @@ selection.onchange = () => {
         } else {
             featureValue = f.properties[opts.valueProperty];
         }
+
+        style.color = f.properties._selected ? '#000' : '#fff';
 
         if (!isNaN(featureValue)) {
             for (var i = 0; i < limits.length; i++) {
