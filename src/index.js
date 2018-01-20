@@ -12,6 +12,8 @@ var chroma = require('chroma-js');
 var _ = require('lodash/object');
 
 
+const SELECTED_COLOR = "#444";
+const NORMAL_COLOR = "#000";
 const BUFFER_RADIUS = 0.5;
 
 L.TopoJSON = L.GeoJSON.extend({
@@ -73,7 +75,7 @@ axios.get('data/sd_cbgs_vmt.geojson')
             steps: 5, 
             mode: 'q',
             style: {
-                color: '#fff',
+                color: NORMAL_COLOR,
                 opacity: 1.0,
                 weight: 0.0,
                 fillOpacity: 0.4
@@ -106,7 +108,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         f.properties._selected = false; // BAD!!! SIDE EFFECT!!!
 
         return {
-            color: '#fff',
+            color: NORMAL_COLOR,
             weight: 0.0
         };
     });
@@ -179,7 +181,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     // set style of selected CBGs
     geojsonLayer.setStyle((f) => {
         return {
-            color: f.properties._selected ? '#ffd700' : '#fff',
+            color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
             weight: f.properties._selected ? 2. : 0.0
         };
     });
@@ -254,7 +256,7 @@ selection.onchange = () => {
         steps: 5, 
         mode: 'q',
         style: {
-            color: '#fff',
+            color: NORMAL_COLOR,
             weight: 0.0,
             opacity: 1.0,
             fillOpacity: 0.4
@@ -288,7 +290,7 @@ selection.onchange = () => {
             featureValue = f.properties[opts.valueProperty];
         }
 
-        style.color = f.properties._selected ? '#ffd700' : '#fff';
+        style.color = f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR;
         style.weight = f.properties._selected ? 2. : 0.15;
 
         if (!isNaN(featureValue)) {
