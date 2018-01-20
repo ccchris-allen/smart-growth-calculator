@@ -291,7 +291,7 @@ selection.onchange = () => {
         }
 
         style.color = f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR;
-        style.weight = f.properties._selected ? 2. : 0.15;
+        style.weight = f.properties._selected ? 2. : 0.0;
 
         if (!isNaN(featureValue)) {
             for (var i = 0; i < limits.length; i++) {
