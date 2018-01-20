@@ -52089,10 +52089,15 @@ map.on(L.Draw.Event.CREATED, (e) => {
 var selection = document.getElementById("selected-property");
 
 selection.onchange = () => {
+    var prop = {
+        vmt: 'vmt_hh_type1_vmt',
+        population: 'TOTPOP1'
+    }[selection.value];
+
     // this is an incredibly crappy hack to allow for dynamic changing of choropleth properties
     // TODO: extend library to allow this...
     var opts = {
-        valueProperty: (selection.value === 'vmt') ? 'vmt_hh_type1_vmt' : 'TOTPOP1',
+        valueProperty: prop,
         scale: ['white', 'red'],
         steps: 5, 
         mode: 'q',
