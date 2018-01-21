@@ -51942,14 +51942,14 @@ map.addLayer(drawnItems);
 
 var drawControlOptions = {
     edit: { 
-        featureGroup: drawnItems 
+        featureGroup: drawnItems,
+        edit: false
     },
     draw: { 
-        polygon: {
-            shapeOptions: { 
-                color: 'red' 
-            } 
-        }
+        polygon: false,
+        circle: false,
+        circlemarker: false,
+        rectangle: false
     }
 };
 
@@ -51970,9 +51970,21 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
 
 // most of the work is here...selecting the CBGs
 map.on(L.Draw.Event.CREATED, (e) => {
-    var layer = e.layer;
-    var coords = layer._latlngs.map((item) => { return [item.lng, item.lat]; });
-    var buffer = __WEBPACK_IMPORTED_MODULE_2__turf_turf__["a" /* buffer */](__WEBPACK_IMPORTED_MODULE_2__turf_turf__["c" /* lineString */](coords), BUFFER_RADIUS, { units: 'miles' });
+    console.log(e);
+
+    var buffer;
+    var layer = e.layer; 
+
+    if (e.layerType === 'marker') {
+        var coords = [layer._latlng.lng, layer._latlng.lat];
+        buffer = __WEBPACK_IMPORTED_MODULE_2__turf_turf__["b" /* circle */](coords, BUFFER_RADIUS, { units: 'miles' });
+    } else if (e.layerType === 'circle') {
+        var coords = [layer._latlng.lng, layer._latlng.lat];
+        buffer = __WEBPACK_IMPORTED_MODULE_2__turf_turf__["b" /* circle */](coords, BUFFER_RADIUS, { units: 'miles' });
+    } else if (e.layerType === 'polyline') {
+        var coords = layer._latlngs.map((item) => { return [item.lng, item.lat]; });
+        buffer = __WEBPACK_IMPORTED_MODULE_2__turf_turf__["a" /* buffer */](__WEBPACK_IMPORTED_MODULE_2__turf_turf__["d" /* lineString */](coords), BUFFER_RADIUS, { units: 'miles' });
+    }
 
     var l = new L.geoJson(buffer);
     var cbgs = geojsonLayer.toGeoJSON();
@@ -52000,7 +52012,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
         function intersects(a, b) {
 
             if (b.geometry.type === 'Polygon') {
-                return __WEBPACK_IMPORTED_MODULE_2__turf_turf__["b" /* intersect */](a, b);
+                return __WEBPACK_IMPORTED_MODULE_2__turf_turf__["c" /* intersect */](a, b);
             } else if (b.geometry.type === 'MultiPolygon') {
                 var polys_coords = b.geometry.coordinates;
 
@@ -52012,7 +52024,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
                         }
                     };
 
-                    if (__WEBPACK_IMPORTED_MODULE_2__turf_turf__["b" /* intersect */](a, polygon)) {
+                    if (__WEBPACK_IMPORTED_MODULE_2__turf_turf__["c" /* intersect */](a, polygon)) {
                         return true;
                     }
                 }
@@ -53085,7 +53097,7 @@ module.exports = function spread(callback) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__turf_square__ = __webpack_require__(251);
 /* unused harmony reexport square */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__turf_circle__ = __webpack_require__(168);
-/* unused harmony reexport circle */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_12__turf_circle__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__turf_midpoint__ = __webpack_require__(479);
 /* unused harmony reexport midpoint */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__turf_center__ = __webpack_require__(120);
@@ -53109,7 +53121,7 @@ module.exports = function spread(callback) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__turf_boolean_point_in_polygon__ = __webpack_require__(33);
 /* unused harmony reexport booleanPointInPolygon */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__turf_intersect__ = __webpack_require__(121);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_24__turf_intersect__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_24__turf_intersect__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__turf_nearest_point__ = __webpack_require__(195);
 /* unused harmony reexport nearestPoint */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__turf_nearest_point_on_line__ = __webpack_require__(107);
@@ -53239,7 +53251,7 @@ module.exports = function spread(callback) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_88__turf_clusters__ = __webpack_require__(334);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_89__turf_helpers__ = __webpack_require__(1);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_89__turf_helpers__["l"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_89__turf_helpers__["l"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_90__turf_invariant__ = __webpack_require__(5);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_91__turf_meta__ = __webpack_require__(6);

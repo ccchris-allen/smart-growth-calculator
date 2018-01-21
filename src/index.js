@@ -88,14 +88,14 @@ map.addLayer(drawnItems);
 
 var drawControlOptions = {
     edit: { 
-        featureGroup: drawnItems 
+        featureGroup: drawnItems,
+        edit: false
     },
     draw: { 
-        polygon: {
-            shapeOptions: { 
-                color: 'red' 
-            } 
-        }
+        polygon: false,
+        circle: false,
+        circlemarker: false,
+        rectangle: false
     }
 };
 
@@ -116,9 +116,21 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
 
 // most of the work is here...selecting the CBGs
 map.on(L.Draw.Event.CREATED, (e) => {
-    var layer = e.layer;
-    var coords = layer._latlngs.map((item) => { return [item.lng, item.lat]; });
-    var buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, { units: 'miles' });
+    console.log(e);
+
+    var buffer;
+    var layer = e.layer; 
+
+    if (e.layerType === 'marker') {
+        var coords = [layer._latlng.lng, layer._latlng.lat];
+        buffer = turf.circle(coords, BUFFER_RADIUS, { units: 'miles' });
+    } else if (e.layerType === 'circle') {
+        var coords = [layer._latlng.lng, layer._latlng.lat];
+        buffer = turf.circle(coords, BUFFER_RADIUS, { units: 'miles' });
+    } else if (e.layerType === 'polyline') {
+        var coords = layer._latlngs.map((item) => { return [item.lng, item.lat]; });
+        buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, { units: 'miles' });
+    }
 
     var l = new L.geoJson(buffer);
     var cbgs = geojsonLayer.toGeoJSON();
