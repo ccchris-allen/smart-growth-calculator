@@ -4,17 +4,20 @@
 
 		<title> LIVABILITY CALCULATOR </title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
+
+        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+
 
         <style>
 
             body {
-                background-color: #fff;
-                font-family: sans-serif;
-                width: 100%;
-                height: 100%;
+                //background-color: #fff;
+                //font-family: sans-serif;
+                //width: 100%;
+                //height: 100%;
             }
 
             #map {
@@ -28,8 +31,14 @@
                 text-align: center;
             }
 
-            .leaflet-interactive {
-                stroke: 'red';
+            .navbar {
+                height: 60px;
+            }
+
+            .navbar-brand {
+                color: #eee !important;
+                font-size: 40px;
+                float: none;
             }
 
         </style>
@@ -39,38 +48,31 @@
 	
 	<body>
 
-        <div class="container-fixed">
-        
-            <h1 id="title"> Smart Growth Livability Calculator </h1>
+        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+            <div class="container">
+                <a class="navbar-brand text-center center-block" href="#">Smart Growth Livability Calculator</a>
+            </div>
+        </div>
+          
+        <div class="row h-100">
 
-            <div class="row h-100">
-
-                <div class="col-md-10">
-                    <div id="map"> </div>
-                </div>
-
-                <div class="col-md-2">
-                    Select Attribute to Visualize:
-                    <select id="selected-property" class="form-control">
-                        <option value="vmt" selected> VMT </option>
-                        <option value="population"> Population </option>
-                        <option value="land"> Land Area </option>
-                    </select>
-
-                    <div id="readout"> </div>
-                </div>
-
+            <div class="col-md-10">
+                <div id="map"> </div>
             </div>
 
+            <div class="col-md-2">
+                Select Attribute to Visualize:
+                <select id="selected-property" class="form-control">
+                    <option value="vmt" selected> VMT </option>
+                    <option value="population"> Population </option>
+                    <option value="land"> Land Area </option>
+                </select>
 
+                <div id="readout"> </div>
+            </div>
 
         </div>
-        <script
-            src="https://code.jquery.com/jquery-3.3.0.min.js"
-            integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4="
-            crossorigin="anonymous">
-        </script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
         <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
 
 	</body>
