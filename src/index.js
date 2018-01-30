@@ -200,10 +200,12 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
     var div = document.querySelector("#readout");
 
+    /*
     div.innerHTML = `
         <h4> Total CBGs selected: ${hits} </h4>
         <h4> Average VMT: ${(sums['vmt_hh_type1_vmt'] / hits).toFixed(2)} </h4>
     `;
+    */
     /*
     // finally, output the aggregated metric values...
     var keys = Object.keys(sums);
