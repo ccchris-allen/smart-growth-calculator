@@ -2,13 +2,11 @@
 
 	<head>
 
-		<title> LIVABILITY CALCULATOR </title>
+		<title> SMART GROWTH LIVABILITY CALCULATOR </title>
 
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
-
-        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 
 
         <style>
@@ -21,18 +19,26 @@
                 overflow: hidden;
             }
 
-            #map {
+            #sidebar {
+                float: right;
+                height: 100%;
+                width: 350px;
+                max-width: 100%;
+            }
+
+            .sidebar-wrapper {
                 position: relative;
+                height: 100%;
+                width: 100%;
+            }
+                   
+            #map {
                 width: auto;
                 height: 100%;
             }
 
-            #title {
-                text-align: center;
-            }
-
             .navbar {
-                height: 60px;
+                min-height: 60px;
             }
 
             .navbar-inverse {
@@ -41,11 +47,20 @@
             }
 
             .navbar-brand {
+                margin-top: 10px;
                 color: #eee !important;
                 font-size: 40px;
                 float: none;
             }
 
+            // not currently using...
+            .btn-square {
+                border-radius: 0px;
+            }
+          
+            #select-property {
+                margin-top: 10px;
+            }
         </style>
 
 	</head>
@@ -53,20 +68,39 @@
 	
 	<body>
 
+        <!-- Title bar -->
         <div class="navbar navbar-inverse navbar-static-top" role="navigation">
             <div class="container">
-                <a class="navbar-brand text-center center-block" href="#">Smart Growth Livability Calculator</a>
+                <a class="navbar-brand text-center center-block" href="#"> Smart Growth Livability Calculator </a>
             </div>
         </div>
-          
+        
         <div id="container">
-            <div class="row" style="height: 90%;">
 
-                <div class="col-md-10">
-                    <div id="map"> </div>
+            <div id="sidebar">
+                <div class="sidebar-wrapper">
+
+                    <div class="text-center">
+                        <div id="select-property" class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-info btn-sm active">
+                                <input type="radio" name="options" id="o1" checked> Vehicle Miles Traveled 
+                            </label>
+                            <label class="btn btn-info btn-sm">
+                                <input type="radio" name="options" id="o2"> Pedestrian Collisions
+                            </label>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
 
-                <div class="col-md-2">
+
+            <div id="map-wrapper">
+                <div id="map"> </div>
+            </div>
+
+            <!---
+            <div class="col-md-2">
                     Select Attribute to Visualize:
                     <select id="selected-property" class="form-control">
                         <option value="vmt" selected> VMT </option>
@@ -78,9 +112,15 @@
                 </div>
 
             </div>
+            -->
+
         </div>
 
         <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+
+        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js">
+
 
 	</body>
 

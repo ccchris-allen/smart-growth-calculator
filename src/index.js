@@ -254,9 +254,11 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
 
 
+/*
 var selection = document.getElementById("selected-property");
 
 selection.onchange = () => {
+    console.log("HEYYYYY");
     // this is an incredibly crappy hack to allow for dynamic changing of choropleth properties
     // TODO: extend library to allow this...
 
@@ -321,3 +323,4 @@ selection.onchange = () => {
         return _.defaults(style, userStyle);
     });
 };
+*/
