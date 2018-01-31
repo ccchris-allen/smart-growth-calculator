@@ -51855,6 +51855,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+//import {$, jQuery} from 'jquery';
 
 var leafletDraw = __webpack_require__(768);
 var selectArea = __webpack_require__(769);
@@ -51886,7 +51887,6 @@ L.TopoJSON = L.GeoJSON.extend({
 
 const topoLayer = new L.TopoJSON();
 var geojsonLayer = new L.GeoJSON();
-
 var choro;
 
 var map = L.map('map').setView([32.7157, -117.11], 12);
@@ -51936,6 +51936,73 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('data/sd_cbgs_vmt.geojson')
             }
         }).addTo(map);
     });
+
+$('#select-property input:radio').change(() => { 
+    var checked = $('#select-property input:radio:checked')[0];
+
+    var prop = {
+        vmt: 'vmt_hh_type1_vmt',
+        population: 'TOTPOP1',
+        land: 'AC_LAND'
+    }[checked.id];
+
+    var opts = {
+        valueProperty: prop,
+        scale: ['white', 'red'],
+        steps: 5, 
+        mode: 'q',
+        style: {
+            color: NORMAL_COLOR,
+            weight: 0.0,
+            opacity: 1.0,
+            fillOpacity: 0.4
+        }
+    };
+
+    var userStyle = opts.style;
+    var chorogeojson = geojsonLayer.toGeoJSON();
+
+    var values = chorogeojson.features.map(
+        (typeof opts.valueProperty === 'function') ?
+            opts.valueProperty :
+            function (item) {
+                return item.properties[opts.valueProperty]
+            }
+    );
+
+    var limits = chroma.limits(values, opts.mode, opts.steps - 1);
+
+    var colors = (opts.colors && opts.colors.length === limits.length ?
+                      opts.colors :
+                      chroma.scale(opts.scale).colors(limits.length));
+
+    geojsonLayer.setStyle((f) => {
+        var style = {};
+        var featureValue;
+        
+        if (typeof opts.valueProperty === 'function') {
+            featureValue = opts.valueProperty(f);
+        } else {
+            featureValue = f.properties[opts.valueProperty];
+        }
+
+        style.color = f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR;
+        style.weight = f.properties._selected ? 2. : 0.0;
+
+        if (!isNaN(featureValue)) {
+            for (var i = 0; i < limits.length; i++) {
+                if (featureValue <= limits[i]) {
+                    style.fillColor = colors[i];
+                    break;
+                }
+            }
+        }
+
+        return _.defaults(style, userStyle);
+    });
+});
+
+
 
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
@@ -52054,10 +52121,12 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
     var div = document.querySelector("#readout");
 
+    /*
     div.innerHTML = `
         <h4> Total CBGs selected: ${hits} </h4>
         <h4> Average VMT: ${(sums['vmt_hh_type1_vmt'] / hits).toFixed(2)} </h4>
     `;
+    */
     /*
     // finally, output the aggregated metric values...
     var keys = Object.keys(sums);
@@ -52108,10 +52177,10 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
 
 
+/*
 var selection = document.getElementById("selected-property");
 
 selection.onchange = () => {
-    console.log("HEYYYYY");
     // this is an incredibly crappy hack to allow for dynamic changing of choropleth properties
     // TODO: extend library to allow this...
 
@@ -52176,6 +52245,7 @@ selection.onchange = () => {
         return _.defaults(style, userStyle);
     });
 };
+*/
 
 
 /***/ }),

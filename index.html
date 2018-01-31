@@ -4,7 +4,7 @@
 
 		<title> SMART GROWTH LIVABILITY CALCULATOR </title>
 
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
 
@@ -13,7 +13,7 @@
 
             html, body {
                 background-color: #fff;
-                font-family: sans-serif;
+                font-family: Verdana, sans-serif;
                 width: 100%;
                 height: 100%;
                 overflow: hidden;
@@ -22,7 +22,7 @@
             #sidebar {
                 float: right;
                 height: 100%;
-                width: 350px;
+                width: 400px;
                 max-width: 100%;
             }
 
@@ -47,17 +47,14 @@
             }
 
             .navbar-brand {
-                margin-top: 10px;
                 color: #eee !important;
-                font-size: 40px;
-                float: none;
+                font-size: 30px;
             }
 
-            // not currently using...
-            .btn-square {
-                border-radius: 0px;
-            }
-          
+            #select-property > label {
+               cursor: pointer !important;
+            } 
+
             #select-property {
                 margin-top: 10px;
             }
@@ -69,9 +66,9 @@
 	<body>
 
         <!-- Title bar -->
-        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="navbar navbar-inverse" role="navigation">
             <div class="container">
-                <a class="navbar-brand text-center center-block" href="#"> Smart Growth Livability Calculator </a>
+                <a class="navbar-brand d-flex justify-content-center" href="#"> Smart Growth Livability Calculator </a>
             </div>
         </div>
         
@@ -81,12 +78,13 @@
                 <div class="sidebar-wrapper">
 
                     <div class="text-center">
+                        <div> Select Attribute: </div>
                         <div id="select-property" class="btn-group" data-toggle="buttons">
                             <label class="btn btn-info btn-sm active">
-                                <input type="radio" name="options" id="o1" checked> Vehicle Miles Traveled 
+                                <input type="radio" name="options" id="vmt" checked> Vehicle Miles Traveled 
                             </label>
                             <label class="btn btn-info btn-sm">
-                                <input type="radio" name="options" id="o2"> Pedestrian Collisions
+                                <input type="radio" name="options" id="population"> Pedestrian Collisions
                             </label>
                         </div>
                     </div>
@@ -116,11 +114,11 @@
 
         </div>
 
-        <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
-
-        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js">
-
+       <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+       
+       <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
 
 	</body>
 
