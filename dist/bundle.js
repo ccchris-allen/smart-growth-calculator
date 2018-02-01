@@ -52008,6 +52008,16 @@ var drawControl = new L.Control.Draw(drawControlOptions);
 map.addControl(drawControl);
 
 map.on(L.Draw.Event.DELETESTOP, (e) => {
+    hits = 0;
+    sums = { 
+        vmt_hh_type1_vmt: 0.0,
+        "pedcol-data-only_SumAllPed": 0.0,
+        "pedcol-data-only_JTW_TOTAL": 0.0,
+        "pedcol-data-only_JTW_WALK": 0.0,
+        TOTPOP1: 0,
+        pop_ped: 0
+    };
+
     geojsonLayer.setStyle((f) => {
 
         f.properties._selected = false; // BAD!!! SIDE EFFECT!!!
@@ -52028,9 +52038,20 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     cbgs.innerHTML = "N/A";
 });
 
+
+var hits = 0;
+var selections = 0;
+var sums = { 
+    vmt_hh_type1_vmt: 0.0,
+    "pedcol-data-only_SumAllPed": 0.0,
+    "pedcol-data-only_JTW_TOTAL": 0.0,
+    "pedcol-data-only_JTW_WALK": 0.0,
+    TOTPOP1: 0,
+    pop_ped: 0
+};
+
 // most of the work is here...selecting the CBGs
 map.on(L.Draw.Event.CREATED, (e) => {
-    console.log(e);
 
     var buffer;
     var layer = e.layer; 
@@ -52046,20 +52067,9 @@ map.on(L.Draw.Event.CREATED, (e) => {
         buffer = __WEBPACK_IMPORTED_MODULE_2__turf_turf__["a" /* buffer */](__WEBPACK_IMPORTED_MODULE_2__turf_turf__["d" /* lineString */](coords), BUFFER_RADIUS, { units: 'miles' });
     }
 
-    var l = new L.geoJson(buffer);
     var cbgs = geojsonLayer.toGeoJSON();
-    var hits = 0;
 
-    var sums = { 
-        vmt_hh_type1_vmt: 0.0,
-        "pedcol-data-only_SumAllPed": 0.0,
-        "pedcol-data-only_JTW_TOTAL": 0.0,
-        "pedcol-data-only_JTW_WALK": 0.0,
-        TOTPOP1: 0,
-        pop_ped: 0
-    };
-
-    drawnItems.addLayer(l);
+    drawnItems.addLayer(new L.geoJson(buffer));
 
     cbgs.features.forEach((f) => {
 
@@ -52093,7 +52103,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
             var keys = Object.keys(sums);
 
             keys.forEach((k) => {
-                sums[k] += f.properties[k] || sums[k];
+                sums[k] = (sums[k] + f.properties[k]) || sums[k];
             });
 
             hits++;
@@ -52128,14 +52138,6 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
     var ped_per_100k_walk = ped_per_100k / walk_pct;
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
-
-    console.log(sums.TOTPOP1);
-    console.log(sums.pop_ped);
-    console.log(total_collisions);
-    console.log(walk_pct);
-    console.log(ped_per_100k);
-    console.log(ped_per_100k_walk);
-    console.log(ped_per_100k_walk_daily);
 
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
     pedcol.innerHTML = ped_per_100k_walk_daily.toFixed(2);
