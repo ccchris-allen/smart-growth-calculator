@@ -50,25 +50,10 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 }).addTo(map);
 
 
-//axios.get('data/sd_cbgs_with_sld_clean2.geojson')
-axios.get('data/sd_cbgs_vmt.geojson')
+//axios.get('data/sd_cbgs_vmt.geojson')
+axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
     .then((resp) => {
-        console.log(resp.data);
 
-        /*
-        geojsonLayer.addData(resp.data);
-
-        geojsonLayer.setStyle({
-            color: 'black', 
-            opacity: 0.5, 
-            weight: 1.5, 
-            fill: '#333',
-            fillOpacity: 0.5
-        });
-
-        geojsonLayer.addTo(map); 
-
-        */
         geojsonLayer = L.choropleth(resp.data, {
             valueProperty: 'vmt_hh_type1_vmt',
             scale: ['white', 'red'],
@@ -88,8 +73,7 @@ $('#select-property input:radio').change(() => {
 
     var prop = {
         vmt: 'vmt_hh_type1_vmt',
-        population: 'TOTPOP1',
-        land: 'AC_LAND'
+        pedcol: 'pedcol-data-only_SumAllPed'
     }[checked.id];
 
     var opts = {
@@ -212,19 +196,14 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var cbgs = geojsonLayer.toGeoJSON();
     var hits = 0;
 
-    var sums = { vmt_hh_type1_vmt: 0.0 };
-    //var sums = {
-    //    D5br: 0.0,
-    //    D4d: 0.0,
-    //    hh_ty1_: 0.0, //,hh_type1_h: 0.0,
-    //    D1c: 0.0,
-    //    D1C5_R1: 0.0, //D1c5_Ret10: 0.0,
-    //    D1C8Hl1: 0.0, //,D1c8_Hlth10: 0.0,
-    //    AC_LAND: 0.0,
-    //    TOTPOP1: 0.0,
-    //    D1C5_E1: 0.0, //,D1c5_Ent10: 0.0,
-    //    D3b: 0.0
-    //};
+    var sums = { 
+        vmt_hh_type1_vmt: 0.0,
+        "pedcol-data-only_SumAllPed": 0.0,
+        "pedcol-data-only_JTW_TOTAL": 0.0,
+        "pedcol-data-only_JTW_WALK": 0.0,
+        TOTPOP1: 0,
+        pop_ped: 0
+    };
 
     drawnItems.addLayer(l);
 
@@ -260,9 +239,16 @@ map.on(L.Draw.Event.CREATED, (e) => {
             var keys = Object.keys(sums);
 
             keys.forEach((k) => {
-                sums[k] += f.properties[k];
+                sums[k] += f.properties[k] || sums[k];
             });
+
             hits++;
+
+            function isNumeric(n) { return !isNaN(parseFloat(n)) && isFinite(n); }
+
+            if (isNumeric(f.properties["pedcol-data-only_SumAllPed"])) {
+                sums.pop_ped += f.properties.TOTPOP1;
+            }
         }
     });
 
@@ -282,62 +268,24 @@ map.on(L.Draw.Event.CREATED, (e) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     
+    var total_collisions = sums["pedcol-data-only_SumAllPed"];
+    var walk_pct = sums["pedcol-data-only_JTW_WALK"] / sums["pedcol-data-only_JTW_TOTAL"];
+
+    var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
+    var ped_per_100k_walk = ped_per_100k / walk_pct;
+    var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
+
+    console.log(sums.TOTPOP1);
+    console.log(sums.pop_ped);
+    console.log(total_collisions);
+    console.log(walk_pct);
+    console.log(ped_per_100k);
+    console.log(ped_per_100k_walk);
+    console.log(ped_per_100k_walk_daily);
+
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
-    pedcol.innerHTML = 1.23;
+    pedcol.innerHTML = ped_per_100k_walk_daily.toFixed(2);
     cbgs.innerHTML = hits;
-
-    /*
-    div.innerHTML = `
-        <h4> Total CBGs selected: ${hits} </h4>
-        <h4> Average VMT: ${(sums['vmt_hh_type1_vmt'] / hits).toFixed(2)} </h4>
-    `;
-    */
-    /*
-    // finally, output the aggregated metric values...
-    var keys = Object.keys(sums);
-    var aggregated = keys.reduce((result, k) => {
-        result[k] = sums[k] / hits;
-        return result;
-    }, {});
-
-    aggregated.PopDens = sums.TOTPOP1 / sums.AC_LAND;
-
-
-    // very hacky way of populating the metric outputs
-    var div = document.querySelector("#readout");
-
-    div.innerHTML = `
-        <h4> High-quality transit, walking, and bicycling opportunities </h4>
-        <ul>
-            <li> Transit job accessibility: ${aggregated.D5br.toFixed(1)} </li>
-            <li> Transit service coverage: ${aggregated.D4d.toFixed(1)} </li>
-        </ul>
-        <h4> Mixed income housing near transit </h4>
-        <ul>
-            <li> Housing unaffordability: ${aggregated.hh_ty1_.toFixed(1)} </li>
-            <li> Income diversity: NA </li>
-        </ul>
-        <h4> Transit-accessible economic opportunities </h4>
-        <ul>
-            <li> Jobs density: ${aggregated.D1c.toFixed(1)} </li>
-            <li> Retail jobs density: ${aggregated.D1C5_R1.toFixed(1)} </li>
-        </ul>
-        <h4> Accessible social & government services </h4>  
-        <ul>
-            <li> Ridership balance: NA </li>
-            <li> Health care opportunities: ${aggregated.D1C8Hl1.toFixed(1)} </li>
-        </ul>
-        <h4> Vibrant & accessible community, cultural & recreational opportunities </h4>
-        <ul>
-            <li> Population density: ${aggregated.PopDens.toFixed(1)} </li>
-            <li> Access to culture and arts: ${aggregated.D1C5_E1.toFixed(1)} </li>
-        </ul>
-        <h4> Healthy, safe & walkable transit corridor neighborhoods </h4>
-        <ul>
-            <li> Pedestrian environment: ${aggregated.D3b.toFixed(1)} </li>
-            <li> Pedestrian collisions per 100k pedestrians: NA </li>
-        </ul>`;
-    */
 });
 
 
