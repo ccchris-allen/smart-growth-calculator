@@ -62,6 +62,7 @@
 
             .statistic {
                 margin: 1em 0;
+                margin-top; 2em;
                 text-transform: uppercase;
                 display: inline-block;
             }
@@ -97,7 +98,6 @@
                 <div class="sidebar-wrapper">
 
                     <div class="text-center">
-                        <div> Select Attribute: </div>
                         <div id="select-property" class="btn-group" data-toggle="buttons">
                             <label class="btn btn-info btn-sm active">
                                 <input type="radio" name="options" id="vmt" checked> Vehicle Miles Traveled 
@@ -109,12 +109,13 @@
                     </div>
 
 
-                    <div class="text-center">
+                    <!-- Container for statistics -->
+                    <div class="text-center" style="margin-top: 40px;">
 
                         <div class="statistic">
                             <div class="value">
                                 <i class="fa fa-car"></i>
-                                16,535
+                                <span id="stat-vmt"> N/A </span>
                             </div>
                             <div class="label">
                                 Vehicle Miles Traveled
@@ -124,7 +125,7 @@
                         <div class="statistic">
                             <div class="value">
                                 <i class="fa fa-ambulance"></i>
-                                2.34 
+                                <span id="stat-pedcol"> N/A </span>
                             </div>
                             <div class="label">
                                 Pedestrian Collisions
@@ -134,7 +135,7 @@
                         <div class="statistic">
                             <div class="value">
                                 <i class="fa fa-map-marker-alt"></i>
-                                12
+                                <span id="stat-cbgs"> N/A </span>
                             </div>
                             <div class="label">
                                 Block Groups Selected

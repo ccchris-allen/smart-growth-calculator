@@ -52119,7 +52119,17 @@ map.on(L.Draw.Event.CREATED, (e) => {
         };
     });
 
-    var div = document.querySelector("#readout");
+    var vmt = document.querySelector("#stat-vmt");
+    var pedcol = document.querySelector("#stat-pedcol");
+    var cbgs = document.querySelector("#stat-cbgs");
+
+    function withCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
+    vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
+    pedcol.innerHTML = 1.23;
+    cbgs.innerHTML= hits;
 
     /*
     div.innerHTML = `
