@@ -179,6 +179,15 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
             weight: 0.0
         };
     });
+
+
+    var vmt = document.querySelector("#stat-vmt");
+    var pedcol = document.querySelector("#stat-pedcol");
+    var cbgs = document.querySelector("#stat-cbgs");
+
+    vmt.innerHTML = "N/A";
+    pedcol.innerHTML = "N/A";
+    cbgs.innerHTML = "N/A";
 });
 
 // most of the work is here...selecting the CBGs
@@ -275,7 +284,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
     pedcol.innerHTML = 1.23;
-    cbgs.innerHTML= hits;
+    cbgs.innerHTML = hits;
 
     /*
     div.innerHTML = `
