@@ -5,6 +5,7 @@
 		<title> SMART GROWTH LIVABILITY CALCULATOR </title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
 
@@ -58,11 +59,29 @@
             #select-property {
                 margin-top: 10px;
             }
+
+            .statistic {
+                margin: 1em 0;
+                text-transform: uppercase;
+                display: inline-block;
+            }
+
+            .statistic .value {
+                font-size: 3.8em;
+                line-height: 1em;
+                text-align: center;
+            }
+
+            .statistic .label {
+                color: inherit;
+                display: block;
+                font-size: 1em;
+                text-align: center;
+            }
         </style>
 
 	</head>
 
-	
 	<body>
 
         <!-- Title bar -->
@@ -89,6 +108,41 @@
                         </div>
                     </div>
 
+
+                    <div class="text-center">
+
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="fa fa-car"></i>
+                                16,535
+                            </div>
+                            <div class="label">
+                                Vehicle Miles Traveled
+                            </div>
+                        </div>
+
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="fa fa-ambulance"></i>
+                                2.34 
+                            </div>
+                            <div class="label">
+                                Pedestrian Collisions
+                            </div>
+                        </div>
+
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="fa fa-map-marker-alt"></i>
+                                12
+                            </div>
+                            <div class="label">
+                                Block Groups Selected
+                            </div>
+                        </div>
+
+                    </div>
+                    
                 </div>
             </div>
 
