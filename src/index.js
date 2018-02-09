@@ -32,16 +32,9 @@ L.TopoJSON = L.GeoJSON.extend({
 });
 
 const topoLayer = new L.TopoJSON();
-var geojsonLayer = new L.GeoJSON();
-var choro;
+var geojsonLayer;
 
 var map = L.map('map').setView([32.7157, -117.11], 12);
-
-map.selectArea.enable();
-map.on('areaselected', (e) => {
-    alert(e.bounds.toBBoxString());
-});
-
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     maxZoom: 18,
@@ -68,12 +61,22 @@ axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
         }).addTo(map);
     });
 
+
 $('#select-property input:radio').change(() => { 
     var checked = $('#select-property input:radio:checked')[0];
 
     var prop = {
         vmt: 'vmt_hh_type1_vmt',
-        pedcol: 'pedcol-data-only_SumAllPed'
+        pedcol: (item) => {
+            var total_collisions = item.properties["pedcol-data-only_SumAllPed"];
+            var walk_pct = item.properties["pedcol-data-only_JTW_WALK"] / item.properties["pedcol-data-only_JTW_TOTAL"];
+
+            var ped_per_100k = 100000 * (total_collisions / item.properties['TOTPOP1']);
+            var ped_per_100k_walk = ped_per_100k / walk_pct;
+            var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
+
+            return ped_per_100k_walk_daily;
+        }
     }[checked.id];
 
     var opts = {
@@ -132,8 +135,6 @@ $('#select-property input:radio').change(() => {
     });
 });
 
-
-
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
@@ -144,7 +145,7 @@ var drawControlOptions = {
     },
     draw: { 
         polygon: false,
-        circle: false,
+        circle: true,
         circlemarker: false,
         rectangle: false
     }
@@ -152,6 +153,10 @@ var drawControlOptions = {
 
 var drawControl = new L.Control.Draw(drawControlOptions);
 map.addControl(drawControl);
+
+map.on(L.Draw.Event.DELETED, (e) => {
+    console.log(e);
+});
 
 map.on(L.Draw.Event.DELETESTOP, (e) => {
     hits = 0;
@@ -215,7 +220,10 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
     var cbgs = geojsonLayer.toGeoJSON();
 
-    drawnItems.addLayer(new L.geoJson(buffer));
+    var bufferLayer = new L.geoJson(buffer);
+    bufferLayer.bindPopup("Selected Area:");
+    
+    drawnItems.addLayer(bufferLayer);
 
     cbgs.features.forEach((f) => {
 
@@ -289,7 +297,6 @@ map.on(L.Draw.Event.CREATED, (e) => {
     pedcol.innerHTML = ped_per_100k_walk_daily.toFixed(2);
     cbgs.innerHTML = hits;
 });
-
 
 
 /*
