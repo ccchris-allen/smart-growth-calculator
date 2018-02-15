@@ -33,6 +33,7 @@ L.TopoJSON = L.GeoJSON.extend({
 
 const topoLayer = new L.TopoJSON();
 var geojsonLayer;
+var stationsLayer; 
 
 var map = L.map('map').setView([32.7157, -117.11], 12);
 
@@ -43,13 +44,12 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 }).addTo(map);
 
 
-//axios.get('data/sd_cbgs_vmt.geojson')
 axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
     .then((resp) => {
 
         geojsonLayer = L.choropleth(resp.data, {
             valueProperty: 'vmt_hh_type1_vmt',
-            scale: ['white', 'red'],
+            scale: ['white', 'blue'],
             steps: 5, 
             mode: 'q',
             style: {
@@ -59,6 +59,31 @@ axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
                 fillOpacity: 0.4
             }
         }).addTo(map);
+
+
+        // NOT IDEAL: callback hell!
+        axios.get('data/sd-rail-stations-buffered.geojson')
+            .then((resp2) => {
+                stationsLayer = L.geoJSON(resp2.data, {
+                    style: (f) => {
+                        var style = {
+                            weight: 0.0,
+                            fillOpacity: .5
+                        };
+
+                        if (f.properties.FINAL_TYPO === 'INTEGRATED') {
+                            style.fillColor = 'green';
+                        } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
+                            style.fillColor = 'yellow';
+                        } else {
+                            style.fillColor = 'red';
+                        }
+
+                        return style;
+                    }
+                }).addTo(map);
+            });
+
     });
 
 
@@ -81,7 +106,7 @@ $('#select-property input:radio').change(() => {
 
     var opts = {
         valueProperty: prop,
-        scale: ['white', 'red'],
+        scale: ['white', 'blue'],
         steps: 5, 
         mode: 'q',
         style: {
