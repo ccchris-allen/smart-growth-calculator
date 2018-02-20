@@ -55,7 +55,7 @@
 
             .navbar-brand {
                 color: #eee !important;
-                font-size: 30px;
+                font-size: 25px;
                 text-transform: uppercase;
                 font-weight: bold;
             }
@@ -122,22 +122,60 @@
                 //border-right:15px solid transparent;
                 //border-top:15px solid #2c3e50;
             }
+
         </style>
 
 	</head>
 
 	<body>
 
-        <!-- Title bar -->
-        <div class="navbar navbar-inverse //navbar-static-top" role="navigation">
-            <div class="container">
-                <a class="navbar-brand d-flex justify-content-center" href="#"> Smart Growth Livability Calculator </a>
-            </div>
-        </div>
         
+        <nav class="navbar navbar-toggleable-md navbar-inverse">
+            <button class="navbar-toggler navbar-toggler-right" type="button" 
+                    data-toggle="collapse" data-target="#navbarCollapse" 
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand" href="#"> Smart Growth Livability Calculator </a>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"
+                                data-toggle="modal" data-target="#modal-about-us"> 
+                            About Us
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"
+                                data-toggle="modal" data-target="#modal-description"> 
+                            Project Description
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+        <!-- Title bar 
+        <nav class="navbar navbar-expand-md navbar-inverse //navbar-static-top">
+                    <a class="navbar-brand abs" href="#"> 
+                        Smart Growth Livability Calculator 
+                    </a>
+
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="">About Us</a>
+                    </li>
+                </ul>
+            </div>
+
+        </nav>
+        -->
 
         <div id="container">
-
             <div id="sidebar">
                 <div class="sidebar-wrapper">
 
