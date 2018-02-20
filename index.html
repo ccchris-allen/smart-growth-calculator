@@ -12,14 +12,20 @@
 
         <style>
 
-            html, body {
-                background-color: #fff;
-                font-family: Verdana, sans-serif;
-                width: 100%;
+            html { 
                 height: 100%;
+                width: 100%;
                 overflow: hidden;
             }
 
+            body {
+                background-color: #fff;
+                font-family: Verdana, sans-serif;
+                height: 100%;
+                width: 100%;
+                //padding-top: 60px;
+            }
+            
             #sidebar {
                 float: right;
                 height: 100%;
@@ -52,6 +58,12 @@
                 font-size: 30px;
                 text-transform: uppercase;
                 font-weight: bold;
+            }
+
+            .modal-content {
+                -webkit-border-radius: 0px !important;
+                -moz-border-radius: 0px !important;
+                border-radius: 0px !important;
             }
 
             #select-property label {
@@ -175,13 +187,59 @@
                         </div>
 
                     </div>
-                    
+
+                    <div class="text-center" style="margin-top: 40px;">
+                        <button type="button" class="btn btn-info btn-sm" 
+                            data-toggle="modal" data-target="#modal-about-us"> 
+                            About Us 
+                        </button>
+                        <button type="button" class="btn btn-info btn-sm" 
+                            data-toggle="modal" data-target="#modal-description"> 
+                            Description
+                        </button>
+                    </div>
+
                 </div>
+
             </div>
 
 
             <div id="map-wrapper">
                 <div id="map"> </div>
+            </div>
+
+            <div class="modal fade" id="modal-description" 
+                tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header"> 
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="col-12 modal-title text-center"> PROJECT DESCRIPTION </h4>
+                        </div>
+                        <div class="modal-body">
+                           The Smart Growth Livability Calculator is ... 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-about-us" 
+                tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header"> 
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="col-12 modal-title text-center"> ABOUT US </h4>
+                        </div>
+                        <div class="modal-body">
+                           The Smart Growth Livability Calculator is ... 
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
