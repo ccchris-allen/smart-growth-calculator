@@ -51936,6 +51936,8 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('data/sd_cbgs_vmt_and_pedcol.g
                         return style;
                     }
                 }).addTo(map);
+
+                L.control.layers([], {"Stations": stationsLayer}).addTo(map);
             });
 
     });

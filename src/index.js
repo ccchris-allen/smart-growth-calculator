@@ -82,6 +82,8 @@ axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
                         return style;
                     }
                 }).addTo(map);
+
+                L.control.layers([], {"Stations": stationsLayer}).addTo(map);
             });
 
     });
