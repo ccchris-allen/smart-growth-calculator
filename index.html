@@ -1,281 +1,239 @@
-<html>
+    <html>
 
-	<head>
+        <head>
 
-		<title> SMART GROWTH LIVABILITY CALCULATOR </title>
+            <title> SMART GROWTH LIVABILITY CALCULATOR </title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+            <!-- Leaflet CSS -->
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
+            <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
 
 
-        <style>
+            <style>
 
-            html { 
-                height: 100%;
-                width: 100%;
-                overflow: hidden;
-            }
+                html, body { 
+                    background-color: #fff;
+                    font-family: Verdana, sans-serif;
+                    height: 100%;
+                }
+                
+                .nav-link {
+                    color: rgba(255, 255, 255, .6);
+                }
 
-            body {
-                background-color: #fff;
-                font-family: Verdana, sans-serif;
-                height: 100%;
-                width: 100%;
-                //padding-top: 60px;
-            }
+                .nav-link:hover {
+                    color: rgba(255, 255, 255, .95);
+                }
+
+                .navbar-inverse {
+                    background-color: #333;
+                }
+
+                .navbar-brand {
+                    color: #eee !important;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+
+                .modal-content {
+                    -webkit-border-radius: 0px !important;
+                    -moz-border-radius: 0px !important;
+                    border-radius: 0px !important;
+                }
+
+                #select-property label {
+                   cursor: pointer !important;
+                   font-size: .75em;
+                } 
+
+                #select-property {
+                    margin-top: 10px;
+                }
+
+                /* https://codepen.io/ssteigen/pen/ALAzgw */
+                .statistic {
+                    //max-width: 80%;
+                    margin: 1em 0 auto;
+                    margin-top; 2em;
+                    text-transform: uppercase;
+                    text-align: center;
+                    //display: inline-block;
+                }
+
+                .statistic .value {
+                    font-size: 2.5em;
+                    line-height: .75em;
+                    text-align: center;
+                }
+
+                .statistic .label {
+                    color: inherit;
+                    display: block;
+                    font-size: .75em;
+                    text-align: center;
+                }
+
+                .leaflet-popup-content-wrapper {
+                    background:#2c3e50;
+                    color:#fff;
+                    font-size:16px;
+                    line-height:24px;
+                    border-radius: .15em;
+                }
+
+                .leaflet-popup-content-wrapper a {
+                      color: rgba(255,255,255,0.5);
+                }
+
+                .leaflet-popup-tip-container {
+                    width:30px;
+                    height:15px;
+                }
+
+                .leaflet-popup-tip {
+                    background:#2c3e50;
+                    //border-left:15px solid transparent;
+                    //border-right:15px solid transparent;
+                    //border-top:15px solid #2c3e50;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
             
-            #sidebar {
-                float: right;
-                height: 100%;
-                width: 300px;
-                max-width: 100%;
-            }
+            <div id="main-container" class="container-fluid d-flex flex-column h-100">
 
-            .sidebar-wrapper {
-                position: relative;
-                height: 100%;
-                width: 100%;
-            }
-                   
-            #map {
-                width: auto;
-                height: 100%;
-            }
+                <nav class="navbar navbar-expand-sm bg-dark row">
+                    <a class="navbar-brand" href=""> Smart Growth Livability Calculator </a>
 
-            .navbar {
-                min-height: 60px;
-            }
+                    <button class="navbar-toggler navbar-toggler-right" type="button" 
+                            data-toggle="collapse" data-target="#navbarCollapse" 
+                            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-            .navbar-inverse {
-                margin: 0 !important;
-                background-color: #333;
-            }
-
-            .navbar-brand {
-                color: #eee !important;
-                font-size: 25px;
-                text-transform: uppercase;
-                font-weight: bold;
-            }
-
-            .modal-content {
-                -webkit-border-radius: 0px !important;
-                -moz-border-radius: 0px !important;
-                border-radius: 0px !important;
-            }
-
-            #select-property label {
-               cursor: pointer !important;
-               font-size: .75em;
-            } 
-
-            #select-property {
-                margin-top: 10px;
-            }
-
-            /* https://codepen.io/ssteigen/pen/ALAzgw */
-            .statistic {
-                //max-width: 80%;
-                margin: 1em 0 auto;
-                margin-top; 2em;
-                text-transform: uppercase;
-                text-align: center;
-                //display: inline-block;
-                display: block;
-            }
-
-            .statistic .value {
-                font-size: 2.5em;
-                line-height: .75em;
-                text-align: center;
-            }
-
-            .statistic .label {
-                color: inherit;
-                display: block;
-                font-size: .75em;
-                text-align: center;
-            }
-
-            .leaflet-popup-content-wrapper {
-                background:#2c3e50;
-                color:#fff;
-                font-size:16px;
-                line-height:24px;
-                border-radius: .15em;
-            }
-
-            .leaflet-popup-content-wrapper a {
-                  color: rgba(255,255,255,0.5);
-            }
-
-            .leaflet-popup-tip-container {
-                width:30px;
-                height:15px;
-            }
-
-            .leaflet-popup-tip {
-                background:#2c3e50;
-                //border-left:15px solid transparent;
-                //border-right:15px solid transparent;
-                //border-top:15px solid #2c3e50;
-            }
-
-        </style>
-
-	</head>
-
-	<body>
-
-        
-        <nav class="navbar navbar-toggleable-md navbar-inverse">
-            <button class="navbar-toggler navbar-toggler-right" type="button" 
-                    data-toggle="collapse" data-target="#navbarCollapse" 
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <a class="navbar-brand" href="#"> Smart Growth Livability Calculator </a>
-
-            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#"
-                                data-toggle="modal" data-target="#modal-about-us"> 
-                            About Us
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#"
-                                data-toggle="modal" data-target="#modal-description"> 
-                            Project Description
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-
-        <!-- Title bar 
-        <nav class="navbar navbar-expand-md navbar-inverse //navbar-static-top">
-                    <a class="navbar-brand abs" href="#"> 
-                        Smart Growth Livability Calculator 
-                    </a>
-
-            <div class="navbar-collapse collapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="">About Us</a>
-                    </li>
-                </ul>
-            </div>
-
-        </nav>
-        -->
-
-        <div id="container">
-            <div id="sidebar">
-                <div class="sidebar-wrapper">
-
-                    <div class="text-center">
-                        <div id="select-property" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-info btn-sm active">
-                                <input type="radio" name="options" id="vmt" checked> Vehicle Miles Traveled 
-                            </label>
-                            <label class="btn btn-info btn-sm">
-                                <input type="radio" name="options" id="pedcol"> Pedestrian Collisions
-                            </label>
-                        </div>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"
+                                        data-toggle="modal" data-target="#modal-about-us"> 
+                                    About Us
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"
+                                        data-toggle="modal" data-target="#modal-description"> 
+                                    Project Description
+                                </a>
+                            </li>
+                        </ul>
                     </div>
+                </nav>
 
 
-                    <!-- Container for statistics -->
-                    <div class="text-center" style="margin-top: 40px;">
+                <div class="row d-flex h-100">
 
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-car"></i>
-                                <span id="stat-vmt"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Vehicle Miles Traveled
-                            </div>
-                        </div>
+                    <div id="map" class="col"> </div>
 
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-ambulance"></i>
-                                <span id="stat-pedcol"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Pedestrian Collisions <br> (per 100K walkers)
+                    <div class="col-2">
+
+                        <div class="text-center">
+                            <div id="select-property" class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-info btn-sm active">
+                                    <input type="radio" name="options" id="vmt" checked> Vehicle Miles Traveled 
+                                </label>
+                                <label class="btn btn-info btn-sm">
+                                    <input type="radio" name="options" id="pedcol"> Pedestrian Collisions
+                                </label>
                             </div>
                         </div>
 
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-map-marker-alt"></i>
-                                <span id="stat-cbgs"> N/A </span>
+
+                        <!-- Container for statistics -->
+                        <div class="text-center" style="margin-top: 40px;">
+
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="fa fa-car"></i>
+                                    <span id="stat-vmt"> N/A </span>
+                                </div>
+                                <div class="label">
+                                    Vehicle Miles Traveled
+                                </div>
                             </div>
-                            <div class="label">
-                                Block Groups Selected
+
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="fa fa-ambulance"></i>
+                                    <span id="stat-pedcol"> N/A </span>
+                                </div>
+                                <div class="label">
+                                    Pedestrian Collisions <br> (per 100K walkers)
+                                </div>
                             </div>
+
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="fa fa-map-marker-alt"></i>
+                                    <span id="stat-cbgs"> N/A </span>
+                                </div>
+                                <div class="label">
+                                    Block Groups Selected
+                                </div>
+                            </div>
+
                         </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div id="map-wrapper">
-                <div id="map"> </div>
-            </div>
-
-            <div class="modal fade" id="modal-description" 
-                tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header"> 
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="col-12 modal-title text-center"> PROJECT DESCRIPTION </h4>
-                        </div>
-                        <div class="modal-body">
-                           The Smart Growth Livability Calculator is ... 
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="modal-about-us" 
-                tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header"> 
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="col-12 modal-title text-center"> ABOUT US </h4>
-                        </div>
-                        <div class="modal-body">
-                           The Smart Growth Livability Calculator is ... 
-                        </div>
-                    </div>
                 </div>
             </div>
 
         </div>
 
-       <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-       
-       <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+        <div class="modal fade" id="modal-description" 
+            tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="col-12 modal-title text-center"> PROJECT DESCRIPTION </h4>
+                    </div>
+                    <div class="modal-body">
+                       The Smart Growth Livability Calculator is ... 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-about-us" 
+            tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="col-12 modal-title text-center"> ABOUT US </h4>
+                    </div>
+                    <div class="modal-body">
+                       The Smart Growth Livability Calculator is ... 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
 
 	</body>
 
