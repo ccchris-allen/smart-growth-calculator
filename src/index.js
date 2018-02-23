@@ -49,7 +49,7 @@ axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
 
         geojsonLayer = L.choropleth(resp.data, {
             valueProperty: 'vmt_hh_type1_vmt',
-            scale: ['white', 'blue'],
+            scale: ['white', 'red'],
             steps: 5, 
             mode: 'q',
             style: {
@@ -108,7 +108,7 @@ $('#select-property input:radio').change(() => {
 
     var opts = {
         valueProperty: prop,
-        scale: ['white', 'blue'],
+        scale: ['white', 'red'],
         steps: 5, 
         mode: 'q',
         style: {
