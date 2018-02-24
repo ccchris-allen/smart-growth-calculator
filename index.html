@@ -54,27 +54,29 @@
                     margin-top: 10px;
                 }
 
+                /* Class for debugging... */
+                .boxed {
+                    border: 1px solid black;
+                }
+
                 /* https://codepen.io/ssteigen/pen/ALAzgw */
                 .statistic {
-                    //max-width: 80%;
+                    width: 80%;
                     margin: 1em 0 auto;
                     margin-top; 2em;
                     text-transform: uppercase;
-                    text-align: center;
                     //display: inline-block;
                 }
 
                 .statistic .value {
                     font-size: 2.5em;
                     line-height: .75em;
-                    text-align: center;
                 }
 
                 .statistic .label {
                     color: inherit;
                     display: block;
                     font-size: .75em;
-                    text-align: center;
                 }
 
                 .leaflet-popup-content-wrapper {
@@ -141,7 +143,7 @@
 
                     <div id="map" class="col d-flex justify-content-center"> </div>
 
-                    <div class="col-2">
+                    <div class="col-2" style="min-width: 300px;">
 
                         <div class="d-flex justify-content-center">
                             <div id="select-property" class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -160,7 +162,7 @@
 
                             <div class="statistic">
                                 <div class="value">
-                                    <i class="fa fa-car"></i>
+                                    <i class="fa fa-fw fa-car"></i>
                                     <span id="stat-vmt"> N/A </span>
                                 </div>
                                 <div class="label">
@@ -170,7 +172,7 @@
 
                             <div class="statistic">
                                 <div class="value">
-                                    <i class="fa fa-ambulance"></i>
+                                    <i class="fa fa-fw fa-ambulance"></i>
                                     <span id="stat-pedcol"> N/A </span>
                                 </div>
                                 <div class="label">
@@ -180,7 +182,7 @@
 
                             <div class="statistic">
                                 <div class="value">
-                                    <i class="fa fa-map-marker-alt"></i>
+                                    <i class="fa fa-fw fa-map-marker-alt"></i>
                                     <span id="stat-cbgs"> N/A </span>
                                 </div>
                                 <div class="label">
