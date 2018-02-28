@@ -51337,11 +51337,13 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('data/sd_cbgs_vmt_and_pedcol.g
 
         geojsonLayer = new __WEBPACK_IMPORTED_MODULE_3__choro_js__(resp.data, {
             property: 'vmt_hh_type1_vmt',
-            style: {
-                color: NORMAL_COLOR,
-                opacity: 1.0,
-                weight: 0.0,
-                fillOpacity: 0.4
+            style: (f) => {
+                return {
+                    color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
+                    weight: f.properties._selected ? 2. : 0.0,
+                    opacity: 1.0,
+                    fillOpacity: 0.4
+                };
             },
             onEachFeature: (f, l) => {
                 var msg = `
@@ -85394,8 +85396,6 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
             mode: 'q'
         }, options || {});
 
-
-        console.log(options.style);
         L.GeoJSON.prototype.initialize.call(this, geojson, options.style);
 
         this.setProperty(this.options.property);
@@ -85415,10 +85415,10 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
     
     setStyle: function (style) {
 
-        if (typeof style === 'function') {
-            L.GeoJSON.prototype.setStyle.call(this, style);
-            return;
-        }
+        //if (typeof style === 'function') {
+        //    L.GeoJSON.prototype.setStyle.call(this, style);
+        //    return;
+        //}
 
         var opts = this.options;
         var geojson = this.toGeoJSON();
@@ -85460,7 +85460,7 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
             // Return this style, but include the user-defined style if it was passed 
             switch (typeof userStyle) {
                 case 'function':
-                    return L.Util.extend(style, userStyle(feature));
+                    return L.Util.extend(style, userStyle(f));
                 case 'object':
                     return L.Util.extend(style, userStyle);
                 default: 
@@ -85471,7 +85471,6 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
         L.GeoJSON.prototype.setStyle.call(this, choroStyle);
 
     }
-
 });
 
 

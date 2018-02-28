@@ -13,8 +13,6 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
             mode: 'q'
         }, options || {});
 
-
-        console.log(options.style);
         L.GeoJSON.prototype.initialize.call(this, geojson, options.style);
 
         this.setProperty(this.options.property);
@@ -33,11 +31,6 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
     },
     
     setStyle: function (style) {
-
-        if (typeof style === 'function') {
-            L.GeoJSON.prototype.setStyle.call(this, style);
-            return;
-        }
 
         var opts = this.options;
         var geojson = this.toGeoJSON();
@@ -79,7 +72,7 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
             // Return this style, but include the user-defined style if it was passed 
             switch (typeof userStyle) {
                 case 'function':
-                    return L.Util.extend(style, userStyle(feature));
+                    return L.Util.extend(style, userStyle(f));
                 case 'object':
                     return L.Util.extend(style, userStyle);
                 default: 
@@ -90,6 +83,5 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
         L.GeoJSON.prototype.setStyle.call(this, choroStyle);
 
     }
-
 });
 

@@ -36,11 +36,13 @@ axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
 
         geojsonLayer = new choropleth(resp.data, {
             property: 'vmt_hh_type1_vmt',
-            style: {
-                color: NORMAL_COLOR,
-                opacity: 1.0,
-                weight: 0.0,
-                fillOpacity: 0.4
+            style: (f) => {
+                return {
+                    color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
+                    weight: f.properties._selected ? 2. : 0.0,
+                    opacity: 1.0,
+                    fillOpacity: 0.4
+                };
             },
             onEachFeature: (f, l) => {
                 var msg = `
@@ -102,67 +104,7 @@ $('#select-property input:radio').change(() => {
 
 
     geojsonLayer.setProperty(prop, true); 
-    return;
 
-    /*
-    var opts = {
-        property: prop,
-        scale: ['white', 'red'],
-        steps: 5,
-        mode: 'q',
-        style: {
-            color: NORMAL_COLOR,
-            weight: 0.0,
-            opacity: 1.0,
-            fillOpacity: 0.4
-        }
-    };
-
-    var userStyle = opts.style;
-    var chorogeojson = geojsonLayer.toGeoJSON();
-
-    var values = chorogeojson.features.map(
-        (typeof opts.property === 'function') ?
-        opts.property :
-        function(item) {
-            return item.properties[opts.property]
-        }
-    );
-
-    console.log(values);
-    console.log(values);
-
-    var limits = chroma.limits(values, opts.mode, opts.steps - 1);
-
-    var colors = (opts.colors && opts.colors.length === limits.length ?
-        opts.colors :
-        chroma.scale(opts.scale).colors(limits.length));
-
-    geojsonLayer.setStyle((f) => {
-        var style = {};
-        var featureValue;
-
-        if (typeof opts.property === 'function') {
-            featureValue = opts.property(f);
-        } else {
-            featureValue = f.properties[opts.property];
-        }
-
-        style.color = f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR;
-        style.weight = f.properties._selected ? 2. : 0.0;
-
-        if (!isNaN(featureValue)) {
-            for (var i = 0; i < limits.length; i++) {
-                if (featureValue <= limits[i]) {
-                    style.fillColor = colors[i];
-                    break;
-                }
-            }
-        }
-
-        return _.defaults(style, userStyle);
-    });
-    */
 });
 
 
