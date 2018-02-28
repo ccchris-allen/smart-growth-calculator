@@ -1,12 +1,14 @@
 import axios from 'axios';
 import leaflet from 'leaflet';
 import * as turf from '@turf/turf';
-//import {$, jQuery} from 'jquery';
+import * as choropleth from './choro.js';
+
+//require('./choro.js');
+
 
 var leafletDraw = require('leaflet-draw');
 var selectArea = require('leaflet-area-select');
-var topojson = require('topojson');
-require('leaflet-choropleth');
+//require('leaflet-choropleth');
 
 // these only being added to allow for choropleth extension (delete eventually...)
 var chroma = require('chroma-js');
@@ -15,25 +17,10 @@ var _ = require('lodash/object');
 
 const SELECTED_COLOR = "#444";
 const NORMAL_COLOR = "#000";
-const BUFFER_RADIUS = 0.5;
+const BUFFER_RADIUS = 0.5; // units = miles
 
-L.TopoJSON = L.GeoJSON.extend({
-    addData: function (jsonData) {
-        if (jsonData.type === 'Topology') {
-            for (key in jsonData.objects) {
-                let geojson = topojson.feature(jsonData, jsonData.objects[key]);
-                L.GeoJSON.prototype.addData.call(this, geojson);
-                return;
-            }
-        } else {
-            L.GeoJSON.prototype.addData.call(this, jsonData);
-        }
-    }
-});
-
-const topoLayer = new L.TopoJSON();
 var geojsonLayer;
-var stationsLayer; 
+var stationsLayer;
 
 var map = L.map('map').setView([32.7157, -117.11], 12);
 
@@ -47,21 +34,25 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
     .then((resp) => {
 
-        geojsonLayer = L.choropleth(resp.data, {
-            valueProperty: 'vmt_hh_type1_vmt',
-            scale: ['white', 'red'],
-            steps: 5, 
-            mode: 'q',
+        geojsonLayer = new choropleth(resp.data, {
+            property: 'vmt_hh_type1_vmt',
             style: {
                 color: NORMAL_COLOR,
                 opacity: 1.0,
                 weight: 0.0,
                 fillOpacity: 0.4
+            },
+            onEachFeature: (f, l) => {
+                var msg = `
+                    SumPed: ${f.properties["pedcol-data-only_SumAllPed"]}<br>
+                    Walk: ${f.properties["pedcol-data-only_JTW_WALK"]}<br>
+                    TotalTrips: ${f.properties["pedcol-data-only_JTW_TOTAL"]}<br>
+                    Pop: ${f.properties["TOTPOP1"]}`;
+                l.bindPopup(msg);
             }
         }).addTo(map);
 
-
-        // NOT IDEAL: callback hell!
+        // AVOID CALLBACK HELL ?
         axios.get('data/sd-rail-stations-buffered.geojson')
             .then((resp2) => {
                 stationsLayer = L.geoJSON(resp2.data, {
@@ -83,13 +74,15 @@ axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
                     }
                 }).addTo(map);
 
-                L.control.layers([], {"Stations": stationsLayer}).addTo(map);
+                L.control.layers([], {
+                    "Stations": stationsLayer
+                }).addTo(map);
             });
 
     });
 
 
-$('#select-property input:radio').change(() => { 
+$('#select-property input:radio').change(() => {
     var checked = $('#select-property input:radio:checked')[0];
 
     var prop = {
@@ -97,8 +90,9 @@ $('#select-property input:radio').change(() => {
         pedcol: (item) => {
             var total_collisions = item.properties["pedcol-data-only_SumAllPed"];
             var walk_pct = item.properties["pedcol-data-only_JTW_WALK"] / item.properties["pedcol-data-only_JTW_TOTAL"];
+            var population = item.properties['TOTPOP1']; 
 
-            var ped_per_100k = 100000 * (total_collisions / item.properties['TOTPOP1']);
+            var ped_per_100k = 100000 * (total_collisions / population);
             var ped_per_100k_walk = ped_per_100k / walk_pct;
             var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
@@ -106,10 +100,15 @@ $('#select-property input:radio').change(() => {
         }
     }[checked.id];
 
+
+    geojsonLayer.setProperty(prop, true); 
+    return;
+
+    /*
     var opts = {
-        valueProperty: prop,
+        property: prop,
         scale: ['white', 'red'],
-        steps: 5, 
+        steps: 5,
         mode: 'q',
         style: {
             color: NORMAL_COLOR,
@@ -123,27 +122,30 @@ $('#select-property input:radio').change(() => {
     var chorogeojson = geojsonLayer.toGeoJSON();
 
     var values = chorogeojson.features.map(
-        (typeof opts.valueProperty === 'function') ?
-            opts.valueProperty :
-            function (item) {
-                return item.properties[opts.valueProperty]
-            }
+        (typeof opts.property === 'function') ?
+        opts.property :
+        function(item) {
+            return item.properties[opts.property]
+        }
     );
+
+    console.log(values);
+    console.log(values);
 
     var limits = chroma.limits(values, opts.mode, opts.steps - 1);
 
     var colors = (opts.colors && opts.colors.length === limits.length ?
-                      opts.colors :
-                      chroma.scale(opts.scale).colors(limits.length));
+        opts.colors :
+        chroma.scale(opts.scale).colors(limits.length));
 
     geojsonLayer.setStyle((f) => {
         var style = {};
         var featureValue;
-        
-        if (typeof opts.valueProperty === 'function') {
-            featureValue = opts.valueProperty(f);
+
+        if (typeof opts.property === 'function') {
+            featureValue = opts.property(f);
         } else {
-            featureValue = f.properties[opts.valueProperty];
+            featureValue = f.properties[opts.property];
         }
 
         style.color = f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR;
@@ -160,17 +162,19 @@ $('#select-property input:radio').change(() => {
 
         return _.defaults(style, userStyle);
     });
+    */
 });
+
 
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 var drawControlOptions = {
-    edit: { 
+    edit: {
         featureGroup: drawnItems,
         edit: false
     },
-    draw: { 
+    draw: {
         polygon: false,
         circle: true,
         circlemarker: false,
@@ -187,7 +191,7 @@ map.on(L.Draw.Event.DELETED, (e) => {
 
 map.on(L.Draw.Event.DELETESTOP, (e) => {
     hits = 0;
-    sums = { 
+    sums = {
         vmt_hh_type1_vmt: 0.0,
         "pedcol-data-only_SumAllPed": 0.0,
         "pedcol-data-only_JTW_TOTAL": 0.0,
@@ -219,7 +223,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
 
 var hits = 0;
 var selections = 0;
-var sums = { 
+var sums = {
     vmt_hh_type1_vmt: 0.0,
     "pedcol-data-only_SumAllPed": 0.0,
     "pedcol-data-only_JTW_TOTAL": 0.0,
@@ -232,24 +236,32 @@ var sums = {
 map.on(L.Draw.Event.CREATED, (e) => {
 
     var buffer;
-    var layer = e.layer; 
+    var layer = e.layer;
 
     if (e.layerType === 'marker') {
         var coords = [layer._latlng.lng, layer._latlng.lat];
-        buffer = turf.circle(coords, BUFFER_RADIUS, { units: 'miles' });
+        buffer = turf.circle(coords, BUFFER_RADIUS, {
+            units: 'miles'
+        });
     } else if (e.layerType === 'circle') {
         var coords = [layer._latlng.lng, layer._latlng.lat];
-        buffer = turf.circle(coords, BUFFER_RADIUS, { units: 'miles' });
+        buffer = turf.circle(coords, BUFFER_RADIUS, {
+            units: 'miles'
+        });
     } else if (e.layerType === 'polyline') {
-        var coords = layer._latlngs.map((item) => { return [item.lng, item.lat]; });
-        buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, { units: 'miles' });
+        var coords = layer._latlngs.map((item) => {
+            return [item.lng, item.lat];
+        });
+        buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, {
+            units: 'miles'
+        });
     }
 
     var cbgs = geojsonLayer.toGeoJSON();
 
     var bufferLayer = new L.geoJson(buffer);
     bufferLayer.bindPopup("Selected Area:");
-    
+
     drawnItems.addLayer(bufferLayer);
 
     cbgs.features.forEach((f) => {
@@ -265,7 +277,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
                 for (var i = 0; i < polys_coords.length; i++) {
                     var polygon = {
                         geometry: {
-                            type: 'Polygon', 
+                            type: 'Polygon',
                             coordinates: polys_coords[i]
                         }
                     };
@@ -278,7 +290,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
             return false;
         }
-        
+
         if (intersects(buffer, f)) {
             f.properties._selected = true;
             var keys = Object.keys(sums);
@@ -289,7 +301,9 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
             hits++;
 
-            function isNumeric(n) { return !isNaN(parseFloat(n)) && isFinite(n); }
+            function isNumeric(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            }
 
             if (isNumeric(f.properties["pedcol-data-only_SumAllPed"])) {
                 sums.pop_ped += f.properties.TOTPOP1;
@@ -312,7 +326,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    
+
     var total_collisions = sums["pedcol-data-only_SumAllPed"];
     var walk_pct = sums["pedcol-data-only_JTW_WALK"] / sums["pedcol-data-only_JTW_TOTAL"];
 
@@ -326,72 +340,3 @@ map.on(L.Draw.Event.CREATED, (e) => {
 });
 
 
-/*
-var selection = document.getElementById("selected-property");
-
-selection.onchange = () => {
-    // this is an incredibly crappy hack to allow for dynamic changing of choropleth properties
-    // TODO: extend library to allow this...
-
-    var prop = {
-        vmt: 'vmt_hh_type1_vmt',
-        population: 'TOTPOP1',
-        land: 'AC_LAND'
-    }[selection.value];
-
-    var opts = {
-        valueProperty: prop,
-        scale: ['white', 'red'],
-        steps: 5, 
-        mode: 'q',
-        style: {
-            color: NORMAL_COLOR,
-            weight: 0.0,
-            opacity: 1.0,
-            fillOpacity: 0.4
-        }
-    };
-    var userStyle = opts.style;
-
-    var chorogeojson = geojsonLayer.toGeoJSON();
-
-    var values = chorogeojson.features.map(
-        (typeof opts.valueProperty === 'function') ?
-            opts.valueProperty :
-            function (item) {
-                return item.properties[opts.valueProperty]
-            }
-    );
-
-    var limits = chroma.limits(values, opts.mode, opts.steps - 1);
-
-    var colors = (opts.colors && opts.colors.length === limits.length ?
-                      opts.colors :
-                      chroma.scale(opts.scale).colors(limits.length));
-
-    geojsonLayer.setStyle((f) => {
-        var style = {};
-        var featureValue;
-        
-        if (typeof opts.valueProperty === 'function') {
-            featureValue = opts.valueProperty(f);
-        } else {
-            featureValue = f.properties[opts.valueProperty];
-        }
-
-        style.color = f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR;
-        style.weight = f.properties._selected ? 2. : 0.0;
-
-        if (!isNaN(featureValue)) {
-            for (var i = 0; i < limits.length; i++) {
-                if (featureValue <= limits[i]) {
-                    style.fillColor = colors[i];
-                    break;
-                }
-            }
-        }
-
-        return _.defaults(style, userStyle);
-    });
-};
-*/
