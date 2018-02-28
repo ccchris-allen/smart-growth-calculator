@@ -1,18 +1,14 @@
+// axios handles requests
 import axios from 'axios';
+
+// mapping and geometry
 import leaflet from 'leaflet';
+import leafletDraw from 'leaflet-draw';
+import selectArea from 'leaflet-area-select';
 import * as turf from '@turf/turf';
-import * as choropleth from './choro.js';
 
-//require('./choro.js');
-
-
-var leafletDraw = require('leaflet-draw');
-var selectArea = require('leaflet-area-select');
-//require('leaflet-choropleth');
-
-// these only being added to allow for choropleth extension (delete eventually...)
-var chroma = require('chroma-js');
-var _ = require('lodash/object');
+// our module for drawing choropleth maps
+import Choropleth from './choro';
 
 
 const SELECTED_COLOR = "#444";
@@ -24,7 +20,9 @@ var stationsLayer;
 
 var map = L.map('map').setView([32.7157, -117.11], 12);
 
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+var basemap_url = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+L.tileLayer(basemap_url, {
     maxZoom: 18,
     attribution: '',
     id: 'mapbox.streets'
@@ -34,7 +32,7 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
     .then((resp) => {
 
-        geojsonLayer = new choropleth(resp.data, {
+        geojsonLayer = new Choropleth(resp.data, {
             property: 'vmt_hh_type1_vmt',
             style: (f) => {
                 return {

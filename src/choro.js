@@ -1,7 +1,7 @@
 var L = require('leaflet');
 var chroma = require('chroma-js');
 
-module.exports = L.Choropleth = L.GeoJSON.extend({
+L.Choropleth = L.GeoJSON.extend({
     
     initialize: function (geojson, options) {
     
@@ -85,3 +85,4 @@ module.exports = L.Choropleth = L.GeoJSON.extend({
     }
 });
 
+module.exports = L.Choropleth;
