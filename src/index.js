@@ -29,7 +29,8 @@ L.tileLayer(basemap_url, {
 }).addTo(map);
 
 
-axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
+//axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
+axios.get('data/sd_cbgs_vmt_pedcol_housing.geojson')
     .then((resp) => {
 
         geojsonLayer = new Choropleth(resp.data, {
