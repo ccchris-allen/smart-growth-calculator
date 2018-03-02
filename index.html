@@ -7,6 +7,9 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+        <!-- Bootstrap-select CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
         <!-- Font Awesome CSS -->
         <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
 
@@ -156,6 +159,21 @@
                 <div class="col-2 d-flex flex-column sidebar">
 
                     <div class="d-flex justify-content-center">
+                        <div id="select-property" class="dropdown" style="width: 80%;">
+                            <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
+                                <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
+                                <li><a id="housing" class="dropdown-item" href="#"> Housing Unaffordability </a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--
+                    <div class="d-flex justify-content-center">
                         <div id="select-property" class="btn-group btn-group-toggle" data-toggle="buttons">
                             <label class="btn btn-info btn-sm active">
                                 <input type="radio" name="options" id="vmt" checked> Vehicle Miles Traveled 
@@ -165,7 +183,7 @@
                             </label>
                         </div>
                     </div>
-
+                    -->
 
                     <!-- Container for statistics -->
                     <div class="d-flex flex-wrap justify-content-center" style="margin-top: 40px;">
@@ -265,7 +283,21 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+        <!-- Bootstrap-select JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+        <!--
+        <script>
+            $(document).ready(function () {
+                $(".dropdown-menu a").click(function () {
+                    $("#btn-label").text($(this).text());
+                }); 
+            });
+        </script>
+        -->
+
         <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+
 
 	</body>
 

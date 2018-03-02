@@ -82,12 +82,16 @@ axios.get('data/sd_cbgs_vmt_pedcol_housing.geojson')
 
     });
 
+//$('#select-property input:radio').change(() => {
+$(".dropdown-menu a").click(function () {
+    //var checked = $('#select-property input:radio:checked')[0];
+    var checked = this;
 
-$('#select-property input:radio').change(() => {
-    var checked = $('#select-property input:radio:checked')[0];
+    $("#btn-label").text($(this).text());
 
     var prop = {
         vmt: 'vmt_hh_type1_vmt',
+        housing: "housing-data_hh_type1_h_inverse",
         pedcol: (item) => {
             var total_collisions = item.properties["pedcol-data-only_SumAllPed"];
             var walk_pct = item.properties["pedcol-data-only_JTW_WALK"] / item.properties["pedcol-data-only_JTW_TOTAL"];
@@ -100,7 +104,6 @@ $('#select-property input:radio').change(() => {
             return ped_per_100k_walk_daily;
         }
     }[checked.id];
-
 
     geojsonLayer.setProperty(prop, true); 
 
@@ -137,6 +140,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         "pedcol-data-only_SumAllPed": 0.0,
         "pedcol-data-only_JTW_TOTAL": 0.0,
         "pedcol-data-only_JTW_WALK": 0.0,
+        "housing-data_hh_type1_h_inverse": 0.0,
         TOTPOP1: 0,
         pop_ped: 0
     };
@@ -155,10 +159,12 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var vmt = document.querySelector("#stat-vmt");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
+    var housing = document.querySelector("#stat-housing");
 
     vmt.innerHTML = "N/A";
     pedcol.innerHTML = "N/A";
     cbgs.innerHTML = "N/A";
+    housing.innerHTML = "N/A";
 });
 
 
@@ -169,6 +175,7 @@ var sums = {
     "pedcol-data-only_SumAllPed": 0.0,
     "pedcol-data-only_JTW_TOTAL": 0.0,
     "pedcol-data-only_JTW_WALK": 0.0,
+    "housing-data_hh_type1_h_inverse": 0.0,
     TOTPOP1: 0,
     pop_ped: 0
 };
@@ -237,7 +244,9 @@ map.on(L.Draw.Event.CREATED, (e) => {
             var keys = Object.keys(sums);
 
             keys.forEach((k) => {
-                sums[k] = (sums[k] + f.properties[k]) || sums[k];
+                // only parsing int because some variables are being converted to 
+                // strings when exporting to geojson... (fix this!!)
+                sums[k] = (sums[k] + parseInt(f.properties[k])) || sums[k];
             });
 
             hits++;
@@ -263,6 +272,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var vmt = document.querySelector("#stat-vmt");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
+    var housing = document.querySelector("#stat-housing");
 
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -276,8 +286,10 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
-    pedcol.innerHTML = ped_per_100k_walk_daily.toFixed(2);
+    housing.innerHTML = (sums["housing-data_hh_type1_h_inverse"] / hits).toFixed(1);
+    pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : "N/A";
     cbgs.innerHTML = hits;
+
 });
 
 
