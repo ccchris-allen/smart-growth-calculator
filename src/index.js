@@ -285,7 +285,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
-    housing.innerHTML = (sums["housing-data_hh_type1_h_inverse"] / hits).toFixed(1);
+    housing.innerHTML = (sums["housing-data_hh_type1_h"] / hits).toFixed(1);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : "N/A";
     cbgs.innerHTML = hits;
 
