@@ -45285,6 +45285,11 @@ const SELECTED_COLOR = "#444";
 const NORMAL_COLOR = "#000";
 const BUFFER_RADIUS = 0.5; // units = miles
 
+const GEOJSON_FILES = [
+    'data/sd_cbgs_vmt_pedcol_housing.geojson', 
+    'data/sd-rail-stations-buffered.geojson'
+];
+
 var geojsonLayer;
 var stationsLayer;
 
@@ -45299,11 +45304,13 @@ L.tileLayer(basemap_url, {
 }).addTo(map);
 
 
-//axios.get('data/sd_cbgs_vmt_and_pedcol.geojson')
-__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('data/sd_cbgs_vmt_pedcol_housing.geojson')
-    .then((resp) => {
 
-        geojsonLayer = new __WEBPACK_IMPORTED_MODULE_5__choro___default.a(resp.data, {
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.all(GEOJSON_FILES.map(__WEBPACK_IMPORTED_MODULE_0_axios___default.a.get))
+    .then((resp) => {
+        var resp1 = resp[0];
+        var resp2 = resp[1];
+
+        geojsonLayer = new __WEBPACK_IMPORTED_MODULE_5__choro___default.a(resp1.data, {
             property: 'vmt_hh_type1_vmt',
             style: (f) => {
                 return {
@@ -45323,33 +45330,28 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('data/sd_cbgs_vmt_pedcol_housi
             }
         }).addTo(map);
 
-        // AVOID CALLBACK HELL ?
-        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('data/sd-rail-stations-buffered.geojson')
-            .then((resp2) => {
-                stationsLayer = L.geoJSON(resp2.data, {
-                    style: (f) => {
-                        var style = {
-                            weight: 0.0,
-                            fillOpacity: .5
-                        };
+        stationsLayer = L.geoJSON(resp2.data, {
+            style: (f) => {
+                var style = {
+                    weight: 0.0,
+                    fillOpacity: .5
+                };
 
-                        if (f.properties.FINAL_TYPO === 'INTEGRATED') {
-                            style.fillColor = 'green';
-                        } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
-                            style.fillColor = 'yellow';
-                        } else {
-                            style.fillColor = 'red';
-                        }
+                if (f.properties.FINAL_TYPO === 'INTEGRATED') {
+                    style.fillColor = 'green';
+                } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
+                    style.fillColor = 'yellow';
+                } else {
+                    style.fillColor = 'red';
+                }
 
-                        return style;
-                    }
-                }).addTo(map);
+                return style;
+            }
+        }).addTo(map);
 
-                L.control.layers([], {
-                    "Stations": stationsLayer
-                }).addTo(map);
-            });
-
+        L.control.layers([], {
+            "Stations": stationsLayer
+        }).addTo(map);
     });
 
 //$('#select-property input:radio').change(() => {
