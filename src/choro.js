@@ -67,7 +67,10 @@ L.Choropleth = L.GeoJSON.extend({
                         break;
                     }
                 }
-            } 
+            } else {
+                // need to change default style if some error occurs (not a number)
+                //style = { fillColor: 'blue' };
+            }
 
             // Return this style, but include the user-defined style if it was passed 
             switch (typeof userStyle) {

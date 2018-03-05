@@ -31,6 +31,8 @@
 
             .sidebar {
                 min-width: 300px;
+                padding: 20px;
+                padding-left: 30px;
             }
             
             /* Bootstrap override CSS (create separate classes?) */
@@ -64,12 +66,12 @@
             } 
 
             #select-property {
-                margin-top: 10px;
+                //margin: 1%;
             }
 
             /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
             .statistic {
-                width: 80%;
+                //width: 80%;
                 margin: 1em 0 auto;
                 margin-top; 2em;
                 text-transform: uppercase;
@@ -153,27 +155,30 @@
             <div class="row d-flex h-100">
 
                 <!-- Map -->
-                <div id="map" class="col d-flex justify-content-center"> </div>
+                <div id="map" class="col d-flex justify-content-center">
+                </div>
 
                 <!-- Sidebar -->
-                <div class="col-2 d-flex flex-column sidebar">
+                <div class="col-2 d-flex flex-column align-items-start sidebar">
 
-                    <div class="d-flex justify-content-center">
-                        <div id="select-property" class="dropdown" style="width: 80%;">
-                            <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                    <div class="d-flex justify-content-start">
+                        <div id="select-property" class="dropdown">
+                            <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle" 
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+
                                 <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
                             </button>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
                                 <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
-                                <!-- <li><a id="housing" class="dropdown-item" href="#"> Housing Unaffordability </a></li> -->
+                                <li><a id="housing" class="dropdown-item" href="#"> Housing Unaffordability </a></li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Container for statistics -->
-                    <div class="d-flex flex-wrap justify-content-center" style="margin-top: 40px;">
+                    <div class="d-flex flex-wrap justify-content-start" style="margin-top: 40px;">
 
                         <div class="statistic">
                             <div class="value">
@@ -195,17 +200,15 @@
                             </div>
                         </div>
 
-                        <!--
                         <div class="statistic">
                             <div class="value">
                                 <i class="fa fa-fw fa-home"></i>
                                 <span id="stat-housing"> N/A </span>
                             </div>
                             <div class="label">
-                                Housing Unaffordability
+                                Housing Affordability 
                             </div>
                         </div>
-                        -->
 
                         <div class="statistic">
                             <div class="value">
@@ -274,16 +277,6 @@
 
         <!-- Bootstrap-select JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-
-        <!--
-        <script>
-            $(document).ready(function () {
-                $(".dropdown-menu a").click(function () {
-                    $("#btn-label").text($(this).text());
-                }); 
-            });
-        </script>
-        -->
 
         <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
 

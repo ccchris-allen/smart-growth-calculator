@@ -10,7 +10,6 @@ import * as turf from '@turf/turf';
 // our module for drawing choropleth maps
 import Choropleth from './choro';
 
-
 const SELECTED_COLOR = "#444";
 const NORMAL_COLOR = "#000";
 const BUFFER_RADIUS = 0.5; // units = miles
@@ -34,11 +33,9 @@ L.tileLayer(basemap_url, {
 }).addTo(map);
 
 
-
 axios.all(GEOJSON_FILES.map(axios.get))
     .then((resp) => {
-        var resp1 = resp[0];
-        var resp2 = resp[1];
+        var [resp1, resp2] = resp;
 
         geojsonLayer = new Choropleth(resp1.data, {
             property: 'vmt_hh_type1_vmt',
@@ -84,16 +81,16 @@ axios.all(GEOJSON_FILES.map(axios.get))
         }).addTo(map);
     });
 
-//$('#select-property input:radio').change(() => {
-$(".dropdown-menu a").click(function () {
-    //var checked = $('#select-property input:radio:checked')[0];
-    var checked = this;
 
+$(".dropdown-menu a").click(function () {
+
+    // first, set button text to selected value 
+    // (this is a bit of a hack, since bootstrap doesn't really support dropdown)
     $("#btn-label").text($(this).text());
 
     var prop = {
         vmt: 'vmt_hh_type1_vmt',
-        //housing: "housing-data_hh_type1_h_inverse",
+        housing: "housing-data_hh_type1_h",
         pedcol: (item) => {
             var total_collisions = item.properties["pedcol-data-only_SumAllPed"];
             var walk_pct = item.properties["pedcol-data-only_JTW_WALK"] / item.properties["pedcol-data-only_JTW_TOTAL"];
@@ -105,7 +102,7 @@ $(".dropdown-menu a").click(function () {
 
             return ped_per_100k_walk_daily;
         }
-    }[checked.id];
+    }[this.id];
 
     geojsonLayer.setProperty(prop, true); 
 
@@ -142,7 +139,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         "pedcol-data-only_SumAllPed": 0.0,
         "pedcol-data-only_JTW_TOTAL": 0.0,
         "pedcol-data-only_JTW_WALK": 0.0,
-        "housing-data_hh_type1_h_inverse": 0.0,
+        "housing-data_hh_type1_h": 0.0,
         TOTPOP1: 0,
         pop_ped: 0
     };
@@ -161,12 +158,12 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var vmt = document.querySelector("#stat-vmt");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
-    //var housing = document.querySelector("#stat-housing");
+    var housing = document.querySelector("#stat-housing");
 
     vmt.innerHTML = "N/A";
     pedcol.innerHTML = "N/A";
     cbgs.innerHTML = "N/A";
-    //housing.innerHTML = "N/A";
+    housing.innerHTML = "N/A";
 });
 
 
@@ -177,7 +174,7 @@ var sums = {
     "pedcol-data-only_SumAllPed": 0.0,
     "pedcol-data-only_JTW_TOTAL": 0.0,
     "pedcol-data-only_JTW_WALK": 0.0,
-    "housing-data_hh_type1_h_inverse": 0.0,
+    "housing-data_hh_type1_h": 0.0,
     TOTPOP1: 0,
     pop_ped: 0
 };
@@ -274,7 +271,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var vmt = document.querySelector("#stat-vmt");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
-    //var housing = document.querySelector("#stat-housing");
+    var housing = document.querySelector("#stat-housing");
 
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -288,7 +285,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
-    //housing.innerHTML = (sums["housing-data_hh_type1_h_inverse"] / hits).toFixed(1);
+    housing.innerHTML = (sums["housing-data_hh_type1_h_inverse"] / hits).toFixed(1);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : "N/A";
     cbgs.innerHTML = hits;
 
