@@ -119,7 +119,7 @@ var drawControlOptions = {
     },
     draw: {
         polygon: false,
-        circle: true,
+        circle: false,
         circlemarker: false,
         rectangle: false
     }

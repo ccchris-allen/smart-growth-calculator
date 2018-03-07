@@ -1,3 +1,10 @@
+/*
+ * This is an extension of the 'leaflet-choropleth' package, so 
+ * much of the code is from this project.  This plugin allows for
+ * dynamic selection of choropleth attribute.
+ */ 
+
+//import leaflet from 'leaflet';
 var L = require('leaflet');
 var chroma = require('chroma-js');
 

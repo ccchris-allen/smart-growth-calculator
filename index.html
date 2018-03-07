@@ -143,6 +143,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"
+                                    data-toggle="modal" data-target="#modal-directions"> 
+                                Directions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"
                                     data-toggle="modal" data-target="#modal-about-us"> 
                                 About Us
                             </a>
@@ -230,16 +236,14 @@
                     </div>
                     -->
                 </div>
-
             </div>
+        </div>
 
-    </div>
-
-    <!-- Modals -->
-    <div class="modal fade" id="modal-description" 
-        tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+        <!-- Modals -->
+        <div class="modal fade" id="modal-description" 
+            tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
                     <div class="modal-header"> 
                         <h4 class="modal-title font-weight-bold"> PROJECT DESCRIPTION </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -265,6 +269,62 @@
                     </div>
                     <div class="modal-body">
                        The Smart Growth Livability Calculator is ... 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-directions" 
+            tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header"> 
+                        <h4 class="modal-title font-weight-bold"> Directions </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5> SELECTING LAYERS </h5>
+                        <p>
+                            The Smart Growth Livability Calculator allows users to turn overlays on and off by using the Layer Selection control,
+                            which is located in the top-right corner of the map:
+
+                            <div class="d-flex justify-content-center">
+                                <img src="img/layer-selection-1.png" style="margin: 10px; height: 240px;">
+                            </div>
+
+                            Hovering over the Layer Selection control will display the layers that are loaded into the calculator.
+                            Show or hide layers by selecting or deselecting the checkboxes next to each layer label:
+
+                            <div class="d-flex justify-content-center">
+                                <img src="img/layer-selection-2.png" style="margin: 10px; height: 240px;">
+                            </div>
+                        </p>
+
+                        <h5> SELECTING GEOGRAPHIC UNITS </h5>
+                        <P>
+                            The Calculator gives users the option to dynamically select geographic units to calculate smart growth scores 
+                            for these sub-regions.  This is accomplished by using the drawing controls to the left of map display, and users
+                            can select geographic units by drawing point or line features.  Currently, these tools select all units 
+                            within a half-mile buffer of the drawn feature, which was chosen to account for catchment areas that exist around
+                            point or linear features. After one or more features are drawn on the map, the statistic readouts will be populated
+                            to display the aggregate smart growth scores for the selected geographic units:
+
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <img src="img/area-selection-1.png" style="margin: 20px; height: 240px;">
+                                <img src="img/area-selection-2.png" style="margin: 20px; height: 240px;">
+                                <img src="img/area-selection-readout.png" style="margin: 20px; height: 240px;">
+                            </div>
+
+                            To remove any user selections, click the delete button (indicated by the trash can icon) and choose "Clear all":
+
+
+                            <div class="d-flex justify-content-center">
+                                <img src="img/area-selection-delete.png" style="margin: 10px; height: 260px;">
+                            </div>
+                        </p>
+
                     </div>
                 </div>
             </div>

@@ -45389,7 +45389,7 @@ var drawControlOptions = {
     },
     draw: {
         polygon: false,
-        circle: true,
+        circle: false,
         circlemarker: false,
         rectangle: false
     }
@@ -79712,6 +79712,7 @@ transverseMercatorRaw.invert = function(x, y) {
 /* 652 */
 /***/ (function(module, exports, __webpack_require__) {
 
+//import leaflet from 'leaflet';
 var L = __webpack_require__(124);
 var chroma = __webpack_require__(653);
 
