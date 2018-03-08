@@ -53,7 +53,8 @@ axios.all(GEOJSON_FILES.map(axios.get))
                     Walk: ${f.properties["pedcol-data-only_JTW_WALK"]}<br>
                     TotalTrips: ${f.properties["pedcol-data-only_JTW_TOTAL"]}<br>
                     Pop: ${f.properties["TOTPOP1"]}`;
-                l.bindPopup(msg);
+
+                //l.bindPopup(msg);
             }
         }).addTo(map);
 
@@ -73,6 +74,18 @@ axios.all(GEOJSON_FILES.map(axios.get))
                 }
 
                 return style;
+            },
+            onEachFeature: (f, l) => {
+                //todo: move this to util file
+                function titleCase(s) {
+                    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+                }
+
+                var msg = `
+                    <span class="font-weight-bold"> Station: </span> ${f.properties.FULL_NAME || 'None'} <br>
+                    <span class="font-weight-bold"> Typology: </span> ${titleCase(f.properties.FINAL_TYPO)}`;
+                
+                l.bindPopup(msg);
             }
         }).addTo(map);
 
