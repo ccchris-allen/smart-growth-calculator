@@ -17,11 +17,13 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
 
+        <link rel="stylesheet" href="dist/style.css">
+
         <style>
 
             html, body { 
                 background-color: #fff;
-                font-family: Verdana, sans-serif;
+                font-family: verdana, sans-serif;
                 height: 100%;
             }
 
@@ -42,10 +44,6 @@
 
             .nav-link:hover {
                 color: rgba(255, 255, 255, .95);
-            }
-
-            .navbar-inverse {
-                background-color: #333;
             }
 
             .navbar-brand {
@@ -71,11 +69,9 @@
 
             /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
             .statistic {
-                //width: 80%;
                 margin: 1em 0 auto;
                 margin-top; 2em;
                 text-transform: uppercase;
-                //display: inline-block;
             }
 
             .statistic .value {
@@ -124,7 +120,7 @@
         <div id="main-container" class="container-fluid d-flex flex-column h-100">
 
             <!-- Title and navigation bar -->
-            <nav class="navbar navbar-expand-sm bg-dark row">
+            <nav class="navbar navbar-dark navbar-expand-lg bg-dark row">
                 <a class="navbar-brand" href=""> Smart Growth Livability Calculator </a>
 
                 <button class="navbar-toggler navbar-toggler-right" type="button" 
@@ -167,6 +163,7 @@
                 <!-- Sidebar -->
                 <div class="col-2 d-flex flex-column align-items-start sidebar">
 
+                    <label class="d-block"> Select Attribute: </label>
                     <div class="d-flex justify-content-start">
                         <div id="select-property" class="dropdown">
                             <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle" 
@@ -179,6 +176,8 @@
                                 <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
                                 <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
                                 <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
+                                <li><a id="ped-environment" class="dropdown-item" href="#"> Pedestrian Environment </a></li>
+                                <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
                             </ul>
                         </div>
                     </div>
@@ -213,6 +212,26 @@
                             </div>
                             <div class="label">
                                 Housing Affordability 
+                            </div>
+                        </div>
+
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-briefcase"></i>
+                                <span id="stat-jobs-accessibility"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Jobs Accessibility
+                            </div>
+                        </div>
+
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-road"></i>
+                                <span id="stat-ped-environment"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Pedestrian Environment
                             </div>
                         </div>
 

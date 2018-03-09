@@ -8,6 +8,7 @@
 var L = require('leaflet');
 var chroma = require('chroma-js');
 
+
 L.Choropleth = L.GeoJSON.extend({
     
     initialize: function (geojson, options) {
@@ -76,7 +77,7 @@ L.Choropleth = L.GeoJSON.extend({
                 }
             } else {
                 // need to change default style if some error occurs (not a number)
-                //style = { fillColor: 'blue' };
+                //style = { fillColor: 'white', opacity: 0.0 };
             }
 
             // Return this style, but include the user-defined style if it was passed 

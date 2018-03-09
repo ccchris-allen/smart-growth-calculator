@@ -1,3 +1,6 @@
+// import styles (need to do this for webpack to handle style)
+import './styles/test.scss';
+
 // axios handles requests
 import axios from 'axios';
 
@@ -15,7 +18,7 @@ const NORMAL_COLOR = "#000";
 const BUFFER_RADIUS = 0.5; // units = miles
 
 const GEOJSON_FILES = [
-    'data/sd_cbgs_vmt_pedcol_housing.geojson', 
+    'data/sd_cbgs_latest_attributes.geojson', 
     'data/sd-rail-stations-buffered.geojson'
 ];
 
@@ -47,15 +50,7 @@ axios.all(GEOJSON_FILES.map(axios.get))
                     fillOpacity: 0.4
                 };
             },
-            onEachFeature: (f, l) => {
-                var msg = `
-                    SumPed: ${f.properties["pedcol-data-only_SumAllPed"]}<br>
-                    Walk: ${f.properties["pedcol-data-only_JTW_WALK"]}<br>
-                    TotalTrips: ${f.properties["pedcol-data-only_JTW_TOTAL"]}<br>
-                    Pop: ${f.properties["TOTPOP1"]}`;
-
-                //l.bindPopup(msg);
-            }
+            onEachFeature: (f, l) => { }
         }).addTo(map);
 
         stationsLayer = L.geoJSON(resp2.data, {
@@ -114,7 +109,9 @@ $(".dropdown-menu a").click(function () {
             var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
             return ped_per_100k_walk_daily;
-        }
+        },
+        'ped-environment': 'D3b',
+        'jobs-accessibility': 'D5br_cleaned'
     }[this.id];
 
     geojsonLayer.setProperty(prop, true); 
@@ -153,6 +150,8 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         "pedcol-data-only_JTW_TOTAL": 0.0,
         "pedcol-data-only_JTW_WALK": 0.0,
         "housing-data_hh_type1_h": 0.0,
+        'D3b': 0.0,
+        'D5br_cleaned': 0.0,
         TOTPOP1: 0,
         pop_ped: 0
     };
@@ -172,6 +171,8 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
     var housing = document.querySelector("#stat-housing");
+    var pedenv = document.querySelector("#stat-ped-environment");
+    var jobsaccess= document.querySelector("#stat-jobs-accessibility");
 
     vmt.innerHTML = "N/A";
     pedcol.innerHTML = "N/A";
@@ -188,6 +189,8 @@ var sums = {
     "pedcol-data-only_JTW_TOTAL": 0.0,
     "pedcol-data-only_JTW_WALK": 0.0,
     "housing-data_hh_type1_h": 0.0,
+    'D3b': 0.0,
+    'D5br_cleaned': 0.0,
     TOTPOP1: 0,
     pop_ped: 0
 };
@@ -285,6 +288,9 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
     var housing = document.querySelector("#stat-housing");
+    var pedenv = document.querySelector("#stat-ped-environment");
+    var jobsaccess = document.querySelector("#stat-jobs-accessibility");
+
 
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -300,6 +306,8 @@ map.on(L.Draw.Event.CREATED, (e) => {
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
     housing.innerHTML = (sums["housing-data_hh_type1_h"] / hits).toFixed(1);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : "N/A";
+    pedenv.innerHTML = (sums["D3b"] / hits).toFixed(1);
+    jobsaccess.innerHTML = withCommas((sums["D5br_cleaned"] / hits).toFixed(0));
     cbgs.innerHTML = hits;
 
 });
