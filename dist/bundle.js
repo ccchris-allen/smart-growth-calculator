@@ -45257,8 +45257,8 @@ equirectangularRaw.invert = equirectangularRaw;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__styles_test_scss__ = __webpack_require__(299);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__styles_test_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__styles_test_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__styles_main_scss__ = __webpack_require__(299);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__styles_main_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__styles_main_scss__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(300);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_leaflet__ = __webpack_require__(124);
@@ -45440,6 +45440,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
 
 
     var vmt = document.querySelector("#stat-vmt");
+    var ghg = document.querySelector("#stat-ghg");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
     var housing = document.querySelector("#stat-housing");
@@ -45447,9 +45448,12 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var jobsaccess= document.querySelector("#stat-jobs-accessibility");
 
     vmt.innerHTML = "N/A";
+    ghg.innerHTML = "N/A";
     pedcol.innerHTML = "N/A";
     cbgs.innerHTML = "N/A";
     housing.innerHTML = "N/A";
+    pedenv.innerHTML = "N/A";
+    jobsaccess.innerHTML = "N/A";
 });
 
 
@@ -45557,6 +45561,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     });
 
     var vmt = document.querySelector("#stat-vmt");
+    var ghg = document.querySelector("#stat-ghg");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
     var housing = document.querySelector("#stat-housing");
@@ -45576,6 +45581,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
+    ghg.innerHTML = withCommas(((sums['vmt_hh_type1_vmt'] / hits) * .90).toFixed(0));
     housing.innerHTML = (sums["housing-data_hh_type1_h"] / hits).toFixed(1);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : "N/A";
     pedenv.innerHTML = (sums["D3b"] / hits).toFixed(1);

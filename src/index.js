@@ -1,5 +1,5 @@
 // import styles (need to do this for webpack to handle style)
-import './styles/test.scss';
+import './styles/main.scss';
 
 // axios handles requests
 import axios from 'axios';
@@ -168,6 +168,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
 
 
     var vmt = document.querySelector("#stat-vmt");
+    var ghg = document.querySelector("#stat-ghg");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
     var housing = document.querySelector("#stat-housing");
@@ -175,9 +176,12 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var jobsaccess= document.querySelector("#stat-jobs-accessibility");
 
     vmt.innerHTML = "N/A";
+    ghg.innerHTML = "N/A";
     pedcol.innerHTML = "N/A";
     cbgs.innerHTML = "N/A";
     housing.innerHTML = "N/A";
+    pedenv.innerHTML = "N/A";
+    jobsaccess.innerHTML = "N/A";
 });
 
 
@@ -285,6 +289,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     });
 
     var vmt = document.querySelector("#stat-vmt");
+    var ghg = document.querySelector("#stat-ghg");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
     var housing = document.querySelector("#stat-housing");
@@ -304,6 +309,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
     vmt.innerHTML = withCommas((sums['vmt_hh_type1_vmt'] / hits).toFixed(0));
+    ghg.innerHTML = withCommas(((sums['vmt_hh_type1_vmt'] / hits) * .90).toFixed(0));
     housing.innerHTML = (sums["housing-data_hh_type1_h"] / hits).toFixed(1);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : "N/A";
     pedenv.innerHTML = (sums["D3b"] / hits).toFixed(1);
