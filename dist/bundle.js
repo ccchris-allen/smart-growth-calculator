@@ -45309,24 +45309,13 @@ var areas = {
         zoom: 12
     }
 };
-
-
         
-// list of geojson files we use here
-/*
-const GEOJSON_FILES = [
-    'data/san-mateo-with-data_normed.geojson', 
-    //'data/sd_cbgs_latest_attributes_normed.geojson', 
-    'data/sd-rail-stations-buffered.geojson'
-];
-*/
-
 // variables that will reference out leaflet layers and map object
 var geojsonLayer;
 var stationsLayer;
 
 // create a leaflet map object
-var map = L.map('map');
+var map = L.map('map').setView([32.7157, -117.11], 12);
 
 // create a mapbox basemap layer and add to map
 var basemap_url = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
