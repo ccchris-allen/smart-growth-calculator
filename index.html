@@ -85,7 +85,6 @@
                 font-size: .75em;
             }
 
-
             /* Leaflet-specific CSS */
             .leaflet-popup-content-wrapper {
                 background:#2c3e50;
@@ -109,6 +108,14 @@
                 //border-left:15px solid transparent;
                 //border-right:15px solid transparent;
                 //border-top:15px solid #2c3e50;
+            }
+
+            .btn-squared {
+                margin: 5px;
+                white-space: normal;
+                //width: 40% !important;
+                //height: 200px !important;
+                font-size: 25px;
             }
 
         </style>
@@ -270,6 +277,27 @@
         </div>
 
         <!-- Modals -->
+        <div class="modal fade" id="modal-select-city" tabindex="-1" role="dialog" aria-hidden="false" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-body" class="p-5">
+                        <h4 class="text-center"> SELECT CITY: </h4>
+
+                        <!-- <div class="d-flex justify-content-around flex-wrap mt-5"> -->
+                        <div class="d-flex flex-column">
+                            <button type="button" id="btn-sd-county" class="btn btn-squared btn-success btn-md">
+                                <span id="btn-label" class="text-center"> San Diego County </span>
+                            </button>
+                            <button type="button" id="btn-sm-county" class="btn btn-squared btn-success btn-md">
+                                <span id="btn-label" class="text-center"> San Mateo County </span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="modal-description" 
             tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -299,6 +327,9 @@
                                 publication</a> on a new transportation/land use performance measurement framework.
                             For now, this prototype covers San Diego, CA, but we have the necessary data for California
                             and the entire US.
+                        </p>
+                        <p>
+                            Special thanks to Geoff Boeing, PhD, for his advice and assistance on this Calculator.
                         </p>
                     </div>
                 </div>
@@ -418,11 +449,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-        <!-- Bootstrap-select JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-
         <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+        <script>
+            $(window).ready(function() {
+                $("#modal-select-city").modal('show');
 
+                $(".btn-squared").click(function () {
+                    $("#modal-select-city").modal('hide');
+                });
+            });
+        </script>
 
 	</body>
 
