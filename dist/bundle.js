@@ -45443,7 +45443,7 @@ console.log(this.id);
             return ped_per_100k_walk_daily;
         },
         ghg: (item) => {
-            return item['hh_type1_vmt'] * .90;
+            return item.properties['hh_type1_vmt'] * .90;
         },
         'dwelling-density': 'D1A',
         'people-density': 'D1B',
