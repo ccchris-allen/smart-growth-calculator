@@ -45294,7 +45294,7 @@ const BUFFER_RADIUS = 0.5; // units = miles
 var areas = {
     'btn-sd-county': {
         files: {
-            polygons: 'data/sd_cbgs_latest_attributes_normed.geojson', 
+            polygons: 'data/sd_cbgs_latest_attributes_normed3.geojson', 
             stations: 'data/sd-rail-stations-buffered.geojson'
         },
         center: [32.7157, -117.11],
@@ -45302,7 +45302,7 @@ var areas = {
     },
     'btn-sm-county': {
         files: {
-            polygons: 'data/san-mateo-with-data_normed.geojson',
+            polygons: 'data/san-mateo-with-data_normed3.geojson',
             stations: 'data/sd-rail-stations-buffered.geojson'
         },
         center: [37.56, -122.313],
@@ -45339,6 +45339,9 @@ var sums = {
     "hh_type1_h": 0.0,
     'D3b': 0.0,
     'D5br_cleaned': 0.0,
+    'D1A': 0.0,
+    'D1B': 0.0,
+    'D1C': 0.0,
     TOTPOP1: 0,
     pop_ped: 0
 };
@@ -45442,6 +45445,9 @@ console.log(this.id);
         ghg: (item) => {
             return item['hh_type1_vmt'] * .90;
         },
+        'dwelling-density': 'D1A',
+        'people-density': 'D1B',
+        'jobs-density': 'D1C',
         'ped-environment': 'D3b',
         'jobs-accessibility': 'D5br_cleaned'
     }[this.id]; // using [this.id] will select the option specified by 'this.id'
@@ -45495,6 +45501,9 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         "hh_type1_h": 0.0,
         'D3b': 0.0,
         'D5br_cleaned': 0.0,
+        'D1A': 0.0,
+        'D1B': 0.0,
+        'D1C': 0.0,
         TOTPOP1: 0,
         pop_ped: 0
     };
@@ -45518,6 +45527,9 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var housing = document.querySelector("#stat-housing");
     var pedenv = document.querySelector("#stat-ped-environment");
     var jobsaccess= document.querySelector("#stat-jobs-accessibility");
+    var dwellingdensity = document.querySelector("#stat-dwelling-density");
+    var personsdensity = document.querySelector("#stat-population-density");
+    var jobsdensity = document.querySelector("#stat-jobs-density");
 
     // set all values to 'N/A'
     vmt.innerHTML = "N/A";
@@ -45527,6 +45539,9 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     housing.innerHTML = "N/A";
     pedenv.innerHTML = "N/A";
     jobsaccess.innerHTML = "N/A";
+    dwellingdensity.innerHTML = "N/A";
+    persondensity.innerHTML = "N/A";
+    jobsdensity.innerHTML = "N/A";
 });
 
 
@@ -45630,6 +45645,9 @@ map.on(L.Draw.Event.CREATED, (e) => {
     // grab DIVs for the readouts
     var vmt = document.querySelector("#stat-vmt");
     var ghg = document.querySelector("#stat-ghg");
+    var dwellingdensity = document.querySelector("#stat-dwelling-density");
+    var personsdensity = document.querySelector("#stat-population-density");
+    var jobsdensity = document.querySelector("#stat-jobs-density");
     var pedcol = document.querySelector("#stat-pedcol");
     var cbgs = document.querySelector("#stat-cbgs");
     var housing = document.querySelector("#stat-housing");
@@ -45649,6 +45667,9 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
     // set values for readouts (according to formatting)
+    dwellingdensity.innerHTML = (sums['D1A'] / hits).toFixed(2);
+    personsdensity.innerHTML = (sums['D1B'] / hits).toFixed(2);
+    jobsdensity.innerHTML = (sums['D1C'] / hits).toFixed(2);
     vmt.innerHTML = withCommas((sums['hh_type1_vmt'] / hits).toFixed(0));
     ghg.innerHTML = withCommas(((sums['hh_type1_vmt'] / hits) * .90).toFixed(0));
     housing.innerHTML = (sums["hh_type1_h"] / hits).toFixed(1);

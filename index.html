@@ -182,6 +182,9 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
                                 <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
+                                <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
+                                <li><a id="people-density" class="dropdown-item" href="#"> People Density </a></li>
+                                <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
                                 <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
                                 <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
                                 <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
@@ -210,6 +213,36 @@
                             </div>
                             <div class="label">
                                 Housing Affordability 
+                            </div>
+                        </div>
+
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-home"></i>
+                                <span id="stat-dwelling-density"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Dwelling Density <br> (Units Per Acre)
+                            </div>
+                        </div>
+
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-female"></i>
+                                <span id="stat-population-density"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Population Density <br> (Persons Per Acre)
+                            </div>
+                        </div>
+
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-briefcase"></i>
+                                <span id="stat-jobs-density"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Jobs Density <br> (Jobs Per Acre)
                             </div>
                         </div>
 
@@ -454,9 +487,6 @@
             $(window).ready(function() {
                 $("#modal-select-city").modal('show');
 
-                $(".btn-squared").click(function () {
-                    $("#modal-select-city").modal('hide');
-                });
             });
         </script>
 
