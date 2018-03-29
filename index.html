@@ -1,496 +1,548 @@
 <html>
 
-    <head>
+<head>
 
-        <title> SMART GROWTH LIVABILITY CALCULATOR </title>
+    <title> SMART GROWTH LIVABILITY CALCULATOR </title>
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
 
-        <!-- Bootstrap-select CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <!-- Bootstrap-select CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
-        <!-- Font Awesome CSS -->
-        <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
 
-        <!-- Leaflet CSS -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+        integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+        crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css"
+    />
 
-        <link rel="stylesheet" href="dist/style.css">
+    <link rel="stylesheet" href="dist/style.css">
 
-        <style>
+    <style>
+        html,
+        body {
+            background-color: #fff;
+            font-family: verdana, sans-serif;
+            height: 100%;
+        }
+        
+        a {
+            outline: 0;
+        }
+        
+        .sidebar {
+            min-width: 300px;
+            padding: 20px;
+            padding-left: 30px;
+        }
+        /* Bootstrap override CSS (create separate classes?) */
+        
+        .nav-link {
+            color: rgba(255, 255, 255, .6);
+        }
+        
+        .nav-link:hover {
+            color: rgba(255, 255, 255, .95);
+        }
+        
+        .navbar-brand {
+            color: #eee !important;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .modal-content {
+            -webkit-border-radius: 0px !important;
+            -moz-border-radius: 0px !important;
+            border-radius: 0px !important;
+        }
+        
+        #select-property label {
+            cursor: pointer !important;
+            font-size: .75em;
+        }
+        
+        #select-property {
+            //margin: 1%;
+        }
+        /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
+        
+        .statistic {
+            margin: 1em 0 auto;
+            margin-top;
+            2em;
+            text-transform: uppercase;
+        }
+        
+        .statistic .value {
+            font-size: 2.5em;
+            line-height: .75em;
+        }
+        
+        .statistic .label {
+            color: inherit;
+            display: block;
+            font-size: .75em;
+        }
+        /* Leaflet-specific CSS */
+        
+        .leaflet-popup-content-wrapper {
+            background: #2c3e50;
+            color: #fff;
+            font-size: 16px;
+            line-height: 24px;
+            border-radius: .15em;
+        }
+        
+        .leaflet-popup-content-wrapper a {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .leaflet-popup-tip-container {
+            width: 30px;
+            height: 15px;
+        }
+        
+        .leaflet-popup-tip {
+            background: #2c3e50;
+            //border-left:15px solid transparent;
+            //border-right:15px solid transparent;
+            //border-top:15px solid #2c3e50;
+        }
+        
+        .btn-squared {
+            margin: 5px;
+            white-space: normal;
+            //width: 40% !important;
+            //height: 200px !important;
+            font-size: 25px;
+        }
+    </style>
 
-            html, body { 
-                background-color: #fff;
-                font-family: verdana, sans-serif;
-                height: 100%;
-            }
+</head>
 
-            a { 
-                outline: 0;
-            }
+<body>
 
-            .sidebar {
-                min-width: 300px;
-                padding: 20px;
-                padding-left: 30px;
-            }
-            
-            /* Bootstrap override CSS (create separate classes?) */
-            .nav-link {
-                color: rgba(255, 255, 255, .6);
-            }
+    <div id="main-container" class="container-fluid d-flex flex-column h-100">
 
-            .nav-link:hover {
-                color: rgba(255, 255, 255, .95);
-            }
+        <!-- Title and navigation bar -->
+        <nav class="navbar navbar-dark navbar-expand-lg bg-dark row">
+            <a class="navbar-brand" href=""> Smart Growth Livability Calculator </a>
 
-            .navbar-brand {
-                color: #eee !important;
-                text-transform: uppercase;
-                font-weight: bold;
-            }
-
-            .modal-content {
-                -webkit-border-radius: 0px !important;
-                -moz-border-radius: 0px !important;
-                border-radius: 0px !important;
-            }
-
-            #select-property label {
-               cursor: pointer !important;
-               font-size: .75em;
-            } 
-
-            #select-property {
-                //margin: 1%;
-            }
-
-            /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
-            .statistic {
-                margin: 1em 0 auto;
-                margin-top; 2em;
-                text-transform: uppercase;
-            }
-
-            .statistic .value {
-                font-size: 2.5em;
-                line-height: .75em;
-            }
-
-            .statistic .label {
-                color: inherit;
-                display: block;
-                font-size: .75em;
-            }
-
-            /* Leaflet-specific CSS */
-            .leaflet-popup-content-wrapper {
-                background:#2c3e50;
-                color:#fff;
-                font-size:16px;
-                line-height:24px;
-                border-radius: .15em;
-            }
-
-            .leaflet-popup-content-wrapper a {
-                  color: rgba(255,255,255,0.5);
-            }
-
-            .leaflet-popup-tip-container {
-                width:30px;
-                height:15px;
-            }
-
-            .leaflet-popup-tip {
-                background:#2c3e50;
-                //border-left:15px solid transparent;
-                //border-right:15px solid transparent;
-                //border-top:15px solid #2c3e50;
-            }
-
-            .btn-squared {
-                margin: 5px;
-                white-space: normal;
-                //width: 40% !important;
-                //height: 200px !important;
-                font-size: 25px;
-            }
-
-        </style>
-
-    </head>
-
-    <body>
-            
-        <div id="main-container" class="container-fluid d-flex flex-column h-100">
-
-            <!-- Title and navigation bar -->
-            <nav class="navbar navbar-dark navbar-expand-lg bg-dark row">
-                <a class="navbar-brand" href=""> Smart Growth Livability Calculator </a>
-
-                <button class="navbar-toggler navbar-toggler-right" type="button" 
-                        data-toggle="collapse" data-target="#navbarCollapse" 
-                        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                                    data-toggle="modal" data-target="#modal-description"> 
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#modal-description"> 
                                 Project Description
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                                    data-toggle="modal" data-target="#modal-directions"> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#modal-directions"> 
                                 Directions
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"
-                                    data-toggle="modal" data-target="#modal-about-us"> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#modal-about-us"> 
                                 About Us
                             </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
 
-            <div class="row d-flex h-100" style="overflow: scroll;">
+        <div class="row d-flex h-100" style="overflow: scroll;">
 
-                <!-- Map -->
-                <div id="map" class="col d-flex justify-content-center">
-                </div>
+            <!-- Map -->
+            <div id="map" class="col d-flex justify-content-center">
+            </div>
 
-                <!-- Sidebar -->
-                <div class="col-2 d-flex flex-column align-items-start sidebar">
+            <!-- Sidebar -->
+            <div class="col-2 d-flex flex-column align-items-start sidebar">
 
-                    <label class="d-block"> Select Attribute: </label>
-                    <div class="d-flex justify-content-start">
-                        <div id="select-property" class="dropdown">
-                            <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle" 
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                <label class="d-block"> Select Attribute: </label>
+                <div class="d-flex justify-content-start">
+                    <div id="select-property" class="dropdown">
+                        <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
 
                                 <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
                             </button>
 
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
-                                <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
-                                <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
-                                <li><a id="people-density" class="dropdown-item" href="#"> People Density </a></li>
-                                <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
-                                <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
-                                <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
-                                <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
-                                <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
-                            </ul>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
+                            <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
+                            <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
+                            <li><a id="people-density" class="dropdown-item" href="#"> People Density </a></li>
+                            <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
+                            <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
+                            <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
+                            <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
+                            <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Container for statistics -->
+                <div class="d-flex flex-wrap justify-content-start" style="margin-top: 40px;">
+
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-car"></i>
+                            <span id="stat-vmt"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Vehicle Miles Traveled
                         </div>
                     </div>
 
-                    <!-- Container for statistics -->
-                    <div class="d-flex flex-wrap justify-content-start" style="margin-top: 40px;">
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-car"></i>
-                                <span id="stat-vmt"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Vehicle Miles Traveled
-                            </div>
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-home"></i>
+                            <span id="stat-housing"> N/A </span>
                         </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-home"></i>
-                                <span id="stat-housing"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Housing Affordability 
-                            </div>
+                        <div class="label">
+                            Housing Affordability
                         </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-home"></i>
-                                <span id="stat-dwelling-density"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Dwelling Density <br> (Units Per Acre)
-                            </div>
-                        </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-female"></i>
-                                <span id="stat-population-density"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Population Density <br> (Persons Per Acre)
-                            </div>
-                        </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-briefcase"></i>
-                                <span id="stat-jobs-density"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Jobs Density <br> (Jobs Per Acre)
-                            </div>
-                        </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-globe"></i>
-                                <span id="stat-ghg"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Carbon Emissions <br> (lbs per person) 
-                            </div>
-                        </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-ambulance"></i>
-                                <span id="stat-pedcol"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Pedestrian Collisions <br> (per 100K walkers)
-                            </div>
-                        </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-briefcase"></i>
-                                <span id="stat-jobs-accessibility"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Jobs Accessibility
-                            </div>
-                        </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-road"></i>
-                                <span id="stat-ped-environment"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Walkability <br> (Intersection Density)
-                            </div>
-                        </div>
-
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="fa fa-fw fa-map-marker-alt"></i>
-                                <span id="stat-cbgs"> N/A </span>
-                            </div>
-                            <div class="label">
-                                Block Groups Selected
-                            </div>
-                        </div>
-
                     </div>
 
-                    <!--
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-home"></i>
+                            <span id="stat-dwelling-density"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Dwelling Density <br> (Units Per Acre)
+                        </div>
+                    </div>
+
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-female"></i>
+                            <span id="stat-population-density"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Population Density <br> (Persons Per Acre)
+                        </div>
+                    </div>
+
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-briefcase"></i>
+                            <span id="stat-jobs-density"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Jobs Density <br> (Jobs Per Acre)
+                        </div>
+                    </div>
+
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-globe"></i>
+                            <span id="stat-ghg"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Carbon Emissions <br> (lbs per person)
+                        </div>
+                    </div>
+
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-ambulance"></i>
+                            <span id="stat-pedcol"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Pedestrian Collisions <br> (per 100K walkers)
+                        </div>
+                    </div>
+
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-briefcase"></i>
+                            <span id="stat-jobs-accessibility"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Jobs Accessibility
+                        </div>
+                    </div>
+
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-road"></i>
+                            <span id="stat-ped-environment"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Walkability <br> (Intersection Density)
+                        </div>
+                    </div>
+
+                    <div class="statistic">
+                        <div class="value">
+                            <i class="fa fa-fw fa-map-marker-alt"></i>
+                            <span id="stat-cbgs"> N/A </span>
+                        </div>
+                        <div class="label">
+                            Block Groups Selected
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--
                     <div class="row mt-auto justify-content-around align-items-end" style="font-size: 30px; color: #eee; background: #333; padding: 10px;">
                         <i class="fa fa-fw fa-map-marker-alt"></i>
                         <i class="fa fa-fw fa-map-marker-alt"></i>
                         <i class="fa fa-fw fa-map-marker-alt"></i>
                     </div>
                     -->
-                </div>
             </div>
         </div>
+    </div>
 
-        <!-- Modals -->
-        <div class="modal fade" id="modal-select-city" tabindex="-1" role="dialog" aria-hidden="false" data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <div class="modal-body" class="p-5">
-                        <h4 class="text-center"> SELECT COUNTY: </h4>
+    <!-- Modals -->
+    <div class="modal fade" id="modal-select-city" tabindex="-1" role="dialog" aria-hidden="false"
+        data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-body" class="p-5">
+                    <h4 class="text-center"> SELECT COUNTY: </h4>
 
-                        <!-- <div class="d-flex justify-content-around flex-wrap mt-5"> -->
-                        <div class="d-flex flex-column">
-                            <button type="button" id="btn-sd-county" class="btn btn-squared btn-success btn-md">
+                    <!-- <div class="d-flex justify-content-around flex-wrap mt-5"> -->
+                    <div class="d-flex flex-column">
+                        <button type="button" id="btn-sd-county" class="btn btn-squared btn-success btn-md">
                                 <span id="btn-label" class="text-center"> San Diego County </span>
                             </button>
-                            <button type="button" id="btn-sm-county" class="btn btn-squared btn-success btn-md">
+                        <button type="button" id="btn-sm-county" class="btn btn-squared btn-success btn-md">
                                 <span id="btn-label" class="text-center"> San Mateo County </span>
                             </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-description" tabindex="-1" role="dialog" aria-labelledby="modallabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title font-weight-bold"> PROJECT DESCRIPTION </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Developed by Dr. Bruce Appleyard (<a href="mailto:bappleyard@mail.sdsu.edu"
+                            target="_top">bappleyard@mail.sdsu.edu</a>) and research
+                        assistants Chris Allen and Eduardo Cordova, this new online
+                        Smart Growth & Livability Calculator prototype is designed
+                        to help practitioners and researchers meet a variety of
+                        planning and design challenges related to corridors, station
+                        areas, and complete streets, climate action planning and
+                        providing affordable housing near transit in support of
+                        active and sustainable travel. This Smart Growth & Livability
+                        Calculator builds on work developing <a href="http://www.trb.org/Main/Blurbs/174953.aspx">The Handbook for 
+                                Building Livable Transit Corridors</a> and the
+                        associated <a href="http://www.trb.org/Main/Blurbs/174953.aspx">
+                                Livability Calculator</a>, sponsored by the National
+                        Academies of Sciences' Transportation Research Board.
+                    </p>
+                    <p>
+                        In the future, this Calculator will be designed to help plan the future of autonomous
+                        vehicles, as outlines in this
+                        <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3040783">
+                            publication</a> on a new transportation/land
+                        use performance measurement framework. For now, this prototype
+                        covers San Diego, CA, but we have the necessary data for
+                        California and the entire US.
+                    </p>
+                    <p>
+                        Special thanks to Geoff Boeing, PhD, for his advice and assistance on this Calculator.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-about-us" tabindex="-1" role="dialog" aria-labelledby="modallabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title font-weight-bold"> ABOUT US </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <h5> Bruce Appleyard, PhD </h5>
+                    <h5><a href="mailto:bappleyard@mail.sdsu.edu" target="_top"> bappleyard@mail.sdsu.edu</a></h5>
+                    <p>
+                        Dr. Appleyard is an Associate Professor in City & Regional Planning and Public
+                        Administration at SDSU, with doctoral training in geo-spatial
+                        analysis, behavioral economics, econometrics, and applied
+                        transportation and land use policy analysis. Dr. Appleyard
+                        is also an Associate Director in the Human Dynamics in
+                        the Mobile Age (HDMA) research center, and the Assistant
+                        Director of the Active Transportation Research Center,
+                        both based at SDSU. Dr. Appleyard has led several research
+                        efforts examining the relationship between public transport,
+                        land use, socio-economics, and a variety of outcomes related
+                        to public health, sustainability, economic vitality, and
+                        equity.
+                    </p>
+                    <p>
+                        Dr. Appleyard was the Co-PI for the development of <a href="http://www.trb.org/Main/Blurbs/174953.aspx">The Handbook for 
+                                Building Livable Transit Corridors</a> and the
+                        associated <a href="http://www.trb.org/Main/Blurbs/174953.aspx">
+                                Livability Calculator</a>, sponsored by the National
+                        Academies of Sciences&#8217 Transit Cooperative Research
+                        Project (TCRP). This required extensive geo-spatial and
+                        econometric, mixed method analysis of all transit stations
+                        and corridors throughout the US. Dr. Appleyard has also
+                        been the project lead for the development of the Sustainable
+                        Transportation Calculator for the Smart Mobility Framework
+                        Implementation Project for the State of California
+                    </p>
+
+                    <h5> Chris Allen </h5>
+                    <p>
+                        Chris Allen is a PhD candidate in the Department of Geography at San Diego State
+                        University, where he focuses on using geospatial techniques
+                        and new data sources to examine well-being in urban areas.
+                        Prior to entering the PhD program, Chris worked as a software
+                        verification engineer in the avionics industry and completed
+                        an MA in urban history at San Diego State. As a research
+                        assistant at San Diego State, he has worked primarily on
+                        projects to collect and analyze social media data to study
+                        topics ranging from disease outbreak to disaster management.
+                        In this role, Chris&#8217s duties have included database
+                        administration, web dashboard creation (both server-side
+                        and client-side programming), and geospatial analysis.
+                    </p>
+
+                    <h5> Eduardo Cordova </h5>
+                    <p>
+                        Eduardo Cordova graduated with distinction in his major from San Diego State University
+                        with a degree in Geography with an emphasis in Geographic
+                        Information Systems (GIS) in December of 2016. He has worked
+                        on a variety of projects which include the Excel Livability
+                        Calculator, Typology of Transit Corridor Livability, Carbon
+                        Emissions Study, and Crime Stop studies. His contributions
+                        range from map creation, Python application development,
+                        and data interpretation and management. His primary skill-set
+                        include Python Programming, ArcGIS, and Arc Online.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-directions" tabindex="-1" role="dialog" aria-labelledby="modallabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title font-weight-bold"> Directions </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <h5> SELECTING LAYERS </h5>
+                    <p>
+                        The Smart Growth Livability Calculator allows users to turn overlays on and off
+                        by using the Layer Selection control, which is located
+                        in the top-right corner of the map:
+
+                        <div class="d-flex justify-content-center">
+                            <img src="img/layer-selection-1.png" style="margin: 10px; height: 240px;">
                         </div>
 
-                    </div>
+                        Hovering over the Layer Selection control will display the layers that are loaded
+                        into the calculator. Show or hide layers by selecting or
+                        deselecting the checkboxes next to each layer label:
+
+                        <div class="d-flex justify-content-center">
+                            <img src="img/layer-selection-2.png" style="margin: 10px; height: 240px;">
+                        </div>
+                    </p>
+
+                    <h5> SELECTING GEOGRAPHIC UNITS </h5>
+                    <p>
+                        The Calculator gives users the option to dynamically select geographic units to
+                        calculate smart growth scores for these sub-regions. This
+                        is accomplished by using the drawing controls to the left
+                        of map display, and users can select geographic units by
+                        drawing point or line features. Currently, these tools
+                        select all units within a half-mile buffer of the drawn
+                        feature, which was chosen to account for catchment areas
+                        that exist around point or linear features:
+
+                        <div class="d-flex flex-wrap justify-content-center">
+                            <img src="img/area-selection-1.png" style="margin: 20px; height: 240px;">
+                            <img src="img/area-selection-2.png" style="margin: 20px; height: 240px;">
+                        </div>
+
+                        After one or more features are drawn on the map, the statistic readouts will be
+                        populated to display the aggregate smart growth scores
+                        for the selected geographic units:
+
+                        <div class="d-flex flex-wrap justify-content-center">
+                            <img src="img/area-selection-readout.png" style="margin: 20px; height: 240px;">
+                        </div>
+
+                    </p>
+
+                    <h5> DESELECTING GEOGRAPHIC UNITS </h5>
+                    <p>
+                        To remove any user selections, click the delete button (indicated by the trash
+                        can icon) and choose "Clear All":
+
+                        <div class="d-flex justify-content-center">
+                            <img src="img/area-selection-delete.png" style="margin: 10px; height: 240px;">
+                        </div>
+                    </p>
+
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal fade" id="modal-description" 
-            tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header"> 
-                        <h4 class="modal-title font-weight-bold"> PROJECT DESCRIPTION </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            Developed by Dr. Bruce Appleyard (<a href="mailto:bappleyard@mail.sdsu.edu" target="_top">bappleyard@mail.sdsu.edu</a>)
-                            and research assistants Chris Allen and Eduardo Cordova, this new online Smart Growth & Livability Calculator 
-                            prototype is designed to help practitioners and researchers meet a variety of planning 
-                            and design challenges related to corridors, station areas, and complete streets, 
-                            climate action planning and providing affordable housing near transit in support of 
-                            active and sustainable travel. This Smart Growth & Livability Calculator builds on work 
-                            developing <a href="http://www.trb.org/Main/Blurbs/174953.aspx">The Handbook for 
-                                Building Livable Transit Corridors</a> and the associated <a href="http://www.trb.org/Main/Blurbs/174953.aspx">
-                                Livability Calculator</a>, sponsored by the National Academies of 
-                            Sciences' Transportation Research Board.
-                        </p>
-                        <p>
-                            In the future, this Calculator will be designed to help plan the future of autonomous
-                            vehicles, as outlines in this <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3040783">
-                                publication</a> on a new transportation/land use performance measurement framework.
-                            For now, this prototype covers San Diego, CA, but we have the necessary data for California
-                            and the entire US.
-                        </p>
-                        <p>
-                            Special thanks to Geoff Boeing, PhD, for his advice and assistance on this Calculator.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
-        <div class="modal fade" id="modal-about-us" 
-            tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header"> 
-                        <h4 class="modal-title font-weight-bold"> ABOUT US </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h5> Bruce Appleyard, PhD </h5>
-                        <h5><a href="mailto:bappleyard@mail.sdsu.edu" target="_top"> bappleyard@mail.sdsu.edu</a></h5>
-                        <p>
-                            Dr. Appleyard is an Associate Professor in City & Regional Planning and Public Administration at SDSU, 
-                            with doctoral training in geo-spatial analysis, behavioral economics, econometrics, and applied 
-                            transportation and land use policy analysis. Dr. Appleyard is also an Associate Director in 
-                            the Human Dynamics in the Mobile Age (HDMA) research center, and the Assistant Director of the 
-                            Active Transportation Research Center, both based at SDSU. Dr. Appleyard has led several research 
-                            efforts examining the relationship between public transport, land use, socio-economics, and a variety 
-                            of outcomes related to public health, sustainability, economic vitality, and equity. 
-                        </p>
-                        <p>
-                            Dr. Appleyard was the Co-PI for the development of <a href="http://www.trb.org/Main/Blurbs/174953.aspx">The Handbook for 
-                                Building Livable Transit Corridors</a> 
-                            and the associated <a href="http://www.trb.org/Main/Blurbs/174953.aspx">
-                                Livability Calculator</a>, sponsored by the National Academies of Sciences&#8217 
-                            Transit Cooperative Research Project (TCRP). This required extensive geo-spatial and econometric, 
-                            mixed method analysis of all transit stations and corridors throughout the US. Dr. Appleyard 
-                            has also been the project lead for the development of the Sustainable Transportation Calculator 
-                            for the Smart Mobility Framework Implementation Project for the State of California    
-                        </p>
+    <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+    <script>
+        $(window).ready(function()
+        {
+            $("#modal-select-city").modal('show');
 
-                        <h5> Chris Allen </h5>
-                        <p>
-                            Chris Allen is a PhD candidate in the Department of Geography at San Diego State University, where he focuses on using geospatial techniques and new data sources to examine well-being in urban areas.  Prior to entering the PhD program, Chris worked as a software verification engineer in the avionics industry and completed an MA in urban history at San Diego State.  As a research assistant at San Diego State, he has worked primarily on projects to collect and analyze social media data to study topics ranging from disease outbreak to disaster management.  In this role, Chris&#8217s duties have included database administration, web dashboard creation (both server-side and client-side programming), and geospatial analysis. 
-                        </p>
-                       
-                        <h5> Eduardo Cordova </h5>
-                        <p>
-                            Eduardo Cordova graduated with distinction in his major from San Diego State University with a degree in Geography with an emphasis in Geographic Information Systems (GIS) in December of 2016.  He has worked on a variety of projects which include the Excel Livability Calculator, Typology of Transit Corridor Livability, Carbon Emissions Study, and Crime Stop studies. His contributions range from map creation, Python application development, and data interpretation and management. His primary skill-set include Python Programming, ArcGIS, and Arc Online. 
-                        </p> 
-                            
-                    </div>
-                </div>
-            </div>
-        </div>
+        });
+    </script>
 
-        <div class="modal fade" id="modal-directions" 
-            tabindex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header"> 
-                        <h4 class="modal-title font-weight-bold"> Directions </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h5> SELECTING LAYERS </h5>
-                        <p>
-                            The Smart Growth Livability Calculator allows users to turn overlays on and off by using the Layer Selection control,
-                            which is located in the top-right corner of the map:
-
-                            <div class="d-flex justify-content-center">
-                                <img src="img/layer-selection-1.png" style="margin: 10px; height: 240px;">
-                            </div>
-
-                            Hovering over the Layer Selection control will display the layers that are loaded into the calculator.
-                            Show or hide layers by selecting or deselecting the checkboxes next to each layer label:
-
-                            <div class="d-flex justify-content-center">
-                                <img src="img/layer-selection-2.png" style="margin: 10px; height: 240px;">
-                            </div>
-                        </p>
-
-                        <h5> SELECTING GEOGRAPHIC UNITS </h5>
-                        <P>
-                            The Calculator gives users the option to dynamically select geographic units to calculate smart growth scores 
-                            for these sub-regions.  This is accomplished by using the drawing controls to the left of map display, and users
-                            can select geographic units by drawing point or line features.  Currently, these tools select all units 
-                            within a half-mile buffer of the drawn feature, which was chosen to account for catchment areas that exist around
-                            point or linear features: 
-
-                            <div class="d-flex flex-wrap justify-content-center">
-                                <img src="img/area-selection-1.png" style="margin: 20px; height: 240px;">
-                                <img src="img/area-selection-2.png" style="margin: 20px; height: 240px;">
-                            </div>
-                            
-                            After one or more features are drawn on the map, the statistic readouts will be populated
-                            to display the aggregate smart growth scores for the selected geographic units:
-
-                            <div class="d-flex flex-wrap justify-content-center">
-                                <img src="img/area-selection-readout.png" style="margin: 20px; height: 240px;">
-                            </div>
-
-                            To remove any user selections, click the delete button (indicated by the trash can icon) and choose "Clear all":
-
-                            <div class="d-flex justify-content-center">
-                                <img src="img/area-selection-delete.png" style="margin: 10px; height: 240px;">
-                            </div>
-                        </p>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-        <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
-        <script>
-            $(window).ready(function() {
-                $("#modal-select-city").modal('show');
-
-            });
-        </script>
-
-	</body>
+</body>
 
 </html>
-
