@@ -123,14 +123,16 @@
             //height: 200px !important;
             font-size: 25px;
         }
-
+            
         .navbar {
             padding-right: 25px;
             padding-left: 25px;
         }
-            
         /* Need this when using navbar fixed-top */
-        body { padding-top: 50px; }
+        
+        body {
+            padding-top: 50px;
+        }
     </style>
 
 </head>
@@ -149,8 +151,8 @@
             <a class="navbar-brand" href="#"> Smart Growth Livability Calculator </a>
 
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -176,14 +178,14 @@
         </nav>
 
 
-        <div class="row d-flex h-100" style="overflow: scroll;">
+        <div class="row d-flex h-100">
 
             <!-- Map -->
             <div id="map" class="col d-flex justify-content-center">
             </div>
 
             <!-- Sidebar -->
-            <div class="col-2 d-flex flex-column align-items-start sidebar">
+            <div class="col-2 d-flex flex-column align-items-start sidebar" style="overflow: scroll;">
 
                 <label class="d-block"> Select Attribute: </label>
                 <div class="d-flex justify-content-start">
@@ -471,10 +473,10 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-weight-bold"> Directions </h4>
+                    <h4 class="modal-title font-weight-bold"> DIRECTIONS </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
+                        &times;
+                    </button>
                 </div>
                 <div class="modal-body">
                     <h5> SELECTING LAYERS </h5>
