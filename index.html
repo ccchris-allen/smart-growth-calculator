@@ -124,6 +124,12 @@
             font-size: 25px;
         }
 
+        .navbar {
+            padding-right: 25px;
+            padding-left: 25px;
+        }
+            
+        /* Need this when using navbar fixed-top */
         body { padding-top: 50px; }
     </style>
 
@@ -134,8 +140,11 @@
     <div id="main-container" class="container-fluid d-flex flex-column h-100">
 
         <!-- Title and navigation bar -->
-        <! -- NOTE: adding fixed-top seems to fix navbar cutoff issue, BUT 
-        it draws over map/sidebar... -->
+        <! -- 
+        NOTE: adding fixed-top seems to fix navbar cutoff issue, BUT 
+        it draws over map/sidebar... 
+        fixed (?) by adding fixed-top and adding padding-top to body (see above
+        -->
         <nav class="navbar navbar-dark navbar-expand-lg bg-dark fixed-top navbar-default row">
             <a class="navbar-brand" href="#"> Smart Growth Livability Calculator </a>
 
