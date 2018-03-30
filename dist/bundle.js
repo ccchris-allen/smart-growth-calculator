@@ -45405,7 +45405,7 @@ $(".btn-squared").click(function () {
                         <span class="font-weight-bold"> Station: </span> ${f.properties.FULL_NAME || 'None'} <br>
                         <span class="font-weight-bold"> Typology: </span> ${titleCase(f.properties.FINAL_TYPO)}`;
                     
-                    l.bindPopup(msg);
+                    //l.bindPopup(msg);
                 }
             }).addTo(map);
 
@@ -45423,8 +45423,6 @@ $(".dropdown-menu a").click(function () {
     // first, set button text to selected value 
     // (this is a bit of a hack, since bootstrap doesn't really support dropdowns)
     $("#btn-label").text($(this).text());
-
-console.log(this.id);
 
     // this is a mapping of the drop-down options to a variable name 
     // or function that computes the attribute value for a specific feature
@@ -45452,8 +45450,6 @@ console.log(this.id);
         'jobs-accessibility': 'D5br_cleaned'
     }[this.id]; // using [this.id] will select the option specified by 'this.id'
 
-console.log(prop);
-
     // update the choropleth layer with the new property
     geojsonLayer.setProperty(prop, true); 
 
@@ -45469,7 +45465,7 @@ var drawControlOptions = {
         featureGroup: drawnItems,
         edit: false
     }, draw: {
-        polygon: false,
+        polygon: true,
         circle: false,
         circlemarker: false,
         rectangle: false
@@ -45483,9 +45479,14 @@ map.addControl(drawControl);
 // note: this is just a placeholder...we need to handle 
 // deletes more gracefully
 map.on(L.Draw.Event.DELETED, (e) => {
+    console.log("DeLETEDDDDDDDD!!");
     console.log(e);
 });
 
+map.on('draw:deletestart', (e) => {
+    console.log("STARTING DELETE!!!");
+    console.log(e);
+});
 
 // add event handler for when a drawn feature is deleted 
 map.on(L.Draw.Event.DELETESTOP, (e) => {
@@ -45528,7 +45529,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var pedenv = document.querySelector("#stat-ped-environment");
     var jobsaccess= document.querySelector("#stat-jobs-accessibility");
     var dwellingdensity = document.querySelector("#stat-dwelling-density");
-    var personsdensity = document.querySelector("#stat-population-density");
+    var persondensity = document.querySelector("#stat-population-density");
     var jobsdensity = document.querySelector("#stat-jobs-density");
 
     // set all values to 'N/A'
@@ -45569,6 +45570,16 @@ map.on(L.Draw.Event.CREATED, (e) => {
         buffer = __WEBPACK_IMPORTED_MODULE_5__turf_turf__["a" /* buffer */](__WEBPACK_IMPORTED_MODULE_5__turf_turf__["d" /* lineString */](coords), BUFFER_RADIUS, {
             units: 'miles'
         });
+    } else {
+        console.log(layer._latlngs);
+        var coords = layer._latlngs.map((ring) => {
+            return ring.map((poly) => {
+                return [poly.lng, poly.lat];
+            });
+        });
+
+        coords[0].push(coords[0][0]);
+        buffer = __WEBPACK_IMPORTED_MODULE_5__turf_turf__["e" /* polygon */](coords);
     }
 
     // need to grab the CBG layer as a geojson in order to
@@ -45576,7 +45587,16 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var cbgs = geojsonLayer.toGeoJSON();
 
     var bufferLayer = new L.geoJson(buffer);
-    bufferLayer.bindPopup("Selected Area:");
+
+    // is this legit? to delete a layer?
+    bufferLayer.on('click', (e) => { 
+        map.removeLayer(e.layer); 
+        map.fire(L.Draw.Event.DELETESTOP);
+    });
+
+    //bufferLayer.bindPopup("Selected Area:");
+    //t 100% I'll be able to make the new time, but I'll definitely try
+    //
 
     // add feature to drawing layer
     drawnItems.addLayer(bufferLayer);
@@ -47176,6 +47196,7 @@ L.Map.addInitHook('addHandler', 'selectArea', L.Map.SelectArea);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_89__turf_helpers__ = __webpack_require__(1);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_89__turf_helpers__["l"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_89__turf_helpers__["q"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_90__turf_invariant__ = __webpack_require__(5);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_91__turf_meta__ = __webpack_require__(6);
