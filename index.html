@@ -67,20 +67,15 @@
             font-size: .75em;
         }
         
-        #select-property {
-            //margin: 1%;
-        }
         /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
-        
         .statistic {
-            margin: 1em 0 auto;
-            margin-top;
-            2em;
+            margin: .5em 0 auto;
+            padding-right: 10px;   /* adding to avoid two stats on one line */
             text-transform: uppercase;
         }
         
         .statistic .value {
-            font-size: 2.5em;
+            font-size: 1.75em;
             line-height: .75em;
         }
         
@@ -89,8 +84,8 @@
             display: block;
             font-size: .75em;
         }
+
         /* Leaflet-specific CSS */
-        
         .leaflet-popup-content-wrapper {
             background: #2c3e50;
             color: #fff;
@@ -191,9 +186,8 @@
                     <div id="select-property" class="dropdown">
                         <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-
                                 <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
-                            </button>
+                        </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
@@ -210,7 +204,7 @@
                 </div>
 
                 <!-- Container for statistics -->
-                <div class="d-flex flex-wrap justify-content-start" style="margin-top: 40px;">
+                <div class="d-flex flex-column align-items-start" style="margin-top: 20px;">
 
                     <div class="statistic">
                         <div class="value">
@@ -234,7 +228,7 @@
 
                     <div class="statistic">
                         <div class="value">
-                            <i class="fa fa-fw fa-home"></i>
+                            <i class="fa fa-fw fa-building"></i>
                             <span id="stat-dwelling-density"> N/A </span>
                         </div>
                         <div class="label">

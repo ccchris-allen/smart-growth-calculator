@@ -19,6 +19,8 @@ const SELECTED_COLOR = "#444";
 const NORMAL_COLOR = "#000";
 const BUFFER_RADIUS = 0.5; // units = miles
 
+const PRODUCTION = process.env.NODE_ENV === 'production';
+
 var areas = {
     'btn-sd-county': {
         files: {
@@ -77,6 +79,10 @@ var sums = {
 
 $(".btn-squared").click(function () {
     $("#modal-select-city").modal('hide');
+
+    if (PRODUCTION) {
+        $("#modal-directions").modal('show');
+    }
 
     var area = areas[this.id];
 
