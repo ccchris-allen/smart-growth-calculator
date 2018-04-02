@@ -1,6 +1,6 @@
 /*
  * This is an extension of the 'leaflet-choropleth' package, so 
- * much of the code is from this project.  This plugin allows for
+ * some of the code is from this project.  This plugin allows for
  * dynamic selection of choropleth attribute.
  */ 
 
@@ -54,6 +54,14 @@ L.Choropleth = L.GeoJSON.extend({
                                      opts.colors :
                                      chroma.scale(opts.scale).colors(limits.length));
 
+        //console.log(colors.length);
+        //console.log(colors);
+        //console.log(limits.length);
+
+        // color mapper
+        // note: scale/domain doesn't work as expected (https://github.com/gka/chroma.js/issues/103)
+        var cmapper = chroma.scale(colors).domain(limits);
+
         var userStyle = style || opts.style;
 
         function choroStyle(f) {
@@ -68,6 +76,8 @@ L.Choropleth = L.GeoJSON.extend({
             
             // Find the bucket that this value is less than and give it that color 
             if (!isNaN(featureValue)) { 
+                //style.fillColor = cmapper(featureValue).toString();
+
                 for (var i = 0; i < limits.length; i++) { 
                     if (featureValue <= limits[i]) {
                         style.fillColor = colors[i];

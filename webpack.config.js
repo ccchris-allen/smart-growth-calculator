@@ -1,6 +1,12 @@
-var webpack = require('webpack');
 var path = require('path');
+var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+var mode = process.env.NODE_ENV ? process.env.NODE_ENV : "NONE";
+
+console.log("--------------------------------------------------");
+console.log(`Building in ${mode.toUpperCase()} mode.`);
+console.log("--------------------------------------------------");
 
 var config = {
     entry: './src/index.js',
@@ -9,16 +15,15 @@ var config = {
     },
     devtool: 'source-map',
     module: {
-        loaders: [
+        // Note: Use 'rules' rather than 'loaders' (which is deprecated)
+        rules: [
             {
                 test: /\.js$/,
                 loaders: 'babel-loader',
                 query: {
                     presets: ['es2015']
                 }
-            }
-        ],
-        rules: [
+            },
             {
                 test: /\.(s*)css$/,
                 use: ExtractTextPlugin.extract({
@@ -29,10 +34,6 @@ var config = {
         ]
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            include: /\.min\.js$/,
-            minimize: true
-        }),
         new ExtractTextPlugin({filename: 'dist/style.css'})
     ]
 };
