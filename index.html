@@ -5,129 +5,43 @@
     <title> SMART GROWTH LIVABILITY CALCULATOR </title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    <link 
+        rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+        crossorigin="anonymous"
+    />
 
     <!-- Bootstrap-select CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css"
+    />
 
     <!-- Font Awesome CSS -->
-    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+    <link 
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" 
+    />
 
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
         integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-        crossorigin="" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" />
+        crossorigin="" 
+    />
+   
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" 
+    />
 
-    <link rel="stylesheet" href="dist/style.css">
-
-    <style>
-        html,
-        body {
-            background-color: #fff;
-            font-family: verdana, sans-serif;
-            height: 100%;
-        }
-        
-        a {
-            outline: 0;
-        }
-        
-        .sidebar {
-            min-width: 300px;
-            padding: 20px;
-            padding-left: 30px;
-        }
-        /* Bootstrap override CSS (create separate classes?) */
-        
-        .nav-link {
-            color: rgba(255, 255, 255, .6);
-        }
-        
-        .nav-link:hover {
-            color: rgba(255, 255, 255, .95);
-        }
-        
-        .navbar-brand {
-            color: #eee !important;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-        
-        .modal-content {
-            -webkit-border-radius: 0px !important;
-            -moz-border-radius: 0px !important;
-            border-radius: 0px !important;
-        }
-        
-        #select-property label {
-            cursor: pointer !important;
-            font-size: .75em;
-        }
-        
-        /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
-        .statistic {
-            margin: .5em 0 auto;
-            padding-right: 10px;   /* adding to avoid two stats on one line */
-            text-transform: uppercase;
-        }
-        
-        .statistic .value {
-            font-size: 1.75em;
-            line-height: .75em;
-        }
-        
-        .statistic .label {
-            color: inherit;
-            display: block;
-            font-size: .75em;
-        }
-
-        /* Leaflet-specific CSS */
-        .leaflet-popup-content-wrapper {
-            background: #2c3e50;
-            color: #fff;
-            font-size: 16px;
-            line-height: 24px;
-            border-radius: .15em;
-        }
-        
-        .leaflet-popup-content-wrapper a {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .leaflet-popup-tip-container {
-            width: 30px;
-            height: 15px;
-        }
-        
-        .leaflet-popup-tip {
-            background: #2c3e50;
-            //border-left:15px solid transparent;
-            //border-right:15px solid transparent;
-            //border-top:15px solid #2c3e50;
-        }
-        
-        .btn-squared {
-            margin: 5px;
-            white-space: normal;
-            //width: 40% !important;
-            //height: 200px !important;
-            font-size: 25px;
-        }
-            
-        .navbar {
-            padding-right: 25px;
-            padding-left: 25px;
-        }
-        /* Need this when using navbar fixed-top */
-        
-        body {
-            padding-top: 50px;
-        }
-    </style>
+    <!-- Project CSS -->
+    <link 
+        rel="stylesheet" 
+        href="dist/style.css"
+    />
 
 </head>
 
@@ -181,7 +95,7 @@
             <!-- Sidebar -->
             <div class="col-2 d-flex flex-column align-items-start sidebar" style="overflow-y: auto;">
 
-                <label class="d-block"> Select Attribute: </label>
+                <label class="d-block" style="text-transform: uppercase;"> Select Attribute: </label>
                 <div class="d-flex justify-content-start">
                     <div id="select-property" class="dropdown">
                         <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle"

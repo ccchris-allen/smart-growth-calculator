@@ -4,5 +4,6 @@ share/
 data-old/
 
 packages.json
+*.swp
 *.zip
 *.jpg

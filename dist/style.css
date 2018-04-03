@@ -1,6 +1,2 @@
-.sidebar {
-  min-width: 300px;
-  padding: 20px;
-  padding-left: 30px; }
-
+body,html{background-color:#fff;font-family:verdana,sans-serif;height:100%}a{outline:0}.sidebar{min-width:300px;padding:20px;padding-left:30px}.nav-link{color:hsla(0,0%,100%,.6)}.nav-link:hover{color:hsla(0,0%,100%,.95)}.navbar-brand{color:#eee!important;text-transform:uppercase;font-weight:700}.modal-content{-webkit-border-radius:0!important;-moz-border-radius:0!important;border-radius:0!important}#select-property label{cursor:pointer!important;font-size:.75em}.statistic{margin:.5em 0 auto;padding-right:10px;text-transform:uppercase}.statistic .value{font-size:1.75em;line-height:.75em}.statistic .label{color:inherit;display:block;font-size:.75em}.leaflet-popup-content-wrapper{background:#2c3e50;color:#fff;font-size:16px;line-height:24px;border-radius:.15em}.leaflet-popup-content-wrapper a{color:hsla(0,0%,100%,.5)}.leaflet-popup-tip-container{width:30px;height:15px}.leaflet-popup-tip{background:#2c3e50}.btn-squared{margin:5px;white-space:normal;font-size:25px}.navbar{padding-right:25px;padding-left:25px}body{padding-top:50px}.sidebar{min-width:300px;padding:20px;padding-left:30px}
 /*# sourceMappingURL=style.css.map*/

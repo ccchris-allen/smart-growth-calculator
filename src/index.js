@@ -1,4 +1,5 @@
 // import styles (need to do this for webpack to handle stylesheet files)
+import './styles/main.css';
 import './styles/main.scss';
 
 // axios handles requests
@@ -20,6 +21,8 @@ const NORMAL_COLOR = "#000";
 const BUFFER_RADIUS = 0.5; // units = miles
 
 const IS_PROD = process.env.NODE_ENV === 'production';
+
+var delete_mode = false;
 
 var areas = {
     'btn-sd-county': {
@@ -213,17 +216,20 @@ map.addControl(drawControl);
 // note: this is just a placeholder...we need to handle 
 // deletes more gracefully
 map.on(L.Draw.Event.DELETED, (e) => {
+    delete_mode = false;
     console.log("DeLETEDDDDDDDD!!");
     console.log(e);
 });
 
 map.on('draw:deletestart', (e) => {
+    delete_mode = true;
     console.log("STARTING DELETE!!!");
     console.log(e);
 });
 
 // add event handler for when a drawn feature is deleted 
 map.on(L.Draw.Event.DELETESTOP, (e) => {
+    delete_mode = false;
 
     // when a drawn feature is deleted, we want to reset
     // the readouts
@@ -285,33 +291,28 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
     var buffer;
     var layer = e.layer;
+    var opts = { units: 'miles' };
 
     // this is where we take the drawn feature and draw a buffer around
     if (e.layerType === 'marker') {
         var coords = [layer._latlng.lng, layer._latlng.lat];
-        buffer = turf.circle(coords, BUFFER_RADIUS, {
-            units: 'miles'
-        });
+        buffer = turf.circle(coords, BUFFER_RADIUS, opts);
     } else if (e.layerType === 'circle') {
         var coords = [layer._latlng.lng, layer._latlng.lat];
-        buffer = turf.circle(coords, BUFFER_RADIUS, {
-            units: 'miles'
-        });
+        buffer = turf.circle(coords, BUFFER_RADIUS, opts);
     } else if (e.layerType === 'polyline') {
         var coords = layer._latlngs.map((item) => {
             return [item.lng, item.lat];
         });
-        buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, {
-            units: 'miles'
-        });
+        buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, opts);
     } else {
-        console.log(layer._latlngs);
         var coords = layer._latlngs.map((ring) => {
             return ring.map((poly) => {
                 return [poly.lng, poly.lat];
             });
         });
 
+        // need to complete the polygon by repeating first coords
         coords[0].push(coords[0][0]);
         buffer = turf.polygon(coords);
     }
@@ -324,8 +325,10 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
     // is this legit? to delete a layer?
     bufferLayer.on('click', (e) => { 
-        map.removeLayer(e.layer); 
-        map.fire(L.Draw.Event.DELETESTOP);
+        if (delete_mode) {
+            map.removeLayer(e.layer); 
+            map.fire(L.Draw.Event.DELETESTOP);
+        }
     });
 
     //bufferLayer.bindPopup("Selected Area:");
