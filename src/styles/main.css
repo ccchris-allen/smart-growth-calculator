@@ -9,7 +9,12 @@ a {
     outline: 0;
 }
 
+#modal-directions {
+    overflow-y: scroll;
+}
+
 .sidebar {
+    overflow-y: auto;
     min-width: 300px;
     padding: 20px;
     padding-left: 30px;
