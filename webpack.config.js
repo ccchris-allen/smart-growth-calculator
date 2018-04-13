@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var mode = process.env.NODE_ENV ? process.env.NODE_ENV.toUpperCase() : "NONE";
+var mode = process.env.NODE_ENV ? process.env.NODE_ENV.toUpperCase() : "DEV";
 var IS_PROD = mode === 'PRODUCTION'; 
 
 console.log("--------------------------------------------------");

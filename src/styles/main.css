@@ -5,22 +5,129 @@ body {
     height: 100%;
 }
 
+/* Need this when using navbar fixed-top */
+body {
+    padding-top: 50px;
+}
+
 a {
     outline: 0;
+}
+
+#readouts {
+    //margin-top: 20px;
+}
+
+.btn-xs, 
+.btn-xs:hover,
+.btn-xs:active,
+.btn-xs:focus { 
+    outline: none !important;
+    box-shadow: none !important;
+    //width: 200px;
+    padding: 3px 4px;
+    font-size: .8em;
+    border-radius: 3px;
+    border-color: gray !important;
+    background-color: gray !important;
+}
+
+.dropdown-menu {
+    font-size: .8em;
+}
+
+.plain-list {
+    //display: table-row;
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+
+.plain-list > li {
+    //display: inline-table;
+    //display: inline-block;
+}
+
+.item-label {
+    font-size: .8em;
+    text-transform: capitalize;
 }
 
 #modal-directions {
     overflow-y: scroll;
 }
 
-.sidebar {
+#sidebar {
     overflow-y: auto;
     min-width: 300px;
-    padding: 20px;
-    padding-left: 30px;
+    //padding: 20px;
+    //padding-left: 10px;
 }
-/* Bootstrap override CSS (create separate classes?) */
 
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: .05em solid #444;
+    margin: .4em 0;
+    padding: 0;
+}
+
+button {
+    //background-color: #466735 !important;
+}
+
+#select-property {
+    display: block;
+}
+
+#select-property label {
+    display: block;
+    cursor: pointer !important;
+    font-size: .75em;
+}
+
+.section {
+    width: 95%;
+    margin-top: 20px;
+}
+
+.section-title {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+/* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
+.statistic {
+    padding: 2px;
+    //margin: .5em 0 auto;
+    margin: .5em 0;
+    //padding-right: 10px;
+    text-transform: capitalize;
+    //background-color: #cacaca;
+    //border: 1px solid black;
+    border-radius: 5px;
+}
+
+.statistic .value {
+    font-size: 1.75em;
+    line-height: .75em;
+}
+
+.statistic .value > i {
+    //display: inline;
+}
+
+.statistic .label {
+    display: block;
+    color: inherit;
+    font-size: .75em;
+}
+
+/* Bootstrap override CSS (create separate classes?) */
 .nav-link {
     color: rgba(255, 255, 255, .6);
 }
@@ -39,29 +146,6 @@ a {
     -webkit-border-radius: 0px !important;
     -moz-border-radius: 0px !important;
     border-radius: 0px !important;
-}
-
-#select-property label {
-    cursor: pointer !important;
-    font-size: .75em;
-}
-
-/* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
-.statistic {
-    margin: .5em 0 auto;
-    padding-right: 10px;   /* adding to avoid two stats on one line */
-    text-transform: uppercase;
-}
-
-.statistic .value {
-    font-size: 1.75em;
-    line-height: .75em;
-}
-
-.statistic .label {
-    color: inherit;
-    display: block;
-    font-size: .75em;
 }
 
 /* Leaflet-specific CSS */
@@ -102,7 +186,3 @@ a {
     padding-left: 25px;
 }
 
-/* Need this when using navbar fixed-top */
-body {
-    padding-top: 50px;
-}

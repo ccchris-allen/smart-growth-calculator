@@ -4,21 +4,23 @@
  * dynamic selection of choropleth attribute.
  */ 
 
-var L = require('leaflet');
 var chroma = require('chroma-js');
+
+const DEFAULT_OPTIONS = {
+    property: 'value',
+    scale: ['#eeeeee', '#ee2222'],
+    steps: 5,
+    mode: 'q',
+    defaultStyle: { opacity: 0.0 }
+}; 
 
 
 L.Choropleth = L.GeoJSON.extend({
     
     initialize: function (geojson, options) {
-    
-        // Use defaults, but override if applicable
-        this.options = L.Util.extend({
-            property: 'value',
-            scale: ['white', 'red'],
-            steps: 5,
-            mode: 'q'
-        }, options || {});
+        
+        // use defaults, but override if applicable
+        this.options = L.Util.extend(DEFAULT_OPTIONS, options || {});
 
         L.GeoJSON.prototype.initialize.call(this, geojson, options.style);
 
@@ -54,17 +56,13 @@ L.Choropleth = L.GeoJSON.extend({
                                      opts.colors :
                                      chroma.scale(opts.scale).colors(limits.length));
 
-        //console.log(colors.length);
-        //console.log(colors);
-        //console.log(limits.length);
-
         // color mapper
         // note: scale/domain doesn't work as expected (https://github.com/gka/chroma.js/issues/103)
         var cmapper = chroma.scale(colors).domain(limits);
 
         var userStyle = style || opts.style;
 
-        function choroStyle(f) {
+        function choroplethStyle(f) {
             var style = {};
             var featureValue;
 
@@ -86,7 +84,7 @@ L.Choropleth = L.GeoJSON.extend({
                 }
             } else {
                 // need to change default style if some error occurs (not a number)
-                //style = { fillColor: 'white', opacity: 0.0 };
+                style = opts.default;
             }
 
             // Return this style, but include the user-defined style if it was passed 
@@ -100,8 +98,8 @@ L.Choropleth = L.GeoJSON.extend({
             }
         }
 
-        L.GeoJSON.prototype.setStyle.call(this, choroStyle);
 
+        L.GeoJSON.prototype.setStyle.call(this, choroplethStyle);
     }
 });
 

@@ -6,7 +6,7 @@ import './styles/main.scss';
 import axios from 'axios';
 
 // mapping and geometry modules
-import leaflet from 'leaflet';
+import L from 'leaflet';
 import leafletDraw from 'leaflet-draw';
 import selectArea from 'leaflet-area-select';
 import * as turf from '@turf/turf';
@@ -14,12 +14,14 @@ import * as turf from '@turf/turf';
 // our module for drawing choropleth maps
 import Choropleth from './choro';
 
-
 // global constants
-const SELECTED_COLOR = "#444";
-const NORMAL_COLOR = "#000";
+const SELECTED_COLOR = '#444';
+const NORMAL_COLOR = '#000';
 const BUFFER_RADIUS = 0.5; // units = miles
 
+// we're going to only do some things when in production modex, ex: only show 'directions' modal 
+// immediately when in production mode (otherwise, it's annoying for debugging purposes to have to 
+// close the window each reload)
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 var delete_mode = false;
@@ -59,17 +61,16 @@ L.tileLayer(basemap_url, {
     id: 'mapbox.streets'
 }).addTo(map);
 
-// these variables are related to the selection 
-// of features and the aggregate scores for the
+// these variables are related to the selection of features and the aggregate scores for the
 // different variables
 var hits = 0;
 var selections = 0;
 var sums = {
     hh_type1_vmt: 0.0,
-    "SumAllPed": 0.0,
-    "JTW_TOTAL": 0.0,
-    "JTW_WALK": 0.0,
-    "hh_type1_h": 0.0,
+    'SumAllPed': 0.0,
+    'JTW_TOTAL': 0.0,
+    'JTW_WALK': 0.0,
+    'hh_type1_h': 0.0,
     'D3b': 0.0,
     'D5br_cleaned': 0.0,
     'D1A': 0.0,
@@ -80,11 +81,11 @@ var sums = {
 };
 
 
-$(".btn-squared").click(function () {
-    $("#modal-select-city").modal('hide');
+$('.btn-squared').click(function () {
+    $('#modal-select-city').modal('hide');
 
     if (IS_PROD) {
-        $("#modal-directions").modal('show');
+        $('#modal-directions').modal('show');
     }
 
     var area = areas[this.id];
@@ -133,14 +134,14 @@ $(".btn-squared").click(function () {
                     return style;
                 },
                 onEachFeature: (f, l) => {
-                    //todo: move this to util file
+                    // todo: move this to util file
                     function titleCase(s) {
                         return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
                     }
 
                     var msg = `
-                        <span class="font-weight-bold"> Station: </span> ${f.properties.FULL_NAME || 'None'} <br>
-                        <span class="font-weight-bold"> Typology: </span> ${titleCase(f.properties.FINAL_TYPO)}`;
+                        <span class='font-weight-bold'> Station: </span> ${f.properties.FULL_NAME || 'None'} <br>
+                        <span class='font-weight-bold'> Typology: </span> ${titleCase(f.properties.FINAL_TYPO)}`;
                     
                     //l.bindPopup(msg);
                 }
@@ -148,27 +149,28 @@ $(".btn-squared").click(function () {
 
             // add control to map (allows users to turn off/on layers)
             L.control.layers([], {
-                "Stations": stationsLayer
+                'Stations': stationsLayer
             }).addTo(map);
         });
 });
 
 // create an event handler for when the user clicks the drop-down menu
 // to select a layer for visualization
-$(".dropdown-menu a").click(function () {
+$('.dropdown-menu a').click(function () {
 
     // first, set button text to selected value 
     // (this is a bit of a hack, since bootstrap doesn't really support dropdowns)
-    $("#btn-label").text($(this).text());
+    console.log(this.text);
+    $('#btn-label').text(this.text);
 
     // this is a mapping of the drop-down options to a variable name 
     // or function that computes the attribute value for a specific feature
     var prop = {
         vmt: 'hh_type1_vmt',
-        housing: "hh_type1_h",
+        housing: 'hh_type1_h',
         pedcol: (item) => {
-            var total_collisions = item.properties["SumAllPed"];
-            var walk_pct = item.properties["JTW_WALK"] / item.properties["JTW_TOTAL"];
+            var total_collisions = item.properties['SumAllPed'];
+            var walk_pct = item.properties['JTW_WALK'] / item.properties['JTW_TOTAL'];
             var population = item.properties['TOTPOP1']; 
 
             var ped_per_100k = 100000 * (total_collisions / population);
@@ -217,13 +219,11 @@ map.addControl(drawControl);
 // deletes more gracefully
 map.on(L.Draw.Event.DELETED, (e) => {
     delete_mode = false;
-    console.log("DeLETEDDDDDDDD!!");
     console.log(e);
 });
 
 map.on('draw:deletestart', (e) => {
     delete_mode = true;
-    console.log("STARTING DELETE!!!");
     console.log(e);
 });
 
@@ -231,15 +231,14 @@ map.on('draw:deletestart', (e) => {
 map.on(L.Draw.Event.DELETESTOP, (e) => {
     delete_mode = false;
 
-    // when a drawn feature is deleted, we want to reset
-    // the readouts
+    // when a drawn feature is deleted, we want to reset the readouts
     hits = 0;
     sums = {
         hh_type1_vmt: 0.0,
-        "SumAllPed": 0.0,
-        "JTW_TOTAL": 0.0,
-        "JTW_WALK": 0.0,
-        "hh_type1_h": 0.0,
+        'SumAllPed': 0.0,
+        'JTW_TOTAL': 0.0,
+        'JTW_WALK': 0.0,
+        'hh_type1_h': 0.0,
         'D3b': 0.0,
         'D5br_cleaned': 0.0,
         'D1A': 0.0,
@@ -261,28 +260,28 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     });
 
     // get the readout divs in order to reset
-    var vmt = document.querySelector("#stat-vmt");
-    var ghg = document.querySelector("#stat-ghg");
-    var pedcol = document.querySelector("#stat-pedcol");
-    var cbgs = document.querySelector("#stat-cbgs");
-    var housing = document.querySelector("#stat-housing");
-    var pedenv = document.querySelector("#stat-ped-environment");
-    var jobsaccess = document.querySelector("#stat-jobs-accessibility");
-    var dwellingdensity = document.querySelector("#stat-dwelling-density");
-    var persondensity = document.querySelector("#stat-population-density");
-    var jobsdensity = document.querySelector("#stat-jobs-density");
+    var vmt = document.querySelector('#stat-vmt');
+    var ghg = document.querySelector('#stat-ghg');
+    var pedcol = document.querySelector('#stat-pedcol');
+    var cbgs = document.querySelector('#stat-cbgs');
+    var housing = document.querySelector('#stat-housing');
+    var pedenv = document.querySelector('#stat-ped-environment');
+    var jobsaccess = document.querySelector('#stat-jobs-accessibility');
+    var dwellingdensity = document.querySelector('#stat-dwelling-density');
+    var persondensity = document.querySelector('#stat-population-density');
+    var jobsdensity = document.querySelector('#stat-jobs-density');
 
     // set all values to 'N/A'
-    vmt.innerHTML = "N/A";
-    ghg.innerHTML = "N/A";
-    pedcol.innerHTML = "N/A";
-    cbgs.innerHTML = "N/A";
-    housing.innerHTML = "N/A";
-    pedenv.innerHTML = "N/A";
-    jobsaccess.innerHTML = "N/A";
-    dwellingdensity.innerHTML = "N/A";
-    persondensity.innerHTML = "N/A";
-    jobsdensity.innerHTML = "N/A";
+    vmt.innerHTML = 'N/A';
+    ghg.innerHTML = 'N/A';
+    pedcol.innerHTML = 'N/A';
+    cbgs.innerHTML = 'N/A';
+    housing.innerHTML = 'N/A';
+    pedenv.innerHTML = 'N/A';
+    jobsaccess.innerHTML = 'N/A';
+    dwellingdensity.innerHTML = 'N/A';
+    persondensity.innerHTML = 'N/A';
+    jobsdensity.innerHTML = 'N/A';
 });
 
 
@@ -331,9 +330,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
         }
     });
 
-    //bufferLayer.bindPopup("Selected Area:");
-    //t 100% I'll be able to make the new time, but I'll definitely try
-    //
+    //bufferLayer.bindPopup('Selected Area:');
 
     // add feature to drawing layer
     drawnItems.addLayer(bufferLayer);
@@ -385,7 +382,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
                 return !isNaN(parseFloat(n)) && isFinite(n);
             }
 
-            if (isNumeric(f.properties["SumAllPed"])) {
+            if (isNumeric(f.properties['SumAllPed'])) {
                 sums.pop_ped += f.properties.TOTPOP1;
             }
         }
@@ -400,24 +397,24 @@ map.on(L.Draw.Event.CREATED, (e) => {
     });
 
     // grab DIVs for the readouts
-    var vmt = document.querySelector("#stat-vmt");
-    var ghg = document.querySelector("#stat-ghg");
-    var dwellingdensity = document.querySelector("#stat-dwelling-density");
-    var personsdensity = document.querySelector("#stat-population-density");
-    var jobsdensity = document.querySelector("#stat-jobs-density");
-    var pedcol = document.querySelector("#stat-pedcol");
-    var cbgs = document.querySelector("#stat-cbgs");
-    var housing = document.querySelector("#stat-housing");
-    var pedenv = document.querySelector("#stat-ped-environment");
-    var jobsaccess = document.querySelector("#stat-jobs-accessibility");
+    var vmt = document.querySelector('#stat-vmt');
+    var ghg = document.querySelector('#stat-ghg');
+    var dwellingdensity = document.querySelector('#stat-dwelling-density');
+    var personsdensity = document.querySelector('#stat-population-density');
+    var jobsdensity = document.querySelector('#stat-jobs-density');
+    var pedcol = document.querySelector('#stat-pedcol');
+    var cbgs = document.querySelector('#stat-cbgs');
+    var housing = document.querySelector('#stat-housing');
+    var pedenv = document.querySelector('#stat-ped-environment');
+    var jobsaccess = document.querySelector('#stat-jobs-accessibility');
 
 
     function withCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
-    var total_collisions = sums["SumAllPed"];
-    var walk_pct = sums["JTW_WALK"] / sums["JTW_TOTAL"];
+    var total_collisions = sums['SumAllPed'];
+    var walk_pct = sums['JTW_WALK'] / sums['JTW_TOTAL'];
 
     var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
     var ped_per_100k_walk = ped_per_100k / walk_pct;
@@ -429,10 +426,10 @@ map.on(L.Draw.Event.CREATED, (e) => {
     jobsdensity.innerHTML = (sums['D1C'] / hits).toFixed(2);
     vmt.innerHTML = withCommas((sums['hh_type1_vmt'] / hits).toFixed(0));
     ghg.innerHTML = withCommas(((sums['hh_type1_vmt'] / hits) * .90).toFixed(0));
-    housing.innerHTML = (sums["hh_type1_h"] / hits).toFixed(1);
-    pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : "N/A";
-    pedenv.innerHTML = (sums["D3b"] / hits).toFixed(1);
-    jobsaccess.innerHTML = withCommas((sums["D5br_cleaned"] / hits).toFixed(0));
+    housing.innerHTML = (sums['hh_type1_h'] / hits).toFixed(1);
+    pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
+    pedenv.innerHTML = (sums['D3b'] / hits).toFixed(1);
+    jobsaccess.innerHTML = withCommas((sums['D5br_cleaned'] / hits).toFixed(0));
     cbgs.innerHTML = hits;
 
 });

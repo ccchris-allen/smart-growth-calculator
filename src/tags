@@ -1,0 +1,19 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+L	choro.js	/^var L = require('leaflet');$/;"	v
+basemap_url	index.js	/^var basemap_url = 'https:\/\/api.tiles.mapbox.com\/v4\/{id}\/{z}\/{x}\/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';$/;"	v
+btn-sd-county	index.js	/^var areas = {$/;"	p	class:areas
+chroma	choro.js	/^var chroma = require('chroma-js');$/;"	v
+delete_mode	index.js	/^var delete_mode = false;$/;"	v
+edit	index.js	/^var drawControlOptions = {$/;"	p	class:drawControlOptions
+geojsonLayer	index.js	/^var geojsonLayer;$/;"	v
+hh_type1_vmt	index.js	/^var sums = {$/;"	p	class:sums
+hits	index.js	/^var hits = 0;$/;"	v
+map	index.js	/^var map = L.map('map').setView([32.7157, -117.11], 12);$/;"	v
+selections	index.js	/^var selections = 0;$/;"	v
+stationsLayer	index.js	/^var stationsLayer;$/;"	v
+topojson	topo.js	/^var topojson = require('topojson');$/;"	v

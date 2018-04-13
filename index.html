@@ -89,139 +89,147 @@
         <div class="row d-flex h-100">
 
             <!-- Map -->
-            <div id="map" class="col d-flex justify-content-center">
-            </div>
+            <div id="map" class="col d-flex justify-content-center"> </div>
 
             <!-- Sidebar -->
-            <div class="col-2 d-flex flex-column align-items-start sidebar">
+            <div id="sidebar" class="col-2 d-flex flex-column align-items-center">
 
-                <label class="d-block" style="text-transform: uppercase;"> Select Attribute: </label>
-                <div class="d-flex justify-content-start">
-                    <div id="select-property" class="dropdown">
-                        <button type="button" id="dropdownMenuButton" class="btn btn-success btn-sm dropdown-toggle"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                                <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
-                        </button>
+                <div class="section">
 
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
-                            <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
-                            <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
-                            <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
-                            <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
-                            <li><a id="people-density" class="dropdown-item" href="#"> People Density </a></li>
-                            <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
-                            <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
-                            <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
-                        </ul>
-                    </div>
+                    <!--<span class="section-title"> Customize Map </span>-->
+
+                    <span class="item-label"> Select Attribute: </span>
+                    <!-- <div class="d-flex justify-content-start">-->
+                        <span id="select-property" class="dropdown">
+                            <button type="button" id="dropdownMenuButton" class="btn btn-success btn-xs dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                    <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
+                                <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
+                                <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
+                                <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
+                                <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
+                                <li><a id="people-density" class="dropdown-item" href="#"> Population Density </a></li>
+                                <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
+                                <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
+                                <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
+                            </ul>
+                        </span>
+                    <!--</div>-->
                 </div>
 
                 <!-- Container for statistics -->
-                <div class="d-flex flex-column align-items-start" style="margin-top: 20px;">
+                <div class="section">
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-car"></i>
-                            <span id="stat-vmt"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Vehicle Miles Traveled
-                        </div>
-                    </div>
+                    <!--<span class="section-title"> Statistics </span>-->
+                    <ul id="readouts" class="plain-list">
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-home"></i>
-                            <span id="stat-housing"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Housing Affordability
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-car"></i>
+                                <span id="stat-vmt"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Vehicle Miles Traveled
+                            </div>
+                        </li>
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-building"></i>
-                            <span id="stat-dwelling-density"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Dwelling Density <br> (Units Per Acre)
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-home"></i>
+                                <span id="stat-housing"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Housing Affordability
+                            </div>
+                        </li>
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-globe"></i>
-                            <span id="stat-ghg"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Carbon Emissions <br> (lbs per person)
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-building"></i>
+                                <span id="stat-dwelling-density"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Dwelling Density <br> (Units Per Acre)
+                            </div>
+                        </li>
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-ambulance"></i>
-                            <span id="stat-pedcol"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Pedestrian Collisions <br> (per 100K walkers)
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-globe"></i>
+                                <span id="stat-ghg"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Carbon Emissions <br> (lbs per person)
+                            </div>
+                        </li>
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-female"></i>
-                            <span id="stat-population-density"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Population Density <br> (Persons Per Acre)
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-ambulance"></i>
+                                <span id="stat-pedcol"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Pedestrian Collisions <br> (per 100K walkers)
+                            </div>
+                        </li>
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-briefcase"></i>
-                            <span id="stat-jobs-density"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Jobs Density <br> (Jobs Per Acre)
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-female"></i>
+                                <span id="stat-population-density"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Population Density <br> (Persons Per Acre)
+                            </div>
+                        </li>
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-briefcase"></i>
-                            <span id="stat-jobs-accessibility"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Jobs Accessibility
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-briefcase"></i>
+                                <span id="stat-jobs-density"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Jobs Density <br> (Jobs Per Acre)
+                            </div>
+                        </li>
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-road"></i>
-                            <span id="stat-ped-environment"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Walkability <br> (Intersection Density)
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-briefcase"></i>
+                                <span id="stat-jobs-accessibility"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Jobs Accessibility
+                            </div>
+                        </li>
 
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="fa fa-fw fa-map-marker-alt"></i>
-                            <span id="stat-cbgs"> N/A </span>
-                        </div>
-                        <div class="label">
-                            Block Groups Selected
-                        </div>
-                    </div>
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-road"></i>
+                                <span id="stat-ped-environment"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Walkability <br> (Intersection Density)
+                            </div>
+                        </li>
+
+                        <li class="statistic">
+                            <div class="value">
+                                <i class="fa fa-fw fa-map-marker-alt"></i>
+                                <span id="stat-cbgs"> N/A </span>
+                            </div>
+                            <div class="label">
+                                Block Groups Selected
+                            </div>
+                        </li>
+
+                    </ul>
 
                 </div>
-
                 <!--
                     <div class="row mt-auto justify-content-around align-items-end" style="font-size: 30px; color: #eee; background: #333; padding: 10px;">
                         <i class="fa fa-fw fa-map-marker-alt"></i>
