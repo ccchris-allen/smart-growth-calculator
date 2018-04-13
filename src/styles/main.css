@@ -18,19 +18,10 @@ a {
     //margin-top: 20px;
 }
 
-.btn-xs, 
-.btn-xs:hover,
-.btn-xs:active,
-.btn-xs:focus { 
-    outline: none !important;
-    box-shadow: none !important;
-    //width: 200px;
-    padding: 3px 4px;
-    font-size: .8em;
-    border-radius: 3px;
-    border-color: gray !important;
-    background-color: gray !important;
+#btn-label {
+    text-transform: uppercase;
 }
+
 
 .dropdown-menu {
     font-size: .8em;
@@ -113,7 +104,7 @@ button {
 }
 
 .statistic .value {
-    font-size: 1.75em;
+    font-size: 1.5em;
     line-height: .75em;
 }
 
@@ -173,14 +164,6 @@ button {
     //border-top:15px solid #2c3e50;
 }
 
-.btn-squared {
-    margin: 5px;
-    white-space: normal;
-    //width: 40% !important;
-    //height: 200px !important;
-    font-size: 25px;
-}
-    
 .navbar {
     padding-right: 25px;
     padding-left: 25px;
