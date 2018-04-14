@@ -91,11 +91,27 @@ button {
     text-transform: uppercase;
 }
 
+.bar {
+    height: 6px;
+    border-radius: 3px;
+}
+
+.bar-full {
+    width: 100%;
+    background-color: #aaa;
+}
+
+.integrated { background-color: SeaGreen; }
+.emerging { background-color: Crimson; }
+.transitioning { background-color: Gold; }
+
 /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
 .statistic {
     padding: 2px;
+    width: 100%;
     //margin: .5em 0 auto;
     margin: .5em 0;
+    margin-top: 20px;
     //padding-right: 10px;
     text-transform: capitalize;
     //background-color: #cacaca;
@@ -104,8 +120,8 @@ button {
 }
 
 .statistic .value {
-    font-size: 1.5em;
-    line-height: .75em;
+    font-size: .8em;
+    //line-height: .75em;
 }
 
 .statistic .value > i {
@@ -113,9 +129,9 @@ button {
 }
 
 .statistic .label {
-    display: block;
+    width: 60%;
     color: inherit;
-    font-size: .75em;
+    font-size: .8em;
 }
 
 /* Bootstrap override CSS (create separate classes?) */
