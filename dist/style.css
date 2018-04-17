@@ -77,6 +77,10 @@ hr {
 .transitioning {
   background-color: Gold; }
 
+.na {
+  width: 0%;
+  background-color: red; }
+
 /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
 .statistic {
   padding: 2px;
@@ -142,11 +146,10 @@ hr {
   outline: none !important;
   box-shadow: none !important;
   outline: none !important; }
-
-.btn-xs:hover,
-.btn-xs:focus,
-.btn-xs:active {
-  background-color: #717171 !important; }
+  .btn-xs :hover,
+  .btn-xs :focus,
+  .btn-xs :active {
+    background-color: #717171 !important; }
 
 .btn-squared {
   margin: 5px;
@@ -156,8 +159,7 @@ hr {
 .dropdown-menu {
   border-radius: 2px;
   margin: 0px !important; }
-
-.dropdown-menu > li > a:active {
-  background-color: #a4a4a4; }
+  .dropdown-menu li > a:active {
+    background-color: #a4a4a4; }
 
 /*# sourceMappingURL=style.css.map*/

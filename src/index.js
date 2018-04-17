@@ -65,6 +65,7 @@ L.tileLayer(basemap_url, {
 // different variables
 var hits = 0;
 var selections = 0;
+var ranges = {};
 var sums = {
     hh_type1_vmt: 0.0,
     'SumAllPed': 0.0,
@@ -79,6 +80,7 @@ var sums = {
     TOTPOP1: 0,
     pop_ped: 0
 };
+
 
 
 $('.btn-squared').click(function () {
@@ -99,6 +101,38 @@ $('.btn-squared').click(function () {
         .then((resp) => {
             var [resp1, resp2] = resp;
 
+            var props = [
+                'hh_type1_vmt', 
+                'D1A',
+                'hh_type1_h'
+            ];
+
+            var feats = resp1.data.features;
+
+            props.forEach((p) => {
+                ranges[p] = { min: Infinity, max: -Infinity };
+                feats.forEach((f) => {
+                    var val = f.properties[p];
+                    ranges[p].max = Math.max(val, ranges[p].max);
+                    ranges[p].min = (val > 0) ? Math.min(val, ranges[p].min) : ranges[p].min;
+                });
+            });
+
+            console.log(ranges);
+/*
+    hh_type1_vmt: 0.0,
+    'SumAllPed': 0.0,
+    'JTW_TOTAL': 0.0,
+    'JTW_WALK': 0.0,
+    'hh_type1_h': 0.0,
+    'D3b': 0.0,
+    'D5br_cleaned': 0.0,
+    'D1A': 0.0,
+    'D1B': 0.0,
+    'D1C': 0.0,
+    TOTPOP1: 0,
+    pop_ped: 0
+ */           
             // create a choropleth map using the CBG features
             // initially use VMT as the choropleth property
             geojsonLayer = new Choropleth(resp1.data, {
@@ -271,6 +305,16 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var persondensity = document.querySelector('#stat-population-density');
     var jobsdensity = document.querySelector('#stat-jobs-density');
 
+    // bars 
+    document.querySelector('#bar-vmt > .bar').className = "bar na";
+    $('#bar-vmt > .bar').animate({ width: '0%' });
+
+    document.querySelector('#bar-dwelling-density > .bar').className = "bar na";
+    $('#bar-dwelling-density > .bar').animate({ width: '0%' });
+
+    document.querySelector('#bar-housing > .bar').className = "bar na";
+    $('#bar-housing > .bar').animate({ width: '0%' });
+    
     // set all values to 'N/A'
     vmt.innerHTML = 'N/A';
     ghg.innerHTML = 'N/A';
@@ -408,6 +452,34 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var pedenv = document.querySelector('#stat-ped-environment');
     var jobsaccess = document.querySelector('#stat-jobs-accessibility');
 
+    var v1 = ((sums['D1A'] / hits) - ranges['D1A'].min) / (ranges['D1A'].max - ranges['D1A'].min);
+    var v2 = ((sums['hh_type1_vmt'] / hits) - ranges['hh_type1_vmt'].min) / (ranges['hh_type1_vmt'].max - ranges['hh_type1_vmt'].min);
+    var v3 = ((sums['hh_type1_h'] / hits) - ranges['hh_type1_h'].min) / (ranges['hh_type1_h'].max - ranges['hh_type1_h'].min);
+
+    console.log(sums['hh_type_h'] / hits);
+    console.log(ranges['hh_type1_h'].min);
+
+
+    console.log(v1);
+    console.log(v2);
+    console.log(v3);
+
+    // need to animate BEFORE removing .na class, otherwise will go to 100% width
+    $('#bar-vmt > .bar').animate({ width: (100 * v2).toFixed(2) + '%' });
+    document.querySelector('#bar-vmt > .bar').className = "bar";
+    document.querySelector('#bar-vmt > .bar').className += (v2 < .33) ? ' integrated' :
+        (v2 < .66) ? ' transitioning' : ' emerging';
+    
+
+    $('#bar-dwelling-density > .bar').animate({ width: (100 * v1).toString() + '%' });
+    document.querySelector('#bar-dwelling-density > .bar').className = "bar";
+    document.querySelector('#bar-dwelling-density > .bar').className += (v1 < .33) ? ' integrated' :
+        (v1 < .66) ? ' transitioning' : ' emerging';
+
+    $('#bar-housing > .bar').animate({ width: (100 * v3).toString() + '%' });
+    document.querySelector('#bar-housing > .bar').className = "bar";
+    document.querySelector('#bar-housing > .bar').className += (v3 < .33) ? ' integrated' :
+        (v3 < .66) ? ' transitioning' : ' emerging';
 
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');

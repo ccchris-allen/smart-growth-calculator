@@ -136,8 +136,8 @@
                                     <span id="stat-vmt"> N/A </span>
                                 </span>
                             </div>
-                            <div class="bar bar-full">
-                                <div class="bar integrated" style="width: 82%;"> </div>
+                            <div id='bar-vmt' class="bar bar-full">
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -151,8 +151,8 @@
                                     <span id="stat-housing"> N/A </span>
                                 </span>
                             </div>
-                            <div class="bar bar-full">
-                                <div class="bar transitioning" style="width: 42%;"> </div>
+                            <div id='bar-housing' class="bar bar-full">
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -166,8 +166,8 @@
                                     <span id="stat-dwelling-density"> N/A </span>
                                 </span>
                             </div>
-                            <div class="bar bar-full">
-                                <div class="bar integrated" style="width: 82%;"> </div>
+                            <div id='bar-dwelling-density' class="bar bar-full">
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -182,7 +182,7 @@
                                 </span>
                             </div>
                             <div class="bar bar-full">
-                                <div class="bar emerging" style="width: 32%;"> </div>
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -197,7 +197,7 @@
                                 </span>
                             </div>
                             <div class="bar bar-full">
-                                <div class="bar emerging" style="width: 18%;"> </div>
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -212,7 +212,7 @@
                                 </span>
                             </div>
                             <div class="bar bar-full">
-                                <div class="bar integrated" style="width: 78%;"> </div>
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -227,7 +227,7 @@
                                 </span>
                             </div>
                             <div class="bar bar-full">
-                                <div class="bar transitioning" style="width: 68%;"> </div>
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -242,7 +242,7 @@
                                 </span>
                             </div>
                             <div class="bar bar-full">
-                                <div class="bar emerging" style="width: 23%;"> </div>
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -256,8 +256,8 @@
                                     <span id="stat-ped-environment"> N/A </span>
                                 </span>
                             </div>
-                            <div class="bar bar-full">
-                                <div class="bar integrated" style="width: 98%;"> </div>
+                            <div id="stat-ped-environment-bar" class="bar bar-full">
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -272,8 +272,8 @@
                                 </span>
                             </div>
                             
-                            <div class="bar bar-full">
-                                <div class="bar integrated" style="width: 92%;"> </div>
+                            <div id="stats-cbgs-bar" class="bar bar-full">
+                                <div class="bar na"> </div>
                             </div>
                         </li>
 
@@ -505,8 +505,14 @@
     </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+
+    <!-- Not using slim version since no animate functionality -->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+crossorigin="anonymous"></script>-->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
