@@ -38,7 +38,7 @@ var areas = {
     'btn-sm-county': {
         files: {
             polygons: 'data/san-mateo-with-data_normed3.geojson',
-            stations: 'data/sd-rail-stations-buffered.geojson'
+            stations: 'data/stations-san-mateo.geojson'
         },
         center: [37.56, -122.313],
         zoom: 12
@@ -114,6 +114,8 @@ $('.btn-squared').click(function () {
                 onEachFeature: (f, l) => { }
             }).addTo(map);
 
+console.log(resp2.data);
+
             // add the stations layer to the map
             // set style of stations layer based on typology
             stationsLayer = L.geoJSON(resp2.data, {
@@ -123,9 +125,11 @@ $('.btn-squared').click(function () {
                         fillOpacity: .5
                     };
 
-                    if (f.properties.FINAL_TYPO === 'INTEGRATED') {
+                    const typology = f.properties.FINAL_TYPO;
+                   
+                    if (typology === 'INTEGRATED' || typology > 2.0) {
                         style.fillColor = 'green';
-                    } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
+                    } else if (typology === 'TRANSITIONING' || typology > 1.0) {
                         style.fillColor = 'yellow';
                     } else {
                         style.fillColor = 'red';
