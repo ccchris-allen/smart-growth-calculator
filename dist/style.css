@@ -60,6 +60,12 @@ hr {
   font-size: 1em;
   text-transform: uppercase; }
 
+.bar > * {
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease; }
+
 .bar {
   height: 6px;
   border-radius: 3px; }
@@ -78,8 +84,7 @@ hr {
   background-color: Gold; }
 
 .na {
-  width: 0%;
-  background-color: red; }
+  width: 0%; }
 
 /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
 .statistic {

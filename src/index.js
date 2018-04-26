@@ -38,7 +38,7 @@ var areas = {
     'btn-sm-county': {
         files: {
             polygons: 'data/san-mateo-with-data_normed3.geojson',
-            stations: 'data/sd-rail-stations-buffered.geojson'
+            stations: 'data/stations-san-mateo.geojson'
         },
         center: [37.56, -122.313],
         zoom: 12
@@ -118,7 +118,6 @@ $('.btn-squared').click(function () {
                 });
             });
 
-            console.log(ranges);
 /*
     hh_type1_vmt: 0.0,
     'SumAllPed': 0.0,
@@ -306,14 +305,14 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var jobsdensity = document.querySelector('#stat-jobs-density');
 
     // bars 
+    //$('#bar-vmt > .bar').animate({ width: '0%' });
     document.querySelector('#bar-vmt > .bar').className = "bar na";
-    $('#bar-vmt > .bar').animate({ width: '0%' });
 
+    //$('#bar-dwelling-density > .bar').animate({ width: '0%' });
     document.querySelector('#bar-dwelling-density > .bar').className = "bar na";
-    $('#bar-dwelling-density > .bar').animate({ width: '0%' });
 
+    //$('#bar-housing > .bar').animate({ width: '0%' });
     document.querySelector('#bar-housing > .bar').className = "bar na";
-    $('#bar-housing > .bar').animate({ width: '0%' });
     
     // set all values to 'N/A'
     vmt.innerHTML = 'N/A';
@@ -465,19 +464,21 @@ map.on(L.Draw.Event.CREATED, (e) => {
     console.log(v3);
 
     // need to animate BEFORE removing .na class, otherwise will go to 100% width
-    $('#bar-vmt > .bar').animate({ width: (100 * v2).toFixed(2) + '%' });
-    document.querySelector('#bar-vmt > .bar').className = "bar";
+    document.querySelector('#bar-vmt > .bar').style.width = (100 * v2).toFixed(2) + '%';
+    document.querySelector('#bar-vmt > .bar').className = 'bar';
     document.querySelector('#bar-vmt > .bar').className += (v2 < .33) ? ' integrated' :
         (v2 < .66) ? ' transitioning' : ' emerging';
     
 
-    $('#bar-dwelling-density > .bar').animate({ width: (100 * v1).toString() + '%' });
-    document.querySelector('#bar-dwelling-density > .bar').className = "bar";
+    //$('#bar-dwelling-density > .bar').animate({ width: (100 * v1).toString() + '%' });
+    document.querySelector('#bar-dwelling-density > .bar').style.width = (100 * v1).toFixed(2) + '%';
+    document.querySelector('#bar-dwelling-density > .bar').className = 'bar';
     document.querySelector('#bar-dwelling-density > .bar').className += (v1 < .33) ? ' integrated' :
         (v1 < .66) ? ' transitioning' : ' emerging';
 
-    $('#bar-housing > .bar').animate({ width: (100 * v3).toString() + '%' });
-    document.querySelector('#bar-housing > .bar').className = "bar";
+    //$('#bar-housing > .bar').animate({ width: (100 * v3).toString() + '%' });
+    document.querySelector('#bar-housing > .bar').style.width = (100 * v3).toFixed(2) + '%';
+    document.querySelector('#bar-housing > .bar').className = 'bar';
     document.querySelector('#bar-housing > .bar').className += (v3 < .33) ? ' integrated' :
         (v3 < .66) ? ' transitioning' : ' emerging';
 
