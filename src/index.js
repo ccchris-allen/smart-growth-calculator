@@ -82,7 +82,6 @@ var sums = {
 };
 
 
-
 $('.btn-squared').click(function () {
     $('#modal-select-city').modal('hide');
 
@@ -102,8 +101,12 @@ $('.btn-squared').click(function () {
             var [resp1, resp2] = resp;
 
             var props = [
-                'hh_type1_vmt', 
                 'D1A',
+                'D1B',
+                'D1C',
+                'D3B',
+                'D5br_cleaned',
+                'hh_type1_vmt', 
                 'hh_type1_h'
             ];
 
@@ -118,20 +121,6 @@ $('.btn-squared').click(function () {
                 });
             });
 
-/*
-    hh_type1_vmt: 0.0,
-    'SumAllPed': 0.0,
-    'JTW_TOTAL': 0.0,
-    'JTW_WALK': 0.0,
-    'hh_type1_h': 0.0,
-    'D3b': 0.0,
-    'D5br_cleaned': 0.0,
-    'D1A': 0.0,
-    'D1B': 0.0,
-    'D1C': 0.0,
-    TOTPOP1: 0,
-    pop_ped: 0
- */           
             // create a choropleth map using the CBG features
             // initially use VMT as the choropleth property
             geojsonLayer = new Choropleth(resp1.data, {
@@ -304,15 +293,17 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var persondensity = document.querySelector('#stat-population-density');
     var jobsdensity = document.querySelector('#stat-jobs-density');
 
-    // bars 
-    //$('#bar-vmt > .bar').animate({ width: '0%' });
-    document.querySelector('#bar-vmt > .bar').className = "bar na";
-
-    //$('#bar-dwelling-density > .bar').animate({ width: '0%' });
-    document.querySelector('#bar-dwelling-density > .bar').className = "bar na";
-
-    //$('#bar-housing > .bar').animate({ width: '0%' });
-    document.querySelector('#bar-housing > .bar').className = "bar na";
+    // clear bars
+    [
+        'bar-vmt',
+        'bar-ghg',
+        'bar-dwelling-density',
+        'bar-housing',
+        'bar-jobs-density',
+        'bar-jobs-accessibility',
+        'bar-ped-environment',
+        'bar-population-density',
+    ].forEach(id => { document.querySelector(`#${id} > .bar`).className = "bar na"; });
     
     // set all values to 'N/A'
     vmt.innerHTML = 'N/A';
@@ -451,36 +442,67 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var pedenv = document.querySelector('#stat-ped-environment');
     var jobsaccess = document.querySelector('#stat-jobs-accessibility');
 
-    var v1 = ((sums['D1A'] / hits) - ranges['D1A'].min) / (ranges['D1A'].max - ranges['D1A'].min);
-    var v2 = ((sums['hh_type1_vmt'] / hits) - ranges['hh_type1_vmt'].min) / (ranges['hh_type1_vmt'].max - ranges['hh_type1_vmt'].min);
-    var v3 = ((sums['hh_type1_h'] / hits) - ranges['hh_type1_h'].min) / (ranges['hh_type1_h'].max - ranges['hh_type1_h'].min);
+    function pct(score, range) {
+        var {min, max} = range;
 
-    console.log(sums['hh_type_h'] / hits);
-    console.log(ranges['hh_type1_h'].min);
+        console.log(min);
+        console.log(max);
 
+        return 100 * ((score - min) / (max - min));
+    }
 
-    console.log(v1);
-    console.log(v2);
-    console.log(v3);
+    const pct_str = pct => `${pct}%`;
 
-    // need to animate BEFORE removing .na class, otherwise will go to 100% width
-    document.querySelector('#bar-vmt > .bar').style.width = (100 * v2).toFixed(2) + '%';
+    function typology(pct) {
+        if (pct < 33) {
+            return ' integrated';
+        } else if (pct < 66) {
+            return ' transitioning';
+        } else {
+            return ' emerging';
+        }
+    }
+
+    var pct_dwellingdensity = pct(sums['D1A'] / hits, ranges['D1A']);
+    var pct_vmt = pct(sums['hh_type1_vmt'] / hits, ranges['hh_type1_vmt']);
+    var pct_ghg = pct_vmt;
+    var pct_housing = pct(sums['hh_type1_h'] / hits, ranges['hh_type1_h']);
+    var pct_jobsdensity = pct(sums['D1C'] / hits, ranges['D1C']);
+    var pct_jobsaccessibility = pct(sums['D3B'] / hits, ranges['D3B'])
+    var pct_pedenvironment = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
+    var pct_persondensity = pct(sums['D1B'] / hits, ranges['D1B']);
+
+    document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
-    document.querySelector('#bar-vmt > .bar').className += (v2 < .33) ? ' integrated' :
-        (v2 < .66) ? ' transitioning' : ' emerging';
+    document.querySelector('#bar-vmt > .bar').className += typology(pct_vmt);
+
+    document.querySelector('#bar-ghg > .bar').style.width = pct_str(pct_vmt);
+    document.querySelector('#bar-ghg > .bar').className = 'bar';
+    document.querySelector('#bar-ghg > .bar').className += typology(pct_vmt);
     
-
-    //$('#bar-dwelling-density > .bar').animate({ width: (100 * v1).toString() + '%' });
-    document.querySelector('#bar-dwelling-density > .bar').style.width = (100 * v1).toFixed(2) + '%';
+    document.querySelector('#bar-dwelling-density > .bar').style.width = pct_str(pct_dwellingdensity);
     document.querySelector('#bar-dwelling-density > .bar').className = 'bar';
-    document.querySelector('#bar-dwelling-density > .bar').className += (v1 < .33) ? ' integrated' :
-        (v1 < .66) ? ' transitioning' : ' emerging';
+    document.querySelector('#bar-dwelling-density > .bar').className += typology(pct_dwellingdensity);
 
-    //$('#bar-housing > .bar').animate({ width: (100 * v3).toString() + '%' });
-    document.querySelector('#bar-housing > .bar').style.width = (100 * v3).toFixed(2) + '%';
+    document.querySelector('#bar-housing > .bar').style.width = pct_str(pct_housing);
     document.querySelector('#bar-housing > .bar').className = 'bar';
-    document.querySelector('#bar-housing > .bar').className += (v3 < .33) ? ' integrated' :
-        (v3 < .66) ? ' transitioning' : ' emerging';
+    document.querySelector('#bar-housing > .bar').className += typology(pct_housing);
+
+    document.querySelector('#bar-jobs-density > .bar').style.width = pct_str(pct_housing);
+    document.querySelector('#bar-jobs-density > .bar').className = 'bar';
+    document.querySelector('#bar-jobs-density > .bar').className += typology(pct_housing);
+
+    document.querySelector('#bar-jobs-accessibility > .bar').style.width = pct_str(pct_jobsaccessibility);
+    document.querySelector('#bar-jobs-accessibility > .bar').className = 'bar';
+    document.querySelector('#bar-jobs-accessibility > .bar').className += typology(pct_jobsaccessibility);
+
+    document.querySelector('#bar-ped-environment > .bar').style.width = pct_str(pct_pedenvironment);
+    document.querySelector('#bar-ped-environment > .bar').className = 'bar';
+    document.querySelector('#bar-ped-environment > .bar').className += typology(pct_pedenvironment);
+
+    document.querySelector('#bar-population-density > .bar').style.width = pct_str(pct_persondensity);
+    document.querySelector('#bar-population-density > .bar').className = 'bar';
+    document.querySelector('#bar-population-density > .bar').className += typology(pct_persondensity);
 
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');

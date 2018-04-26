@@ -84,7 +84,7 @@ hr {
   background-color: Gold; }
 
 .na {
-  width: 0%; }
+  width: 0% !important; }
 
 /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
 .statistic {

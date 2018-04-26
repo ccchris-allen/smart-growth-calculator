@@ -111,7 +111,7 @@ button {
 .integrated { background-color: SeaGreen; }
 .emerging { background-color: Crimson; }
 .transitioning { background-color: Gold; }
-.na { width: 0%; }
+.na { width: 0% !important; }
 
 /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
 .statistic {
