@@ -119,7 +119,6 @@ $('.btn-squared').click(function () {
 
                     var val;
                     if (p == 'pedcol') {
-                        console.log(f);
                         var total_collisions = f.properties['SumAllPed'];
                         var walk_pct = f.properties['JTW_WALK'] / f.properties['JTW_TOTAL'];
 
@@ -128,8 +127,6 @@ $('.btn-squared').click(function () {
                         var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
                         val = ped_per_100k_walk_daily;
-                        console.log("PEDCOL");
-                        console.log(val);
                     } else {
                         var val = f.properties[p];
                     }
