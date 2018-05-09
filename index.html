@@ -120,10 +120,13 @@
                     </span>
                 </div>
 
+                <hr>
+
                 <!-- Container for statistics -->
                 <div class="section">
 
-                    <!--<span class="section-title"> Statistics </span>-->
+                    <h7> <span id="stat-cbgs"> 0 </span> Block Groups Selected </h7>
+
                     <ul id="readouts" class="plain-list">
 
                         <li class="statistic">
@@ -132,7 +135,6 @@
                                     Vehicle Miles Traveled
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-car"></i>-->
                                     <span id="stat-vmt"> N/A </span>
                                 </span>
                             </div>
@@ -147,7 +149,6 @@
                                     Housing Affordability
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-home"></i>-->
                                     <span id="stat-housing"> N/A </span>
                                 </span>
                             </div>
@@ -162,7 +163,6 @@
                                     Dwelling Density <br> (Units Per Acre)
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-building"></i>-->
                                     <span id="stat-dwelling-density"> N/A </span>
                                 </span>
                             </div>
@@ -177,7 +177,6 @@
                                     Carbon Emissions <br> (lbs per person)
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-globe"></i>-->
                                     <span id="stat-ghg"> N/A </span>
                                 </span>
                             </div>
@@ -192,7 +191,6 @@
                                     Pedestrian Collisions <br> (per 100K walkers)
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-ambulance"></i>-->
                                     <span id="stat-pedcol"> N/A </span>
                                 </span>
                             </div>
@@ -207,7 +205,6 @@
                                     Population Density <br> (Persons Per Acre)
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-female"></i>-->
                                     <span id="stat-population-density"> N/A </span>
                                 </span>
                             </div>
@@ -222,7 +219,6 @@
                                     Jobs Density <br> (Jobs Per Acre)
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-briefcase"></i>-->
                                     <span id="stat-jobs-density"> N/A </span>
                                 </span>
                             </div>
@@ -237,7 +233,6 @@
                                     Jobs Accessibility
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-briefcase"></i>-->
                                     <span id="stat-jobs-accessibility"> N/A </span>
                                 </span>
                             </div>
@@ -252,27 +247,10 @@
                                     Walkability <br> (Intersection Density)
                                 </span>
                                 <span class="value">
-                                    <!--<i class="fa fa-fw fa-road"></i>-->
                                     <span id="stat-ped-environment"> N/A </span>
                                 </span>
                             </div>
                             <div id="bar-ped-environment" class="bar bar-full">
-                                <div class="bar na"> </div>
-                            </div>
-                        </li>
-
-                        <li class="statistic">
-                            <div class="d-flex justify-content-between align-items-end">
-                                <span class="label">
-                                    Block Groups Selected
-                                </span>
-                                <span class="value">
-                                    <!--<i class="fa fa-fw fa-map-marker-alt"></i>-->
-                                    <span id="stat-cbgs"> N/A </span>
-                                </span>
-                            </div>
-                            
-                            <div id="stats-cbgs-bar" class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>
@@ -521,9 +499,9 @@ crossorigin="anonymous"></script>-->
         crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+
     <script>
-        $(window).ready(function()
-        {
+        $(window).ready(function() {
             $("#modal-select-city").modal('show');
 
         });

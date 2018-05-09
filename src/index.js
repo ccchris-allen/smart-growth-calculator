@@ -104,7 +104,8 @@ $('.btn-squared').click(function () {
                 'D1A',
                 'D1B',
                 'D1C',
-                'D3B',
+                'D3b',
+                'pedcol',
                 'D5br_cleaned',
                 'hh_type1_vmt', 
                 'hh_type1_h'
@@ -115,7 +116,24 @@ $('.btn-squared').click(function () {
             props.forEach((p) => {
                 ranges[p] = { min: Infinity, max: -Infinity };
                 feats.forEach((f) => {
-                    var val = f.properties[p];
+
+                    var val;
+                    if (p == 'pedcol') {
+                        console.log(f);
+                        var total_collisions = f.properties['SumAllPed'];
+                        var walk_pct = f.properties['JTW_WALK'] / f.properties['JTW_TOTAL'];
+
+                        var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
+                        var ped_per_100k_walk = ped_per_100k / walk_pct;
+                        var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
+
+                        val = ped_per_100k_walk_daily;
+                        console.log("PEDCOL");
+                        console.log(val);
+                    } else {
+                        var val = f.properties[p];
+                    }
+
                     ranges[p].max = Math.max(val, ranges[p].max);
                     ranges[p].min = (val > 0) ? Math.min(val, ranges[p].min) : ranges[p].min;
                 });
@@ -309,7 +327,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     vmt.innerHTML = 'N/A';
     ghg.innerHTML = 'N/A';
     pedcol.innerHTML = 'N/A';
-    cbgs.innerHTML = 'N/A';
+    cbgs.innerHTML = 0;
     housing.innerHTML = 'N/A';
     pedenv.innerHTML = 'N/A';
     jobsaccess.innerHTML = 'N/A';
@@ -463,13 +481,21 @@ map.on(L.Draw.Event.CREATED, (e) => {
         }
     }
 
+    var total_collisions = sums['SumAllPed'];
+    var walk_pct = sums['JTW_WALK'] / sums['JTW_TOTAL'];
+
+    var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
+    var ped_per_100k_walk = ped_per_100k / walk_pct;
+    var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
+
+    var pct_pedcol = pct(ped_per_100k_walk_daily, ranges['pedcol']);
     var pct_dwellingdensity = pct(sums['D1A'] / hits, ranges['D1A']);
     var pct_vmt = pct(sums['hh_type1_vmt'] / hits, ranges['hh_type1_vmt']);
     var pct_ghg = pct_vmt;
     var pct_housing = pct(sums['hh_type1_h'] / hits, ranges['hh_type1_h']);
     var pct_jobsdensity = pct(sums['D1C'] / hits, ranges['D1C']);
-    var pct_jobsaccessibility = pct(sums['D3B'] / hits, ranges['D3B'])
-    var pct_pedenvironment = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
+    var pct_pedenvironment = pct(sums['D3b'] / hits, ranges['D3b'])
+    var pct_jobsaccessibility = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(sums['D1B'] / hits, ranges['D1B']);
 
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
@@ -487,6 +513,10 @@ map.on(L.Draw.Event.CREATED, (e) => {
     document.querySelector('#bar-housing > .bar').style.width = pct_str(pct_housing);
     document.querySelector('#bar-housing > .bar').className = 'bar';
     document.querySelector('#bar-housing > .bar').className += typology(pct_housing);
+
+    document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
+    document.querySelector('#bar-pedcol > .bar').className = 'bar';
+    document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
 
     document.querySelector('#bar-jobs-density > .bar').style.width = pct_str(pct_housing);
     document.querySelector('#bar-jobs-density > .bar').className = 'bar';
@@ -508,12 +538,6 @@ map.on(L.Draw.Event.CREATED, (e) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
-    var total_collisions = sums['SumAllPed'];
-    var walk_pct = sums['JTW_WALK'] / sums['JTW_TOTAL'];
-
-    var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
-    var ped_per_100k_walk = ped_per_100k / walk_pct;
-    var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
     // set values for readouts (according to formatting)
     dwellingdensity.innerHTML = (sums['D1A'] / hits).toFixed(2);

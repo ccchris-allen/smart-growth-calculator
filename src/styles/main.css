@@ -5,9 +5,16 @@ body {
     height: 100%;
 }
 
+
 /* Need this when using navbar fixed-top */
 body {
     padding-top: 50px;
+}
+
+hr {
+    display: block;
+    width: 100%;
+    border: 1px solid black;
 }
 
 a {
@@ -81,6 +88,7 @@ button {
 .section {
     width: 95%;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .section-title {
