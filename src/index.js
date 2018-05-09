@@ -503,6 +503,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     document.querySelector('#bar-ghg > .bar').className = 'bar';
     document.querySelector('#bar-ghg > .bar').className += typology(pct_vmt);
 
+    console.log('Calculating readouts');
     console.log(document.querySelector('#bar-ghg > .bar').className);
     console.log(document.querySelector('#bar-ghg > .bar').style.width);
 
