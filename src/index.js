@@ -502,6 +502,10 @@ map.on(L.Draw.Event.CREATED, (e) => {
     document.querySelector('#bar-ghg > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-ghg > .bar').className = 'bar';
     document.querySelector('#bar-ghg > .bar').className += typology(pct_vmt);
+
+    console.log(document.querySelector('#bar-ghg > .bar').className);
+    console.log(document.querySelector('#bar-ghg > .bar').style.width);
+
     
     document.querySelector('#bar-dwelling-density > .bar').style.width = pct_str(pct_dwellingdensity);
     document.querySelector('#bar-dwelling-density > .bar').className = 'bar';
