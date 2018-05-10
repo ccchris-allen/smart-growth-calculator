@@ -8,6 +8,8 @@ var chroma = require('chroma-js');
 
 const DEFAULT_OPTIONS = {
     property: 'value',
+    // use this scale to mimic readouts:
+    //scale: ['SeaGreen', 'Gold', 'Crimson'],
     scale: ['#eeeeee', '#ee2222'],
     steps: 5,
     mode: 'q',
@@ -86,7 +88,7 @@ L.Choropleth = L.GeoJSON.extend({
                 // need to change default style if some error occurs (not a number)
 
                 // should be opts.defaultStyle but something weird happening...
-                style = { opacity: 0.0 };
+                style = { fillOpacity: 0.0 };
             }
 
             // Return this style, but include the user-defined style if it was passed 

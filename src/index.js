@@ -82,6 +82,12 @@ var sums = {
 };
 
 
+
+function initChoropleth(geojson) {
+
+}
+
+
 $('.btn-squared').click(function () {
     $('#modal-select-city').modal('hide');
 
@@ -148,9 +154,6 @@ $('.btn-squared').click(function () {
                         opacity: 1.0,
                         fillOpacity: 0.4
                     };
-                },
-                onEachFeature: (f, l) => {
-                    l.on('click', () => {});
                 }
             }).addTo(map);
 
@@ -174,6 +177,8 @@ $('.btn-squared').click(function () {
                     return style;
                 },
                 onEachFeature: (f, l) => {
+                    l.on('click', () => { selectFeatures(f); });
+                    
                     // todo: move this to util file
                     function titleCase(s) {
                         return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
@@ -341,37 +346,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
 });
 
 
-// add event handler for when a feature is drawn by the user
-map.on(L.Draw.Event.CREATED, (e) => {
-
-    var buffer;
-    var layer = e.layer;
-    var opts = { units: 'miles' };
-
-    // this is where we take the drawn feature and draw a buffer around
-    if (e.layerType === 'marker') {
-        var coords = [layer._latlng.lng, layer._latlng.lat];
-        buffer = turf.circle(coords, BUFFER_RADIUS, opts);
-    } else if (e.layerType === 'circle') {
-        var coords = [layer._latlng.lng, layer._latlng.lat];
-        buffer = turf.circle(coords, BUFFER_RADIUS, opts);
-    } else if (e.layerType === 'polyline') {
-        var coords = layer._latlngs.map((item) => {
-            return [item.lng, item.lat];
-        });
-        buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, opts);
-    } else {
-        var coords = layer._latlngs.map((ring) => {
-            return ring.map((poly) => {
-                return [poly.lng, poly.lat];
-            });
-        });
-
-        // need to complete the polygon by repeating first coords
-        coords[0].push(coords[0][0]);
-        buffer = turf.polygon(coords);
-    }
-
+function selectFeatures(buffer) {
     // need to grab the CBG layer as a geojson in order to
     // iterate over features
     var cbgs = geojsonLayer.toGeoJSON();
@@ -497,8 +472,6 @@ map.on(L.Draw.Event.CREATED, (e) => {
     var pct_jobsaccessibility = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(sums['D1B'] / hits, ranges['D1B']);
 
-console.log(ranges['pedcol']);
-
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
     document.querySelector('#bar-vmt > .bar').className += typology(pct_vmt);
@@ -550,6 +523,41 @@ console.log(ranges['pedcol']);
     pedenv.innerHTML = (sums['D3b'] / hits).toFixed(1);
     jobsaccess.innerHTML = withCommas((sums['D5br_cleaned'] / hits).toFixed(0));
     cbgs.innerHTML = hits;
+
+}
+
+// add event handler for when a feature is drawn by the user
+map.on(L.Draw.Event.CREATED, (e) => {
+
+    var buffer;
+    var layer = e.layer;
+    var opts = { units: 'miles' };
+
+    // this is where we take the drawn feature and draw a buffer around
+    if (e.layerType === 'marker') {
+        var coords = [layer._latlng.lng, layer._latlng.lat];
+        buffer = turf.circle(coords, BUFFER_RADIUS, opts);
+    } else if (e.layerType === 'circle') {
+        var coords = [layer._latlng.lng, layer._latlng.lat];
+        buffer = turf.circle(coords, BUFFER_RADIUS, opts);
+    } else if (e.layerType === 'polyline') {
+        var coords = layer._latlngs.map((item) => {
+            return [item.lng, item.lat];
+        });
+        buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, opts);
+    } else {
+        var coords = layer._latlngs.map((ring) => {
+            return ring.map((poly) => {
+                return [poly.lng, poly.lat];
+            });
+        });
+
+        // need to complete the polygon by repeating first coords
+        coords[0].push(coords[0][0]);
+        buffer = turf.polygon(coords);
+    }
+
+    selectFeatures(buffer);
 
 });
 

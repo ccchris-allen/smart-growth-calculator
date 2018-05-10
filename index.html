@@ -129,7 +129,8 @@
 
                     <ul id="readouts" class="plain-list">
 
-                        <li class="statistic">
+                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
+                                title="Vehicle Miles Traveled reflects...">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Vehicle Miles Traveled
@@ -143,7 +144,8 @@
                             </div>
                         </li>
 
-                        <li class="statistic">
+                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
+                                title="Housing Affordability reflects...">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Housing Affordability
@@ -503,10 +505,9 @@ crossorigin="anonymous"></script>-->
     <script>
         $(window).ready(function() {
             $("#modal-select-city").modal('show');
-
+            $('[data-toggle="tooltip"]').tooltip()
         });
     </script>
-
 </body>
 
 </html>
