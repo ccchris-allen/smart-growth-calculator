@@ -449,6 +449,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
         };
     });
 
+console.log("GONA CALCULATE!")
     // grab DIVs for the readouts
     var vmt = document.querySelector('#stat-vmt');
     var ghg = document.querySelector('#stat-ghg');
@@ -545,6 +546,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
     }
 
 
+console.log("GONA CALCULATE READOUTS!!")
     // set values for readouts (according to formatting)
     dwellingdensity.innerHTML = (sums['D1A'] / hits).toFixed(2);
     personsdensity.innerHTML = (sums['D1B'] / hits).toFixed(2);
