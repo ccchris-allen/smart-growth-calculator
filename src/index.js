@@ -466,7 +466,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
         return 100 * ((score - min) / (max - min));
     }
 
-    const pct_str = pct => `${pct}%`;
+    const pct_str = pct => `${Math.floor(pct)}%`;
 
     function typology(pct) {
         if (pct < 33) {
