@@ -119,21 +119,21 @@ $('.btn-squared').click(function () {
 
                     var val;
                     if (p == 'pedcol') {
-                        //var total_collisions = f.properties['SumAllPed'];
-                        //var walk_pct = f.properties['JTW_WALK'] / f.properties['JTW_TOTAL'];
+                        var total_collisions = f.properties['SumAllPed'];
+                        var walk_pct = f.properties['JTW_WALK'] / f.properties['JTW_TOTAL'];
+                        var population = f.properties['TOTPOP1']; 
 
-                        //var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
-                        //var ped_per_100k_walk = ped_per_100k / walk_pct;
-                        //var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
+                        var ped_per_100k = 100000 * (total_collisions / population);
+                        var ped_per_100k_walk = ped_per_100k / walk_pct;
+                        var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
-                        //val = ped_per_100k_walk_daily;
-                        val = 0;
+                        val = ped_per_100k_walk_daily || undefined;
                     } else {
                         var val = f.properties[p];
                     }
 
-                    ranges[p].max = Math.max(val, ranges[p].max);
-                    ranges[p].min = (val > 0) ? Math.min(val, ranges[p].min) : ranges[p].min;
+                    ranges[p].max = (!isNaN(val) && isFinite(val)) ? Math.max(val, ranges[p].max) : ranges[p].max;
+                    ranges[p].min = ((val > 0) && isFinite(val) && !isNaN(val)) ? Math.min(val, ranges[p].min) : ranges[p].min;
                 });
             });
 
@@ -149,7 +149,9 @@ $('.btn-squared').click(function () {
                         fillOpacity: 0.4
                     };
                 },
-                onEachFeature: (f, l) => { }
+                onEachFeature: (f, l) => {
+                    l.on('click', () => {});
+                }
             }).addTo(map);
 
             // add the stations layer to the map
@@ -162,11 +164,11 @@ $('.btn-squared').click(function () {
                     };
 
                     if (f.properties.FINAL_TYPO === 'INTEGRATED') {
-                        style.fillColor = 'green';
+                        style.fillColor = 'SeaGreen';
                     } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
-                        style.fillColor = 'yellow';
+                        style.fillColor = 'Gold';
                     } else {
-                        style.fillColor = 'red';
+                        style.fillColor = 'Crimson';
                     }
 
                     return style;
@@ -384,8 +386,6 @@ map.on(L.Draw.Event.CREATED, (e) => {
         }
     });
 
-    //bufferLayer.bindPopup('Selected Area:');
-
     // add feature to drawing layer
     drawnItems.addLayer(bufferLayer);
 
@@ -450,7 +450,6 @@ map.on(L.Draw.Event.CREATED, (e) => {
         };
     });
 
-console.log("GONA CALCULATE!")
     // grab DIVs for the readouts
     var vmt = document.querySelector('#stat-vmt');
     var ghg = document.querySelector('#stat-ghg');
@@ -465,9 +464,6 @@ console.log("GONA CALCULATE!")
 
     function pct(score, range) {
         var {min, max} = range;
-
-        console.log(min);
-        console.log(max);
 
         return 100 * ((score - min) / (max - min));
     }
@@ -500,6 +496,8 @@ console.log("GONA CALCULATE!")
     var pct_pedenvironment = pct(sums['D3b'] / hits, ranges['D3b'])
     var pct_jobsaccessibility = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(sums['D1B'] / hits, ranges['D1B']);
+
+console.log(ranges['pedcol']);
 
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
