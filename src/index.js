@@ -119,14 +119,15 @@ $('.btn-squared').click(function () {
 
                     var val;
                     if (p == 'pedcol') {
-                        var total_collisions = f.properties['SumAllPed'];
-                        var walk_pct = f.properties['JTW_WALK'] / f.properties['JTW_TOTAL'];
+                        //var total_collisions = f.properties['SumAllPed'];
+                        //var walk_pct = f.properties['JTW_WALK'] / f.properties['JTW_TOTAL'];
 
-                        var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
-                        var ped_per_100k_walk = ped_per_100k / walk_pct;
-                        var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
+                        //var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
+                        //var ped_per_100k_walk = ped_per_100k / walk_pct;
+                        //var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
-                        val = ped_per_100k_walk_daily;
+                        //val = ped_per_100k_walk_daily;
+                        val = 0;
                     } else {
                         var val = f.properties[p];
                     }
