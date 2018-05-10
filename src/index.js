@@ -318,6 +318,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         'bar-ghg',
         'bar-dwelling-density',
         'bar-housing',
+        'bar-pedcol',
         'bar-jobs-density',
         'bar-jobs-accessibility',
         'bar-ped-environment',
@@ -508,11 +509,6 @@ console.log("GONA CALCULATE!")
     document.querySelector('#bar-ghg > .bar').className = 'bar';
     document.querySelector('#bar-ghg > .bar').className += typology(pct_vmt);
 
-    console.log('Calculating readouts');
-    console.log(document.querySelector('#bar-ghg > .bar').className);
-    console.log(document.querySelector('#bar-ghg > .bar').style.width);
-
-    
     document.querySelector('#bar-dwelling-density > .bar').style.width = pct_str(pct_dwellingdensity);
     document.querySelector('#bar-dwelling-density > .bar').className = 'bar';
     document.querySelector('#bar-dwelling-density > .bar').className += typology(pct_dwellingdensity);
@@ -545,8 +541,6 @@ console.log("GONA CALCULATE!")
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
-
-console.log("GONA CALCULATE READOUTS!!")
     // set values for readouts (according to formatting)
     dwellingdensity.innerHTML = (sums['D1A'] / hits).toFixed(2);
     personsdensity.innerHTML = (sums['D1B'] / hits).toFixed(2);
