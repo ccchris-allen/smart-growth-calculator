@@ -73,7 +73,7 @@ L.Choropleth = L.GeoJSON.extend({
             } 
             
             // Find the bucket that this value is less than and give it that color 
-            if (!isNaN(featureValue)) { 
+            if (!isNaN(featureValue) && featureValue !== undefined) { 
                 //style.fillColor = cmapper(featureValue).toString();
 
                 for (var i = 0; i < limits.length; i++) { 
@@ -84,7 +84,9 @@ L.Choropleth = L.GeoJSON.extend({
                 }
             } else {
                 // need to change default style if some error occurs (not a number)
-                style = opts.default;
+
+                // should be opts.defaultStyle but something weird happening...
+                style = { opacity: 0.0 };
             }
 
             // Return this style, but include the user-defined style if it was passed 

@@ -199,6 +199,7 @@ $('.dropdown-menu a').click(function () {
     // first, set button text to selected value 
     // (this is a bit of a hack, since bootstrap doesn't really support dropdowns)
     console.log(this.text);
+    console.log(this.id);
     $('#btn-label').text(this.text);
 
     // this is a mapping of the drop-down options to a variable name 
@@ -215,7 +216,7 @@ $('.dropdown-menu a').click(function () {
             var ped_per_100k_walk = ped_per_100k / walk_pct;
             var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
-            return ped_per_100k_walk_daily;
+            return ped_per_100k_walk_daily || undefined;
         },
         ghg: (item) => {
             return item.properties['hh_type1_vmt'] * .90;
@@ -227,6 +228,8 @@ $('.dropdown-menu a').click(function () {
         'jobs-accessibility': 'D5br_cleaned'
     }[this.id]; // using [this.id] will select the option specified by 'this.id'
 
+    console.log(prop);
+    
     // update the choropleth layer with the new property
     geojsonLayer.setProperty(prop, true); 
 
