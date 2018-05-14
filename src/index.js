@@ -283,6 +283,7 @@ map.on('draw:deletestart', (e) => {
 });
 
 function hoverCBG(e) {
+    // should just filter selectd CBGS and pass those features to this function....
     var layer = e.target;
     
     // set style of selected CBGs
