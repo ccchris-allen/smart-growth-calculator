@@ -29,7 +29,7 @@ var delete_mode = false;
 var areas = {
     'btn-sd-county': {
         files: {
-            polygons: 'data/sd_cbgs_latest_attributes_normed3.geojson', 
+            polygons: 'data/sd_cbgs_latest_attributes_normed4.geojson', 
             stations: 'data/sd-rail-stations-buffered.geojson'
         },
         center: [32.7157, -117.11],
@@ -37,7 +37,7 @@ var areas = {
     },
     'btn-sm-county': {
         files: {
-            polygons: 'data/san-mateo-with-data_normed3.geojson',
+            polygons: 'data/san-mateo-with-data_normed4.geojson',
             stations: 'data/stations-san-mateo.geojson'
         },
         center: [37.56, -122.313],
@@ -104,6 +104,7 @@ $('.btn-squared').click(function () {
     // use axios to get the geojson files we need for this map 
     axios.all(GEOJSON_FILES.map(axios.get))
         .then((resp) => {
+            console.log(resp);
             var [resp1, resp2] = resp;
 
             var props = [
@@ -154,6 +155,12 @@ $('.btn-squared').click(function () {
                         opacity: 1.0,
                         fillOpacity: 0.4
                     };
+                },
+                onEachFeature: (f, l) => { 
+                    l.on('mouseover', hoverCBG); 
+                    l.on('mouseout', (e) => {
+                        l.setStyle({ color: NORMAL_COLOR, weight: 0.0 });
+                    });
                 }
             }).addTo(map);
 
@@ -274,6 +281,118 @@ map.on('draw:deletestart', (e) => {
     delete_mode = true;
     console.log(e);
 });
+
+function hoverCBG(e) {
+    var layer = e.target;
+    
+    // set style of selected CBGs
+    layer.setStyle({ color: SELECTED_COLOR, weight: 2. });
+
+    var props = layer.feature.properties;
+    var hits = 1;
+
+    // grab DIVs for the readouts
+    var vmt = document.querySelector('#stat-vmt');
+    var ghg = document.querySelector('#stat-ghg');
+    var dwellingdensity = document.querySelector('#stat-dwelling-density');
+    var personsdensity = document.querySelector('#stat-population-density');
+    var jobsdensity = document.querySelector('#stat-jobs-density');
+    var pedcol = document.querySelector('#stat-pedcol');
+    var cbgs = document.querySelector('#stat-cbgs');
+    var housing = document.querySelector('#stat-housing');
+    var pedenv = document.querySelector('#stat-ped-environment');
+    var jobsaccess = document.querySelector('#stat-jobs-accessibility');
+
+    function pct(score, range) {
+        var {min, max} = range;
+
+        return 100 * ((score - min) / (max - min));
+    }
+
+    const pct_str = pct => `${Math.floor(pct)}%`;
+
+    function typology(pct) {
+        if (pct < 33) {
+            return ' integrated';
+        } else if (pct < 66) {
+            return ' transitioning';
+        } else {
+            return ' emerging';
+        }
+    }
+
+    var total_collisions = props['SumAllPed'];
+    var walk_pct = props['JTW_WALK'] / props['JTW_TOTAL'];
+
+    var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
+    var ped_per_100k_walk = ped_per_100k / walk_pct;
+    var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
+
+    var pct_pedcol = pct(ped_per_100k_walk_daily, ranges['pedcol']);
+    var pct_dwellingdensity = pct(props['D1A'] / hits, ranges['D1A']);
+    var pct_vmt = pct(props['hh_type1_vmt'] / hits, ranges['hh_type1_vmt']);
+    var pct_ghg = pct_vmt;
+    var pct_housing = pct(props['hh_type1_h'] / hits, ranges['hh_type1_h']);
+    var pct_jobsdensity = pct(props['D1C'] / hits, ranges['D1C']);
+    var pct_pedenvironment = pct(props['D3b'] / hits, ranges['D3b'])
+    var pct_jobsaccessibility = pct(props['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
+    var pct_persondensity = pct(props['D1B'] / hits, ranges['D1B']);
+
+    document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
+    document.querySelector('#bar-vmt > .bar').className = 'bar';
+    document.querySelector('#bar-vmt > .bar').className += typology(pct_vmt);
+
+    document.querySelector('#bar-ghg > .bar').style.width = pct_str(pct_vmt);
+    document.querySelector('#bar-ghg > .bar').className = 'bar';
+    document.querySelector('#bar-ghg > .bar').className += typology(pct_vmt);
+
+    document.querySelector('#bar-dwelling-density > .bar').style.width = pct_str(pct_dwellingdensity);
+    document.querySelector('#bar-dwelling-density > .bar').className = 'bar';
+    document.querySelector('#bar-dwelling-density > .bar').className += typology(pct_dwellingdensity);
+
+    document.querySelector('#bar-housing > .bar').style.width = pct_str(pct_housing);
+    document.querySelector('#bar-housing > .bar').className = 'bar';
+    document.querySelector('#bar-housing > .bar').className += typology(pct_housing);
+
+    document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
+    document.querySelector('#bar-pedcol > .bar').className = 'bar';
+    document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
+
+    document.querySelector('#bar-jobs-density > .bar').style.width = pct_str(pct_housing);
+    document.querySelector('#bar-jobs-density > .bar').className = 'bar';
+    document.querySelector('#bar-jobs-density > .bar').className += typology(pct_housing);
+
+    document.querySelector('#bar-jobs-accessibility > .bar').style.width = pct_str(pct_jobsaccessibility);
+    document.querySelector('#bar-jobs-accessibility > .bar').className = 'bar';
+    document.querySelector('#bar-jobs-accessibility > .bar').className += typology(pct_jobsaccessibility);
+
+    document.querySelector('#bar-ped-environment > .bar').style.width = pct_str(pct_pedenvironment);
+    document.querySelector('#bar-ped-environment > .bar').className = 'bar';
+    document.querySelector('#bar-ped-environment > .bar').className += typology(pct_pedenvironment);
+
+    document.querySelector('#bar-population-density > .bar').style.width = pct_str(pct_persondensity);
+    document.querySelector('#bar-population-density > .bar').className = 'bar';
+    document.querySelector('#bar-population-density > .bar').className += typology(pct_persondensity);
+
+    function withCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    
+    // set values for readouts (according to formatting)
+    dwellingdensity.innerHTML = (props['D1A'] / hits).toFixed(2);
+    personsdensity.innerHTML = (props['D1B'] / hits).toFixed(2);
+    jobsdensity.innerHTML = (props['D1C'] / hits).toFixed(2);
+    vmt.innerHTML = withCommas((props['hh_type1_vmt'] / hits).toFixed(0));
+    ghg.innerHTML = withCommas(((props['hh_type1_vmt'] / hits) * .90).toFixed(0));
+    housing.innerHTML = (props['hh_type1_h'] / hits).toFixed(1);
+    pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
+
+    pedenv.innerHTML = (props['D3b'] / hits).toFixed(1);
+
+    jobsaccess.innerHTML = withCommas((props['D5br_cleaned'] / hits).toFixed(0));
+    cbgs.innerHTML = hits;
+}
+
 
 // add event handler for when a drawn feature is deleted 
 map.on(L.Draw.Event.DELETESTOP, (e) => {
@@ -520,7 +639,9 @@ function selectFeatures(buffer) {
     ghg.innerHTML = withCommas(((sums['hh_type1_vmt'] / hits) * .90).toFixed(0));
     housing.innerHTML = (sums['hh_type1_h'] / hits).toFixed(1);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
+
     pedenv.innerHTML = (sums['D3b'] / hits).toFixed(1);
+
     jobsaccess.innerHTML = withCommas((sums['D5br_cleaned'] / hits).toFixed(0));
     cbgs.innerHTML = hits;
 
