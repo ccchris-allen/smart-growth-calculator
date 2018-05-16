@@ -29,7 +29,7 @@ var delete_mode = false;
 var areas = {
     'btn-sd-county': {
         files: {
-            polygons: 'data/sd_cbgs_latest_attributes_normed4.geojson', 
+            polygons: 'data/sd_cbgs_latest_attributes_normed4.geojson',
             stations: 'data/sd-rail-stations-buffered.geojson'
         },
         center: [32.7157, -117.11],
@@ -44,7 +44,7 @@ var areas = {
         zoom: 12
     }
 };
-        
+
 // variables that will reference out leaflet layers and map object
 var geojsonLayer;
 var stationsLayer;
@@ -78,7 +78,8 @@ var sums = {
     'D1B': 0.0,
     'D1C': 0.0,
     TOTPOP1: 0,
-    pop_ped: 0
+    pop_ped: 0,
+    walkscore: 0
 };
 
 
@@ -88,9 +89,10 @@ function initChoropleth(geojson) {
 }
 
 
-$('.btn-squared').click(function () {
+$('.btn-squared').click(function() {
     $('#modal-select-city').modal('hide');
 
+    // only show annoying popups initially if in production mode
     if (IS_PROD) {
         $('#modal-directions').modal('show');
     }
@@ -104,8 +106,7 @@ $('.btn-squared').click(function () {
     // use axios to get the geojson files we need for this map 
     axios.all(GEOJSON_FILES.map(axios.get))
         .then((resp) => {
-            console.log(resp);
-            var [resp1, resp2] = resp;
+            var [ resp1, resp2 ] = resp;
 
             var props = [
                 'D1A',
@@ -114,21 +115,25 @@ $('.btn-squared').click(function () {
                 'D3b',
                 'pedcol',
                 'D5br_cleaned',
-                'hh_type1_vmt', 
-                'hh_type1_h'
+                'hh_type1_vmt',
+                'hh_type1_h',
+                'walkscore'
             ];
 
             var feats = resp1.data.features;
 
             props.forEach((p) => {
-                ranges[p] = { min: Infinity, max: -Infinity };
+                ranges[p] = {
+                    min: Infinity,
+                    max: -Infinity
+                };
                 feats.forEach((f) => {
 
                     var val;
                     if (p == 'pedcol') {
                         var total_collisions = f.properties['SumAllPed'];
                         var walk_pct = f.properties['JTW_WALK'] / f.properties['JTW_TOTAL'];
-                        var population = f.properties['TOTPOP1']; 
+                        var population = f.properties['TOTPOP1'];
 
                         var ped_per_100k = 100000 * (total_collisions / population);
                         var ped_per_100k_walk = ped_per_100k / walk_pct;
@@ -156,10 +161,13 @@ $('.btn-squared').click(function () {
                         fillOpacity: 0.4
                     };
                 },
-                onEachFeature: (f, l) => { 
-                    l.on('mouseover', hoverCBG); 
+                onEachFeature: (f, l) => {
+                    l.on('mouseover', hoverCBG);
                     l.on('mouseout', (e) => {
-                        l.setStyle({ color: NORMAL_COLOR, weight: 0.0 });
+                        l.setStyle({
+                            color: NORMAL_COLOR,
+                            weight: 0.0
+                        });
                     });
                 }
             }).addTo(map);
@@ -184,8 +192,10 @@ $('.btn-squared').click(function () {
                     return style;
                 },
                 onEachFeature: (f, l) => {
-                    l.on('click', () => { selectFeatures(f); });
-                    
+                    l.on('click', () => {
+                        selectFeatures(f);
+                    });
+
                     // todo: move this to util file
                     function titleCase(s) {
                         return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
@@ -194,7 +204,7 @@ $('.btn-squared').click(function () {
                     var msg = `
                         <span class='font-weight-bold'> Station: </span> ${f.properties.FULL_NAME || 'None'} <br>
                         <span class='font-weight-bold'> Typology: </span> ${titleCase(f.properties.FINAL_TYPO)}`;
-                    
+
                     //l.bindPopup(msg);
                 }
             }).addTo(map);
@@ -208,12 +218,10 @@ $('.btn-squared').click(function () {
 
 // create an event handler for when the user clicks the drop-down menu
 // to select a layer for visualization
-$('.dropdown-menu a').click(function () {
+$('.dropdown-menu a').click(function() {
 
     // first, set button text to selected value 
     // (this is a bit of a hack, since bootstrap doesn't really support dropdowns)
-    console.log(this.text);
-    console.log(this.id);
     $('#btn-label').text(this.text);
 
     // this is a mapping of the drop-down options to a variable name 
@@ -224,7 +232,7 @@ $('.dropdown-menu a').click(function () {
         pedcol: (item) => {
             var total_collisions = item.properties['SumAllPed'];
             var walk_pct = item.properties['JTW_WALK'] / item.properties['JTW_TOTAL'];
-            var population = item.properties['TOTPOP1']; 
+            var population = item.properties['TOTPOP1'];
 
             var ped_per_100k = 100000 * (total_collisions / population);
             var ped_per_100k_walk = ped_per_100k / walk_pct;
@@ -239,13 +247,12 @@ $('.dropdown-menu a').click(function () {
         'people-density': 'D1B',
         'jobs-density': 'D1C',
         'ped-environment': 'D3b',
-        'jobs-accessibility': 'D5br_cleaned'
+        'jobs-accessibility': 'D5br_cleaned',
+        'walkscore': 'walkscore'
     }[this.id]; // using [this.id] will select the option specified by 'this.id'
 
-    console.log(prop);
-    
     // update the choropleth layer with the new property
-    geojsonLayer.setProperty(prop, true); 
+    geojsonLayer.setProperty(prop, true);
 
 });
 
@@ -258,7 +265,8 @@ var drawControlOptions = {
     edit: {
         featureGroup: drawnItems,
         edit: false
-    }, draw: {
+    },
+    draw: {
         polygon: true,
         circle: false,
         circlemarker: false,
@@ -269,25 +277,29 @@ var drawControlOptions = {
 var drawControl = new L.Control.Draw(drawControlOptions);
 map.addControl(drawControl);
 
-// add event handler for when a drawn feature is starting to be deleted
-// note: this is just a placeholder...we need to handle 
-// deletes more gracefully
-map.on(L.Draw.Event.DELETED, (e) => {
-    delete_mode = false;
-    console.log(e);
-});
 
-map.on('draw:deletestart', (e) => {
-    delete_mode = true;
-    console.log(e);
-});
+function selectByOverlay(overlay) {
+    
+}
+
+function summarizeMetrics(features) {
+
+}
+
+function populateReadouts(metrics) {
+
+}
+
 
 function hoverCBG(e) {
     // should just filter selectd CBGS and pass those features to this function....
     var layer = e.target;
-    
+
     // set style of selected CBGs
-    layer.setStyle({ color: SELECTED_COLOR, weight: 2. });
+    layer.setStyle({
+        color: SELECTED_COLOR,
+        weight: 2.
+    });
 
     var props = layer.feature.properties;
     var hits = 1;
@@ -303,9 +315,10 @@ function hoverCBG(e) {
     var housing = document.querySelector('#stat-housing');
     var pedenv = document.querySelector('#stat-ped-environment');
     var jobsaccess = document.querySelector('#stat-jobs-accessibility');
+    var walkscore = document.querySelector('#stat-walkscore');
 
     function pct(score, range) {
-        var {min, max} = range;
+        var { min, max } = range;
 
         return 100 * ((score - min) / (max - min));
     }
@@ -325,7 +338,8 @@ function hoverCBG(e) {
     var total_collisions = props['SumAllPed'];
     var walk_pct = props['JTW_WALK'] / props['JTW_TOTAL'];
 
-    var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
+
+    var ped_per_100k = 100000 * (total_collisions / props['TOTPOP1']);
     var ped_per_100k_walk = ped_per_100k / walk_pct;
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
 
@@ -338,6 +352,7 @@ function hoverCBG(e) {
     var pct_pedenvironment = pct(props['D3b'] / hits, ranges['D3b'])
     var pct_jobsaccessibility = pct(props['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(props['D1B'] / hits, ranges['D1B']);
+    var pct_walkscore = pct(props['walkscore'] / hits, ranges['walkscore']);
 
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
@@ -355,9 +370,13 @@ function hoverCBG(e) {
     document.querySelector('#bar-housing > .bar').className = 'bar';
     document.querySelector('#bar-housing > .bar').className += typology(pct_housing);
 
-    document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
-    document.querySelector('#bar-pedcol > .bar').className = 'bar';
-    document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
+    if (isNaN(pct_pedcol) || pct_pedcol === Infinity) {
+        document.querySelector('#bar-pedcol > .bar').className = 'bar na';
+    } else { 
+        document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
+        document.querySelector('#bar-pedcol > .bar').className = 'bar';
+        document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
+    }
 
     document.querySelector('#bar-jobs-density > .bar').style.width = pct_str(pct_housing);
     document.querySelector('#bar-jobs-density > .bar').className = 'bar';
@@ -375,10 +394,14 @@ function hoverCBG(e) {
     document.querySelector('#bar-population-density > .bar').className = 'bar';
     document.querySelector('#bar-population-density > .bar').className += typology(pct_persondensity);
 
+    document.querySelector('#bar-walkscore > .bar').style.width = pct_str(pct_walkscore);
+    document.querySelector('#bar-walkscore > .bar').className = 'bar';
+    document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
+
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
-    
+
     // set values for readouts (according to formatting)
     dwellingdensity.innerHTML = (props['D1A'] / hits).toFixed(2);
     personsdensity.innerHTML = (props['D1B'] / hits).toFixed(2);
@@ -387,10 +410,9 @@ function hoverCBG(e) {
     ghg.innerHTML = withCommas(((props['hh_type1_vmt'] / hits) * .90).toFixed(0));
     housing.innerHTML = (props['hh_type1_h'] / hits).toFixed(1);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
-
     pedenv.innerHTML = (props['D3b'] / hits).toFixed(1);
-
     jobsaccess.innerHTML = withCommas((props['D5br_cleaned'] / hits).toFixed(0));
+    walkscore.innerHTML = (props['walkscore'] / hits).toFixed(1);
     cbgs.innerHTML = hits;
 }
 
@@ -438,7 +460,8 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var dwellingdensity = document.querySelector('#stat-dwelling-density');
     var persondensity = document.querySelector('#stat-population-density');
     var jobsdensity = document.querySelector('#stat-jobs-density');
-
+    var walkscore = document.querySelector('#stat-walkscore');
+    
     // clear bars
     [
         'bar-vmt',
@@ -450,8 +473,10 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         'bar-jobs-accessibility',
         'bar-ped-environment',
         'bar-population-density',
-    ].forEach(id => { document.querySelector(`#${id} > .bar`).className = "bar na"; });
-    
+    ].forEach(id => {
+        document.querySelector(`#${id} > .bar`).className = "bar na";
+    });
+
     // set all values to 'N/A'
     vmt.innerHTML = 'N/A';
     ghg.innerHTML = 'N/A';
@@ -463,6 +488,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     dwellingdensity.innerHTML = 'N/A';
     persondensity.innerHTML = 'N/A';
     jobsdensity.innerHTML = 'N/A';
+    walkscore.innerHTML = 'N/A';
 });
 
 
@@ -474,9 +500,9 @@ function selectFeatures(buffer) {
     var bufferLayer = new L.geoJson(buffer);
 
     // is this legit? to delete a layer?
-    bufferLayer.on('click', (e) => { 
+    bufferLayer.on('click', (e) => {
         if (delete_mode) {
-            map.removeLayer(e.layer); 
+            map.removeLayer(e.layer);
             map.fire(L.Draw.Event.DELETESTOP);
         }
     });
@@ -484,6 +510,14 @@ function selectFeatures(buffer) {
     // add feature to drawing layer
     drawnItems.addLayer(bufferLayer);
 
+    /*
+     *
+     * this should be like:
+     * selected = cbgs.filter()
+     * sums = sum(selected)
+     * summarize(sums);
+     * ....
+     */
     // go through each CBG feature and determine
     // whether intersects the drawn feature
     cbgs.features.forEach((f) => {
@@ -556,9 +590,11 @@ function selectFeatures(buffer) {
     var housing = document.querySelector('#stat-housing');
     var pedenv = document.querySelector('#stat-ped-environment');
     var jobsaccess = document.querySelector('#stat-jobs-accessibility');
+    var walkscore = document.querySelector('#stat-walkscore');
 
     function pct(score, range) {
-        var {min, max} = range;
+        var { min, max
+        } = range;
 
         return 100 * ((score - min) / (max - min));
     }
@@ -591,6 +627,7 @@ function selectFeatures(buffer) {
     var pct_pedenvironment = pct(sums['D3b'] / hits, ranges['D3b'])
     var pct_jobsaccessibility = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(sums['D1B'] / hits, ranges['D1B']);
+    var pct_walkscore = pct(sums['walkscore'] / hits, ranges['walkscore']);
 
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
@@ -608,9 +645,13 @@ function selectFeatures(buffer) {
     document.querySelector('#bar-housing > .bar').className = 'bar';
     document.querySelector('#bar-housing > .bar').className += typology(pct_housing);
 
-    document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
-    document.querySelector('#bar-pedcol > .bar').className = 'bar';
-    document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
+    if (isNaN(pct_pedcol) || pct_pedcol === Infinity) {
+        document.querySelector('#bar-pedcol > .bar').className = 'bar na';
+    } else { 
+        document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
+        document.querySelector('#bar-pedcol > .bar').className = 'bar';
+        document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
+    }
 
     document.querySelector('#bar-jobs-density > .bar').style.width = pct_str(pct_housing);
     document.querySelector('#bar-jobs-density > .bar').className = 'bar';
@@ -628,6 +669,10 @@ function selectFeatures(buffer) {
     document.querySelector('#bar-population-density > .bar').className = 'bar';
     document.querySelector('#bar-population-density > .bar').className += typology(pct_persondensity);
 
+    document.querySelector('#bar-walkscore > .bar').style.width = pct_str(pct_walkscore);
+    document.querySelector('#bar-walkscore > .bar').className = 'bar';
+    document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
+
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -640,10 +685,9 @@ function selectFeatures(buffer) {
     ghg.innerHTML = withCommas(((sums['hh_type1_vmt'] / hits) * .90).toFixed(0));
     housing.innerHTML = (sums['hh_type1_h'] / hits).toFixed(1);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
-
     pedenv.innerHTML = (sums['D3b'] / hits).toFixed(1);
-
     jobsaccess.innerHTML = withCommas((sums['D5br_cleaned'] / hits).toFixed(0));
+    walkscore.innerHTML = (sums['walkscore'] / hits).toFixed(1);
     cbgs.innerHTML = hits;
 
 }
@@ -653,7 +697,9 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
     var buffer;
     var layer = e.layer;
-    var opts = { units: 'miles' };
+    var opts = {
+        units: 'miles'
+    };
 
     // this is where we take the drawn feature and draw a buffer around
     if (e.layerType === 'marker') {
@@ -682,5 +728,3 @@ map.on(L.Draw.Event.CREATED, (e) => {
     selectFeatures(buffer);
 
 });
-
-

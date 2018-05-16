@@ -51,6 +51,9 @@ L.Choropleth = L.GeoJSON.extend({
                                             opts.property :
                                             function (item) { return item.properties[opts.property]; });
 
+
+        values = values.filter((v) => (!isNaN(v) && v !== undefined && v !== Infinity));
+
         var limits = chroma.limits(values, opts.mode, opts.steps - 1);
 
         // Create color buckets
@@ -75,7 +78,7 @@ L.Choropleth = L.GeoJSON.extend({
             } 
             
             // Find the bucket that this value is less than and give it that color 
-            if (!isNaN(featureValue) && featureValue !== undefined) { 
+            if (!isNaN(featureValue) && featureValue !== undefined && featureValue !== Infinity) {
                 //style.fillColor = cmapper(featureValue).toString();
 
                 for (var i = 0; i < limits.length; i++) { 
@@ -86,17 +89,17 @@ L.Choropleth = L.GeoJSON.extend({
                 }
             } else {
                 // need to change default style if some error occurs (not a number)
-
-                // should be opts.defaultStyle but something weird happening...
-                style = { fillOpacity: 0.0 };
+                style.fillOpacity = 0.0; 
             }
 
             // Return this style, but include the user-defined style if it was passed 
             switch (typeof userStyle) {
                 case 'function':
-                    return L.Util.extend(style, userStyle(f));
+                    return L.Util.extend(userStyle(f), style);
+                    //return L.Util.extend(style, userStyle(f));
                 case 'object':
-                    return L.Util.extend(style, userStyle);
+                    return L.Util.extend(userStyle, style);
+                    //return L.Util.extend(style, userStyle);
                 default: 
                     return style;
             }
