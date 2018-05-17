@@ -11,7 +11,7 @@ const DEFAULT_OPTIONS = {
     // use this scale to mimic readouts:
     //scale: ['SeaGreen', 'Gold', 'Crimson'],
     scale: ['#eeeeee', '#ee2222'],
-    steps: 5,
+    steps: 10,
     mode: 'q',
     defaultStyle: { opacity: 0.0 }
 }; 

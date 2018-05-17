@@ -435,7 +435,8 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         'D1B': 0.0,
         'D1C': 0.0,
         TOTPOP1: 0,
-        pop_ped: 0
+        pop_ped: 0,
+        'walkscore': 0.0
     };
 
     // reset style of selected features
@@ -556,6 +557,7 @@ function selectFeatures(buffer) {
             keys.forEach((k) => {
                 // only parsing int because some variables are being converted to 
                 // strings when exporting to geojson... (fix this!!)
+console.log(k);
                 sums[k] = (sums[k] + parseInt(f.properties[k])) || sums[k];
             });
 
@@ -687,6 +689,8 @@ function selectFeatures(buffer) {
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
     pedenv.innerHTML = (sums['D3b'] / hits).toFixed(1);
     jobsaccess.innerHTML = withCommas((sums['D5br_cleaned'] / hits).toFixed(0));
+console.log(sums['walkscore']);
+console.log(hits);
     walkscore.innerHTML = (sums['walkscore'] / hits).toFixed(1);
     cbgs.innerHTML = hits;
 
