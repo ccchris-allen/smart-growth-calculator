@@ -29,7 +29,7 @@ var delete_mode = false;
 var areas = {
     'btn-sd-county': {
         files: {
-            polygons: 'data/sd_cbgs_latest_attributes_normed4.geojson',
+            polygons: 'data/sd_cbgs_latest_attributes_normed5.geojson',
             stations: 'data/sd-rail-stations-buffered.geojson'
         },
         center: [32.7157, -117.11],
@@ -37,7 +37,7 @@ var areas = {
     },
     'btn-sm-county': {
         files: {
-            polygons: 'data/san-mateo-with-data_normed4.geojson',
+            polygons: 'data/san-mateo-with-data_normed5.geojson',
             stations: 'data/stations-san-mateo.geojson'
         },
         center: [37.56, -122.313],
@@ -77,6 +77,8 @@ var sums = {
     'D1A': 0.0,
     'D1B': 0.0,
     'D1C': 0.0,
+    'OBESITY_Cr': 0.0,
+    'Cardiova_1': 0.0,
     TOTPOP1: 0,
     pop_ped: 0,
     walkscore: 0
@@ -106,7 +108,7 @@ $('.btn-squared').click(function() {
     // use axios to get the geojson files we need for this map 
     axios.all(GEOJSON_FILES.map(axios.get))
         .then((resp) => {
-            var [ resp1, resp2 ] = resp;
+            var [resp1, resp2] = resp;
 
             var props = [
                 'D1A',
@@ -117,7 +119,9 @@ $('.btn-squared').click(function() {
                 'D5br_cleaned',
                 'hh_type1_vmt',
                 'hh_type1_h',
-                'walkscore'
+                'walkscore',
+                'OBESITY_Cr',
+                'Cardiova_1'
             ];
 
             var feats = resp1.data.features;
@@ -127,6 +131,8 @@ $('.btn-squared').click(function() {
                     min: Infinity,
                     max: -Infinity
                 };
+
+ console.log(p);
                 feats.forEach((f) => {
 
                     var val;
@@ -147,6 +153,7 @@ $('.btn-squared').click(function() {
                     ranges[p].max = (!isNaN(val) && isFinite(val)) ? Math.max(val, ranges[p].max) : ranges[p].max;
                     ranges[p].min = ((val > 0) && isFinite(val) && !isNaN(val)) ? Math.min(val, ranges[p].min) : ranges[p].min;
                 });
+ console.log(ranges[p]);
             });
 
             // create a choropleth map using the CBG features
@@ -248,7 +255,9 @@ $('.dropdown-menu a').click(function() {
         'jobs-density': 'D1C',
         'ped-environment': 'D3b',
         'jobs-accessibility': 'D5br_cleaned',
-        'walkscore': 'walkscore'
+        'walkscore': 'walkscore',
+        'cardio': 'Cardiova_1',
+        'obesity': 'OBESITY_Cr'
     }[this.id]; // using [this.id] will select the option specified by 'this.id'
 
     // update the choropleth layer with the new property
@@ -279,7 +288,7 @@ map.addControl(drawControl);
 
 
 function selectByOverlay(overlay) {
-    
+
 }
 
 function summarizeMetrics(features) {
@@ -298,6 +307,7 @@ function hoverCBG(e) {
     // set style of selected CBGs
     layer.setStyle({
         color: SELECTED_COLOR,
+        dashArray: "3 3",
         weight: 2.
     });
 
@@ -316,9 +326,14 @@ function hoverCBG(e) {
     var pedenv = document.querySelector('#stat-ped-environment');
     var jobsaccess = document.querySelector('#stat-jobs-accessibility');
     var walkscore = document.querySelector('#stat-walkscore');
+    var cardio = document.querySelector('#stat-cardio');
+    var obesity = document.querySelector('#stat-obesity');
 
     function pct(score, range) {
-        var { min, max } = range;
+        var {
+            min,
+            max
+        } = range;
 
         return 100 * ((score - min) / (max - min));
     }
@@ -353,6 +368,8 @@ function hoverCBG(e) {
     var pct_jobsaccessibility = pct(props['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(props['D1B'] / hits, ranges['D1B']);
     var pct_walkscore = pct(props['walkscore'] / hits, ranges['walkscore']);
+    var pct_cardio = pct(props['Cardiova_1'] / hits, ranges['Cardiova_1']);
+    var pct_obesity = pct(props['OBESITY_Cr'] / hits, ranges['OBESITY_Cr']);
 
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
@@ -372,7 +389,7 @@ function hoverCBG(e) {
 
     if (isNaN(pct_pedcol) || pct_pedcol === Infinity) {
         document.querySelector('#bar-pedcol > .bar').className = 'bar na';
-    } else { 
+    } else {
         document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
         document.querySelector('#bar-pedcol > .bar').className = 'bar';
         document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
@@ -398,6 +415,14 @@ function hoverCBG(e) {
     document.querySelector('#bar-walkscore > .bar').className = 'bar';
     document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
 
+    document.querySelector('#bar-cardio > .bar').style.width = pct_str(pct_cardio);
+    document.querySelector('#bar-cardio > .bar').className = 'bar';
+    document.querySelector('#bar-cardio > .bar').className += typology(pct_cardio);
+
+    document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
+    document.querySelector('#bar-obesity > .bar').className = 'bar';
+    document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
+
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -413,6 +438,8 @@ function hoverCBG(e) {
     pedenv.innerHTML = (props['D3b'] / hits).toFixed(1);
     jobsaccess.innerHTML = withCommas((props['D5br_cleaned'] / hits).toFixed(0));
     walkscore.innerHTML = (props['walkscore'] / hits).toFixed(1);
+    cardio.innerHTML = (props['Cardiova_1'] / hits).toFixed(1);
+    obesity.innerHTML = (props['OBESITY_Cr'] / hits).toFixed(1);
     cbgs.innerHTML = hits;
 }
 
@@ -436,7 +463,9 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         'D1C': 0.0,
         TOTPOP1: 0,
         pop_ped: 0,
-        'walkscore': 0.0
+        'walkscore': 0.0,
+        'Cardiova_1': 0.0,
+        'OBESITY_Cr': 0.0
     };
 
     // reset style of selected features
@@ -462,7 +491,9 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var persondensity = document.querySelector('#stat-population-density');
     var jobsdensity = document.querySelector('#stat-jobs-density');
     var walkscore = document.querySelector('#stat-walkscore');
-    
+    var cardio = document.querySelector('#stat-cardio');
+    var obesity = document.querySelector('#stat-obesity');
+
     // clear bars
     [
         'bar-vmt',
@@ -474,6 +505,8 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         'bar-jobs-accessibility',
         'bar-ped-environment',
         'bar-population-density',
+        'bar-obesity',
+        'bar-cardio'
     ].forEach(id => {
         document.querySelector(`#${id} > .bar`).className = "bar na";
     });
@@ -490,6 +523,8 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     persondensity.innerHTML = 'N/A';
     jobsdensity.innerHTML = 'N/A';
     walkscore.innerHTML = 'N/A';
+    cardio.innerHTML = 'N/A';
+    obesity.innerHTML = 'N/A';
 });
 
 
@@ -557,7 +592,7 @@ function selectFeatures(buffer) {
             keys.forEach((k) => {
                 // only parsing int because some variables are being converted to 
                 // strings when exporting to geojson... (fix this!!)
-console.log(k);
+                console.log(k);
                 sums[k] = (sums[k] + parseInt(f.properties[k])) || sums[k];
             });
 
@@ -577,6 +612,7 @@ console.log(k);
     geojsonLayer.setStyle((f) => {
         return {
             color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
+            dashArray: "3 3",
             weight: f.properties._selected ? 2. : 0.0
         };
     });
@@ -593,9 +629,13 @@ console.log(k);
     var pedenv = document.querySelector('#stat-ped-environment');
     var jobsaccess = document.querySelector('#stat-jobs-accessibility');
     var walkscore = document.querySelector('#stat-walkscore');
+    var cardio = document.querySelector('#stat-cardio');
+    var obesity = document.querySelector('#stat-obesity');
 
     function pct(score, range) {
-        var { min, max
+        var {
+            min,
+            max
         } = range;
 
         return 100 * ((score - min) / (max - min));
@@ -630,6 +670,8 @@ console.log(k);
     var pct_jobsaccessibility = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(sums['D1B'] / hits, ranges['D1B']);
     var pct_walkscore = pct(sums['walkscore'] / hits, ranges['walkscore']);
+    var pct_cardio = pct(sums['Cardiova_1'] / hits, ranges['Cardiova_1']);
+    var pct_obesity = pct(sums['OBESITY_Cr'] / hits, ranges['OBESITY_Cr']);
 
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
@@ -649,7 +691,7 @@ console.log(k);
 
     if (isNaN(pct_pedcol) || pct_pedcol === Infinity) {
         document.querySelector('#bar-pedcol > .bar').className = 'bar na';
-    } else { 
+    } else {
         document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
         document.querySelector('#bar-pedcol > .bar').className = 'bar';
         document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
@@ -675,6 +717,14 @@ console.log(k);
     document.querySelector('#bar-walkscore > .bar').className = 'bar';
     document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
 
+    document.querySelector('#bar-cardio > .bar').style.width = pct_str(pct_cardio);
+    document.querySelector('#bar-cardio > .bar').className = 'bar';
+    document.querySelector('#bar-cardio > .bar').className += typology(pct_cardio);
+
+    document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
+    document.querySelector('#bar-obesity > .bar').className = 'bar';
+    document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
+
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -689,9 +739,11 @@ console.log(k);
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
     pedenv.innerHTML = (sums['D3b'] / hits).toFixed(1);
     jobsaccess.innerHTML = withCommas((sums['D5br_cleaned'] / hits).toFixed(0));
-console.log(sums['walkscore']);
-console.log(hits);
+    console.log(sums['walkscore']);
+    console.log(hits);
     walkscore.innerHTML = (sums['walkscore'] / hits).toFixed(1);
+    cardio.innerHTML = (sums['Cardiova_1'] / hits).toFixed(1);
+    obesity.innerHTML = (sums['OBESITY_Cr'] / hits).toFixed(1);
     cbgs.innerHTML = hits;
 
 }

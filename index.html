@@ -116,6 +116,8 @@
                                 <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
                                 <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
                                 <li><a id="walkscore" class="dropdown-item" href="#"> WalkScore </a></li>
+                                <li><a id="cardio" class="dropdown-item" href="#"> Cardiovascular Disease </a></li>
+                                <li><a id="obesity" class="dropdown-item" href="#"> Obesity </a></li>
                             </ul>
                         </span>
                     </span>
@@ -130,8 +132,7 @@
 
                     <ul id="readouts" class="plain-list">
 
-                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                title="Vehicle Miles Traveled reflects...">
+                        <li class="statistic" data-toggle="tooltip" data-placement="top">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Vehicle Miles Traveled
@@ -146,7 +147,7 @@
                         </li>
 
                         <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                title="Housing Affordability reflects...">
+                                title="Housing Affordability reflects housing costs as a percent of income."">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Housing Affordability
@@ -230,7 +231,8 @@
                             </div>
                         </li>
 
-                        <li class="statistic">
+                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
+                                    title="Jobs Accessibility reflects the number of jobs accessible within a 45 minute transit commute.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Jobs Accessibility
@@ -268,6 +270,36 @@
                                 </span>
                             </div>
                             <div id="bar-walkscore" class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">
+                                    Cardiovascular Disease <br>
+                                    (Percentile)
+                                </span>
+                                <span class="value">
+                                    <span id="stat-cardio"> N/A </span>
+                                </span>
+                            </div>
+                            <div id="bar-cardio" class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">
+                                    Obesity <br>
+                                    (Percentage Obese)
+                                </span>
+                                <span class="value">
+                                    <span id="stat-obesity"> N/A </span>
+                                </span>
+                            </div>
+                            <div id="bar-obesity" class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>

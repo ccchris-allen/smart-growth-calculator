@@ -1,24 +1,70 @@
-//WIP!!!
+//WIP!!!!!
 
-function isNumericable(val) {
-    return !isNaN(parseFloat(n));
+function createBasicSummarizer(prop) {
+    return (total, f) => {
+        return total + f.properties[prop];
+    }
 }
 
-function isNumeric(val) {
-    return !isNaN(val) && isFinite(val);
-}
+const PROPERTY_CONFIG = [
+    {
+        name: "Vehicle Miles Traveled",
+        dom_name: "vmt",
+        summarizer: (features) => {
+            let sum = features.reduce((total, f) => {
+               return total + f.properties['hh_type1_vmt'];
+            }, 0);
 
-function addCommas(val) {
-    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+            return sum / features.length;
+        }
+    }, 
+    {
+        name: "Pedestrian Collisions",
+        dom_name: "pedcol",
+        summarizer: (features) => {
+            features = features.filter(nulls);
 
-function calculatePct(val, { min, max }) {
-    return 100 * ((val - min) / (max - min));
-}
+            let sums = features.reduce((totals, f) => {
+                let props = f.properties;
 
-function formatPctStr(pct) {
-    return `${pct}%`;
-}
+                totals['SumAllPed'] += (totals['SumAllPed'] || 0) + props['SumAllPed'];
+                totals['JTW_WALK'] += (totals['JTW_WALK'] || 0) + props['JTW_WALK'];
+                totals['JTW_TOTAL'] += (totals['JTW_TOTAL'] || 0) + props['JTW_TOTAL'];
+                totals['TOTPOP1'] += (totals['TOTPOP1'] || 0) + props['TOTPOP1'];
+
+                return totals;
+            }, {});
+
+            return 100000 * (sums['SumAllPed'] / sums['TOTPOP1']) / (sums['JTW_WALK'] / sums['JTW_TOTAL']) / 365.25;
+        }
+    }
+];
+
+
+        
+
+
+const PROPERTIES = [
+    'vmt',
+    'ghg',
+    'dwelling-density',
+    'population-density',
+    'jobs-density'
+    'pedcol',
+    'walkscore',
+    'cbgs',
+    'housing',
+    'ped-environment',
+    'jobs-accessibility'
+];
+
+const isNumericable = (val) => !isNaN(parseFloat(n));
+const isNumeric = (val) => !isNaN(val) && isFinite(val);
+
+const addCommas = (val) => val.toLocaleString();
+
+const calculatePct = (val, { min, max }) => 100 * ((val - min) / (max - min));
+const formatPctStr = (pct) => `${pct}%`;
 
 function getTypologyFromPct(pct) {
     // very simple way of defining bins 
@@ -32,23 +78,20 @@ function getTypologyFromPct(pct) {
     }
 }
 
+function clearReadouts() {
+
+    PROP_NAMES.forEach((prop) => {
+        let $stat = document.querySelector(`#stat-${prop}`);
+        let $bar = document.querySelector(`#bar-${prop} > .bar`);
+
+        $bar.className = 'bar na';
+        $stat.innerHTML = 'N/A';
+    });
+}
+
 function populateReadouts(metrics, ranges) {
 
-    let props = [
-        'vmt',
-        'ghg',
-        'dwelling-density',
-        'population-density',
-        'jobs-density'
-        'pedcol',
-        'walkscore',
-        'cbgs',
-        'housing',
-        'ped-environment',
-        'jobs-accessibility'
-    ];
-
-    props.forEach((prop) => {
+    PROP_NAMES.forEach((prop) => {
         let $stat = document.querySelector(`#stat-${prop}`);
         let $bar = document.querySelector(`#bar-${prop} > .bar`);
         let val = metrics[prop];
@@ -56,20 +99,31 @@ function populateReadouts(metrics, ranges) {
 
         if (isNumeric(pct)) {
             $bar.style.width = formatPctStr(pct);
+            $stat.innerHTML = addCommas(precision(val, 1));
             $bar.className = 'bar ' + getTypologyFromPct(pct);
         } else {
             $bar.className = 'bar na';
         }
         
-        $stat.innerHTML = (val >= 1000) ? addCommas(val) : val;
     });
 
 }
 
 function summarizeMetrics(features) {
-    // accumulate, then reduce
-    
-    let accumulators = {
+    // accumulate => reduce
+
+    function accumulateMetrics(result, prop) {
+        // need this to return the summarized metrics that are used to 
+
+        props.forEach(({ reducer, accumulator, prop }) => {
+            let sums = features.map(mapper);
+            let score = reducer(sums); 
+            result[prop] = accumulator(f);
+        });
+    }
+
+    let accumulated = PROPS.reduce(accumulateMetrics, {});
+
 
 }
 
