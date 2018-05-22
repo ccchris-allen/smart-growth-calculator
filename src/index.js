@@ -132,7 +132,6 @@ $('.btn-squared').click(function() {
                     max: -Infinity
                 };
 
- console.log(p);
                 feats.forEach((f) => {
 
                     var val;
@@ -153,7 +152,6 @@ $('.btn-squared').click(function() {
                     ranges[p].max = (!isNaN(val) && isFinite(val)) ? Math.max(val, ranges[p].max) : ranges[p].max;
                     ranges[p].min = ((val > 0) && isFinite(val) && !isNaN(val)) ? Math.min(val, ranges[p].min) : ranges[p].min;
                 });
- console.log(ranges[p]);
             });
 
             // create a choropleth map using the CBG features
@@ -360,7 +358,6 @@ function hoverCBG(e) {
     var total_collisions = props['SumAllPed'];
     var walk_pct = props['JTW_WALK'] / props['JTW_TOTAL'];
 
-
     var ped_per_100k = 100000 * (total_collisions / props['TOTPOP1']);
     var ped_per_100k_walk = ped_per_100k / walk_pct;
     var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
@@ -375,11 +372,9 @@ function hoverCBG(e) {
     var pct_jobsaccessibility = pct(props['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(props['D1B'] / hits, ranges['D1B']);
     var pct_walkscore = pct(props['walkscore'] / hits, ranges['walkscore']);
-    var pct_walkshare = pct(props['JTW_WALK'] / props['JTW_TOTAL'], { min: 0, max: 1 });
+    var pct_walkshare = (!!props['JTW_WALK']) ? pct(props['JTW_WALK'] / props['JTW_TOTAL'], { min: 0, max: 1 }) : undefined;
     var pct_cardio = pct(props['Cardiova_1'] / hits, ranges['Cardiova_1']);
-    var pct_obesity = pct(props['OBESITY_Cr'] / hits, ranges['OBESITY_Cr']);
-
-    console.log(pct_walkshare);
+    var pct_obesity = (!!props['OBESITY_Cr']) ? pct(props['OBESITY_Cr'], ranges['OBESITY_Cr']) : undefined;
 
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
@@ -425,9 +420,19 @@ function hoverCBG(e) {
     document.querySelector('#bar-walkscore > .bar').className = 'bar';
     document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
 
-    document.querySelector('#bar-walkshare > .bar').style.width = pct_str(pct_walkshare);
-    document.querySelector('#bar-walkshare > .bar').className = 'bar';
-    document.querySelector('#bar-walkshare > .bar').className += typology(pct_walkshare);
+    console.log("GONNNA PRINT");
+    console.log(ranges['OBESITY_Cr']);
+    console.log(props['OBESITY_Cr']);
+    console.log(pct_obesity);
+
+    if (isNaN(pct_obesity) || pct_obesity === Infinity) {
+        console.log("NULLLLLL");
+        document.querySelector('#bar-obesity > .bar').className = 'bar na';
+    } else {
+        document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
+        document.querySelector('#bar-obesity > .bar').className = 'bar';
+        document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
+    }
 
     document.querySelector('#bar-cardio > .bar').style.width = pct_str(pct_cardio);
     document.querySelector('#bar-cardio > .bar').className = 'bar';
@@ -436,9 +441,9 @@ function hoverCBG(e) {
     if (isNaN(pct_walkshare) || pct_walkshare === Infinity) {
         document.querySelector('#bar-walkshare > .bar').className = 'bar na';
     } else {
-        document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
-        document.querySelector('#bar-obesity > .bar').className = 'bar';
-        document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
+        document.querySelector('#bar-walkshare > .bar').style.width = pct_str(pct_walkshare);
+        document.querySelector('#bar-walkshare > .bar').className = 'bar';
+        document.querySelector('#bar-walkshare > .bar').className += typology(pct_walkshare);
     }
 
     function withCommas(x) {
@@ -456,9 +461,9 @@ function hoverCBG(e) {
     pedenv.innerHTML = (props['D3b'] / hits).toFixed(1);
     jobsaccess.innerHTML = withCommas((props['D5br_cleaned'] / hits).toFixed(0));
     walkscore.innerHTML = (props['walkscore'] / hits).toFixed(1);
-    walkshare.innerHTML = (100 * (props['JTW_WALK'] / props['JTW_TOTAL'])).toFixed(1);
+    walkshare.innerHTML = (!!props['JTW_WALK']) ? (100 * (props['JTW_WALK'] / props['JTW_TOTAL'])).toFixed(1) : 'N/A';
     cardio.innerHTML = (props['Cardiova_1'] / hits).toFixed(1);
-    obesity.innerHTML = (props['OBESITY_Cr'] / hits).toFixed(1);
+    obesity.innerHTML = (!!props['OBESITY_Cr']) ? (props['OBESITY_Cr'] / hits).toFixed(1) : 'N/A';
     cbgs.innerHTML = hits;
 }
 
@@ -614,7 +619,6 @@ function selectFeatures(buffer) {
             keys.forEach((k) => {
                 // only parsing int because some variables are being converted to 
                 // strings when exporting to geojson... (fix this!!)
-                console.log(k);
                 sums[k] = (sums[k] + parseInt(f.properties[k])) || sums[k];
             });
 
@@ -741,8 +745,8 @@ function selectFeatures(buffer) {
     document.querySelector('#bar-walkscore > .bar').className = 'bar';
     document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
 
-    if (isNaN(pct_walkshare) || pct_walkshare === Infinity) {
-        document.querySelector('#bar-walkshare > .bar').className = 'bar na';
+    if (isNaN(pct_obesity) || pct_obesity === Infinity) {
+        document.querySelector('#bar-obesity > .bar').className = 'bar na';
     } else {
         document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
         document.querySelector('#bar-obesity > .bar').className = 'bar';
@@ -753,9 +757,13 @@ function selectFeatures(buffer) {
     document.querySelector('#bar-cardio > .bar').className = 'bar';
     document.querySelector('#bar-cardio > .bar').className += typology(pct_cardio);
 
-    document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
-    document.querySelector('#bar-obesity > .bar').className = 'bar';
-    document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
+    if (isNaN(pct_walkshare) || pct_walkshare === Infinity) {
+        document.querySelector('#bar-walkshare > .bar').className = 'bar na';
+    } else {
+        document.querySelector('#bar-walkshare > .bar').style.width = pct_str(pct_walkshare);
+        document.querySelector('#bar-walkshare > .bar').className = 'bar';
+        document.querySelector('#bar-walkshare > .bar').className += typology(pct_walkshare);
+    }
 
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -771,8 +779,6 @@ function selectFeatures(buffer) {
     pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
     pedenv.innerHTML = (sums['D3b'] / hits).toFixed(1);
     jobsaccess.innerHTML = withCommas((sums['D5br_cleaned'] / hits).toFixed(0));
-    console.log(sums['walkscore']);
-    console.log(hits);
     walkscore.innerHTML = (sums['walkscore'] / hits).toFixed(1);
     walkshare.innerHTML = (100 * (sums['JTW_WALK'] / sums['JTW_TOTAL'])).toFixed(1);
     cardio.innerHTML = (sums['Cardiova_1'] / hits).toFixed(1);

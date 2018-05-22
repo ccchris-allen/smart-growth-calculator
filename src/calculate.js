@@ -1,22 +1,22 @@
 //WIP!!!!!
 
 function createBasicSummarizer(prop) {
-    return (total, f) => {
-        return total + f.properties[prop];
-    }
+    return (features) => {
+        let valid_features = features.filter((f) => isNumeric(f.properties[prop]));
+
+        let sum = valid_features.reduce((total, f) => {
+            return total + f.properties[prop];
+        }, 0);
+
+        return sum / features.length;
+    };
 }
 
 const PROPERTY_CONFIG = [
     {
         name: "Vehicle Miles Traveled",
         dom_name: "vmt",
-        summarizer: (features) => {
-            let sum = features.reduce((total, f) => {
-               return total + f.properties['hh_type1_vmt'];
-            }, 0);
-
-            return sum / features.length;
-        }
+        summarizer: createBasicSummarizer('hh_type1_vmt')
     }, 
     {
         name: "Pedestrian Collisions",
