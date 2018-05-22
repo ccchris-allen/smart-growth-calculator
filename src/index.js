@@ -247,6 +247,12 @@ $('.dropdown-menu a').click(function() {
 
             return ped_per_100k_walk_daily || undefined;
         },
+        walkshare: (item) => {
+            var walkers = item.properties['JTW_WALK'];
+            var population = item.properties['JTW_TOTAL']; 
+
+            return walkers / population;
+        },
         ghg: (item) => {
             return item.properties['hh_type1_vmt'] * .90;
         },
@@ -326,6 +332,7 @@ function hoverCBG(e) {
     var pedenv = document.querySelector('#stat-ped-environment');
     var jobsaccess = document.querySelector('#stat-jobs-accessibility');
     var walkscore = document.querySelector('#stat-walkscore');
+    var walkshare = document.querySelector('#stat-walkshare');
     var cardio = document.querySelector('#stat-cardio');
     var obesity = document.querySelector('#stat-obesity');
 
@@ -368,8 +375,11 @@ function hoverCBG(e) {
     var pct_jobsaccessibility = pct(props['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(props['D1B'] / hits, ranges['D1B']);
     var pct_walkscore = pct(props['walkscore'] / hits, ranges['walkscore']);
+    var pct_walkshare = pct(props['JTW_WALK'] / props['JTW_TOTAL'], { min: 0, max: 1 });
     var pct_cardio = pct(props['Cardiova_1'] / hits, ranges['Cardiova_1']);
     var pct_obesity = pct(props['OBESITY_Cr'] / hits, ranges['OBESITY_Cr']);
+
+    console.log(pct_walkshare);
 
     document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
     document.querySelector('#bar-vmt > .bar').className = 'bar';
@@ -415,13 +425,21 @@ function hoverCBG(e) {
     document.querySelector('#bar-walkscore > .bar').className = 'bar';
     document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
 
+    document.querySelector('#bar-walkshare > .bar').style.width = pct_str(pct_walkshare);
+    document.querySelector('#bar-walkshare > .bar').className = 'bar';
+    document.querySelector('#bar-walkshare > .bar').className += typology(pct_walkshare);
+
     document.querySelector('#bar-cardio > .bar').style.width = pct_str(pct_cardio);
     document.querySelector('#bar-cardio > .bar').className = 'bar';
     document.querySelector('#bar-cardio > .bar').className += typology(pct_cardio);
 
-    document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
-    document.querySelector('#bar-obesity > .bar').className = 'bar';
-    document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
+    if (isNaN(pct_walkshare) || pct_walkshare === Infinity) {
+        document.querySelector('#bar-walkshare > .bar').className = 'bar na';
+    } else {
+        document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
+        document.querySelector('#bar-obesity > .bar').className = 'bar';
+        document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
+    }
 
     function withCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -438,6 +456,7 @@ function hoverCBG(e) {
     pedenv.innerHTML = (props['D3b'] / hits).toFixed(1);
     jobsaccess.innerHTML = withCommas((props['D5br_cleaned'] / hits).toFixed(0));
     walkscore.innerHTML = (props['walkscore'] / hits).toFixed(1);
+    walkshare.innerHTML = (100 * (props['JTW_WALK'] / props['JTW_TOTAL'])).toFixed(1);
     cardio.innerHTML = (props['Cardiova_1'] / hits).toFixed(1);
     obesity.innerHTML = (props['OBESITY_Cr'] / hits).toFixed(1);
     cbgs.innerHTML = hits;
@@ -491,6 +510,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     var persondensity = document.querySelector('#stat-population-density');
     var jobsdensity = document.querySelector('#stat-jobs-density');
     var walkscore = document.querySelector('#stat-walkscore');
+    var walkshare = document.querySelector('#stat-walkshare');
     var cardio = document.querySelector('#stat-cardio');
     var obesity = document.querySelector('#stat-obesity');
 
@@ -505,6 +525,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
         'bar-jobs-accessibility',
         'bar-ped-environment',
         'bar-population-density',
+        'bar-walkshare',
         'bar-obesity',
         'bar-cardio'
     ].forEach(id => {
@@ -523,6 +544,7 @@ map.on(L.Draw.Event.DELETESTOP, (e) => {
     persondensity.innerHTML = 'N/A';
     jobsdensity.innerHTML = 'N/A';
     walkscore.innerHTML = 'N/A';
+    walkshare.innerHTML = 'N/A';
     cardio.innerHTML = 'N/A';
     obesity.innerHTML = 'N/A';
 });
@@ -629,6 +651,7 @@ function selectFeatures(buffer) {
     var pedenv = document.querySelector('#stat-ped-environment');
     var jobsaccess = document.querySelector('#stat-jobs-accessibility');
     var walkscore = document.querySelector('#stat-walkscore');
+    var walkshare = document.querySelector('#stat-walkshare');
     var cardio = document.querySelector('#stat-cardio');
     var obesity = document.querySelector('#stat-obesity');
 
@@ -670,6 +693,7 @@ function selectFeatures(buffer) {
     var pct_jobsaccessibility = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
     var pct_persondensity = pct(sums['D1B'] / hits, ranges['D1B']);
     var pct_walkscore = pct(sums['walkscore'] / hits, ranges['walkscore']);
+    var pct_walkshare = pct(sums['JTW_WALK'] / sums['JTW_TOTAL'], {min: 0, max: 1});
     var pct_cardio = pct(sums['Cardiova_1'] / hits, ranges['Cardiova_1']);
     var pct_obesity = pct(sums['OBESITY_Cr'] / hits, ranges['OBESITY_Cr']);
 
@@ -717,6 +741,14 @@ function selectFeatures(buffer) {
     document.querySelector('#bar-walkscore > .bar').className = 'bar';
     document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
 
+    if (isNaN(pct_walkshare) || pct_walkshare === Infinity) {
+        document.querySelector('#bar-walkshare > .bar').className = 'bar na';
+    } else {
+        document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
+        document.querySelector('#bar-obesity > .bar').className = 'bar';
+        document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
+    }
+
     document.querySelector('#bar-cardio > .bar').style.width = pct_str(pct_cardio);
     document.querySelector('#bar-cardio > .bar').className = 'bar';
     document.querySelector('#bar-cardio > .bar').className += typology(pct_cardio);
@@ -742,6 +774,7 @@ function selectFeatures(buffer) {
     console.log(sums['walkscore']);
     console.log(hits);
     walkscore.innerHTML = (sums['walkscore'] / hits).toFixed(1);
+    walkshare.innerHTML = (100 * (sums['JTW_WALK'] / sums['JTW_TOTAL'])).toFixed(1);
     cardio.innerHTML = (sums['Cardiova_1'] / hits).toFixed(1);
     obesity.innerHTML = (sums['OBESITY_Cr'] / hits).toFixed(1);
     cbgs.innerHTML = hits;
