@@ -420,13 +420,7 @@ function hoverCBG(e) {
     document.querySelector('#bar-walkscore > .bar').className = 'bar';
     document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
 
-    console.log("GONNNA PRINT");
-    console.log(ranges['OBESITY_Cr']);
-    console.log(props['OBESITY_Cr']);
-    console.log(pct_obesity);
-
     if (isNaN(pct_obesity) || pct_obesity === Infinity) {
-        console.log("NULLLLLL");
         document.querySelector('#bar-obesity > .bar').className = 'bar na';
     } else {
         document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
