@@ -14,6 +14,14 @@ import * as turf from '@turf/turf';
 // our module for drawing choropleth maps
 import Choropleth from './choro';
 
+//
+import {
+    PROPERTY_ORDER, 
+    property_config, 
+    populateReadouts,
+    clearReadouts,
+} from './calculate';
+
 // global constants
 const SELECTED_COLOR = '#444';
 const NORMAL_COLOR = '#000';
@@ -23,8 +31,6 @@ const BUFFER_RADIUS = 0.5; // units = miles
 // immediately when in production mode (otherwise, it's annoying for debugging purposes to have to 
 // close the window each reload)
 const IS_PROD = process.env.NODE_ENV === 'production';
-
-var delete_mode = false;
 
 var areas = {
     'btn-sd-county': {
@@ -61,34 +67,26 @@ L.tileLayer(basemap_url, {
     id: 'mapbox.streets'
 }).addTo(map);
 
-// these variables are related to the selection of features and the aggregate scores for the
-// different variables
-var hits = 0;
-var selections = 0;
-var ranges = {};
-var sums = {
-    hh_type1_vmt: 0.0,
-    'SumAllPed': 0.0,
-    'JTW_TOTAL': 0.0,
-    'JTW_WALK': 0.0,
-    'hh_type1_h': 0.0,
-    'D3b': 0.0,
-    'D5br_cleaned': 0.0,
-    'D1A': 0.0,
-    'D1B': 0.0,
-    'D1C': 0.0,
-    'OBESITY_Cr': 0.0,
-    'Cardiova_1': 0.0,
-    TOTPOP1: 0,
-    pop_ped: 0,
-    walkscore: 0
+// add layer to hold the drawn features
+var drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+// add the drawing controls
+var drawControlOptions = {
+    edit: {
+        featureGroup: drawnItems,
+        edit: false
+    },
+    draw: {
+        polygon: true,
+        circle: false,
+        circlemarker: false,
+        rectangle: false
+    }
 };
 
-
-
-function initChoropleth(geojson) {
-
-}
+var drawControl = new L.Control.Draw(drawControlOptions);
+map.addControl(drawControl);
 
 
 $('.btn-squared').click(function() {
@@ -110,54 +108,27 @@ $('.btn-squared').click(function() {
         .then((resp) => {
             var [resp1, resp2] = resp;
 
-            var props = [
-                'D1A',
-                'D1B',
-                'D1C',
-                'D3b',
-                'pedcol',
-                'D5br_cleaned',
-                'hh_type1_vmt',
-                'hh_type1_h',
-                'walkscore',
-                'OBESITY_Cr',
-                'Cardiova_1'
-            ];
-
             var feats = resp1.data.features;
 
-            props.forEach((p) => {
-                ranges[p] = {
-                    min: Infinity,
-                    max: -Infinity
+            PROPERTY_ORDER.forEach((p) => {
+                var vals = feats
+                            .map(property_config[p].summarizer)
+                            .filter((v) => !isNaN(v) && isFinite(v))
+                            .filter((v) => v > 0); //do we really want to filter out zeros?
+
+                var min = Math.min(...vals);
+                var max = Math.max(...vals);
+
+                property_config[p].range = { 
+                    min: min, 
+                    max: max
                 };
-
-                feats.forEach((f) => {
-
-                    var val;
-                    if (p == 'pedcol') {
-                        var total_collisions = f.properties['SumAllPed'];
-                        var walk_pct = f.properties['JTW_WALK'] / f.properties['JTW_TOTAL'];
-                        var population = f.properties['TOTPOP1'];
-
-                        var ped_per_100k = 100000 * (total_collisions / population);
-                        var ped_per_100k_walk = ped_per_100k / walk_pct;
-                        var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
-
-                        val = ped_per_100k_walk_daily || undefined;
-                    } else {
-                        var val = f.properties[p];
-                    }
-
-                    ranges[p].max = (!isNaN(val) && isFinite(val)) ? Math.max(val, ranges[p].max) : ranges[p].max;
-                    ranges[p].min = ((val > 0) && isFinite(val) && !isNaN(val)) ? Math.min(val, ranges[p].min) : ranges[p].min;
-                });
             });
 
             // create a choropleth map using the CBG features
             // initially use VMT as the choropleth property
             geojsonLayer = new Choropleth(resp1.data, {
-                property: 'hh_type1_vmt',
+                property: property_config['vmt'].summarizer,
                 style: (f) => {
                     return {
                         color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
@@ -167,12 +138,13 @@ $('.btn-squared').click(function() {
                     };
                 },
                 onEachFeature: (f, l) => {
-                    l.on('mouseover', hoverCBG);
+                    l.on('mouseover', (e) => {
+                        f.properties._selected = true; 
+                        updateSelected();
+                    });
                     l.on('mouseout', (e) => {
-                        l.setStyle({
-                            color: NORMAL_COLOR,
-                            weight: 0.0
-                        });
+                        delete f.properties._selected;
+                        updateSelected();
                     });
                 }
             }).addTo(map);
@@ -197,14 +169,10 @@ $('.btn-squared').click(function() {
                     return style;
                 },
                 onEachFeature: (f, l) => {
-                    l.on('click', () => {
-                        selectFeatures(f);
-                    });
+                    l.on('click', () => selectFeatures(f));
 
                     // todo: move this to util file
-                    function titleCase(s) {
-                        return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
-                    }
+                    const titleCase = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
                     var msg = `
                         <span class='font-weight-bold'> Station: </span> ${f.properties.FULL_NAME || 'None'} <br>
@@ -216,7 +184,8 @@ $('.btn-squared').click(function() {
 
             // add control to map (allows users to turn off/on layers)
             L.control.layers([], {
-                'Stations': stationsLayer
+                "Livability Attributes": geojsonLayer,
+                "Rail Transit Stations": stationsLayer
             }).addTo(map);
         });
 });
@@ -229,405 +198,72 @@ $('.dropdown-menu a').click(function() {
     // (this is a bit of a hack, since bootstrap doesn't really support dropdowns)
     $('#btn-label').text(this.text);
 
-    // this is a mapping of the drop-down options to a variable name 
-    // or function that computes the attribute value for a specific feature
-    var prop = {
-        vmt: 'hh_type1_vmt',
-        housing: 'hh_type1_h',
-        pedcol: (item) => {
-            var total_collisions = item.properties['SumAllPed'];
-            var walk_pct = item.properties['JTW_WALK'] / item.properties['JTW_TOTAL'];
-            var population = item.properties['TOTPOP1'];
-
-            var ped_per_100k = 100000 * (total_collisions / population);
-            var ped_per_100k_walk = ped_per_100k / walk_pct;
-            var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
-
-            return ped_per_100k_walk_daily || undefined;
-        },
-        walkshare: (item) => {
-            var walkers = item.properties['JTW_WALK'];
-            var population = item.properties['JTW_TOTAL']; 
-
-            return walkers / population;
-        },
-        ghg: (item) => {
-            return item.properties['hh_type1_vmt'] * .90;
-        },
-        'dwelling-density': 'D1A',
-        'people-density': 'D1B',
-        'jobs-density': 'D1C',
-        'ped-environment': 'D3b',
-        'jobs-accessibility': 'D5br_cleaned',
-        'walkscore': 'walkscore',
-        'cardio': 'Cardiova_1',
-        'obesity': 'OBESITY_Cr'
-    }[this.id]; // using [this.id] will select the option specified by 'this.id'
+    var summarizer = property_config[this.id].summarizer;
 
     // update the choropleth layer with the new property
-    geojsonLayer.setProperty(prop, true);
+    geojsonLayer.setProperty(summarizer, true);
 
 });
 
-// add layer to hold the drawn features
-var drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
-
-// add the drawing controls
-var drawControlOptions = {
-    edit: {
-        featureGroup: drawnItems,
-        edit: false
-    },
-    draw: {
-        polygon: true,
-        circle: false,
-        circlemarker: false,
-        rectangle: false
-    }
-};
-
-var drawControl = new L.Control.Draw(drawControlOptions);
-map.addControl(drawControl);
-
-
-function selectByOverlay(overlay) {
-
-}
-
-function summarizeMetrics(features) {
-
-}
-
-function populateReadouts(metrics) {
-
-}
-
-
-function hoverCBG(e) {
-    // should just filter selectd CBGS and pass those features to this function....
-    var layer = e.target;
-
-    // set style of selected CBGs
-    layer.setStyle({
-        color: SELECTED_COLOR,
-        dashArray: "3 3",
-        weight: 2.
-    });
-
-    var props = layer.feature.properties;
-    var hits = 1;
-
-    // grab DIVs for the readouts
-    var vmt = document.querySelector('#stat-vmt');
-    var ghg = document.querySelector('#stat-ghg');
-    var dwellingdensity = document.querySelector('#stat-dwelling-density');
-    var personsdensity = document.querySelector('#stat-population-density');
-    var jobsdensity = document.querySelector('#stat-jobs-density');
-    var pedcol = document.querySelector('#stat-pedcol');
-    var cbgs = document.querySelector('#stat-cbgs');
-    var housing = document.querySelector('#stat-housing');
-    var pedenv = document.querySelector('#stat-ped-environment');
-    var jobsaccess = document.querySelector('#stat-jobs-accessibility');
-    var walkscore = document.querySelector('#stat-walkscore');
-    var walkshare = document.querySelector('#stat-walkshare');
-    var cardio = document.querySelector('#stat-cardio');
-    var obesity = document.querySelector('#stat-obesity');
-
-    function pct(score, range) {
-        var {
-            min,
-            max
-        } = range;
-
-        return 100 * ((score - min) / (max - min));
-    }
-
-    const pct_str = pct => `${Math.floor(pct)}%`;
-
-    function typology(pct) {
-        if (pct < 33) {
-            return ' integrated';
-        } else if (pct < 66) {
-            return ' transitioning';
-        } else {
-            return ' emerging';
-        }
-    }
-
-    var total_collisions = props['SumAllPed'];
-    var walk_pct = props['JTW_WALK'] / props['JTW_TOTAL'];
-
-    var ped_per_100k = 100000 * (total_collisions / props['TOTPOP1']);
-    var ped_per_100k_walk = ped_per_100k / walk_pct;
-    var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
-
-    var pct_pedcol = pct(ped_per_100k_walk_daily, ranges['pedcol']);
-    var pct_dwellingdensity = pct(props['D1A'] / hits, ranges['D1A']);
-    var pct_vmt = pct(props['hh_type1_vmt'] / hits, ranges['hh_type1_vmt']);
-    var pct_ghg = pct_vmt;
-    var pct_housing = pct(props['hh_type1_h'] / hits, ranges['hh_type1_h']);
-    var pct_jobsdensity = pct(props['D1C'] / hits, ranges['D1C']);
-    var pct_pedenvironment = pct(props['D3b'] / hits, ranges['D3b'])
-    var pct_jobsaccessibility = pct(props['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
-    var pct_persondensity = pct(props['D1B'] / hits, ranges['D1B']);
-    var pct_walkscore = pct(props['walkscore'] / hits, ranges['walkscore']);
-    var pct_walkshare = (!!props['JTW_WALK']) ? pct(props['JTW_WALK'] / props['JTW_TOTAL'], { min: 0, max: 1 }) : undefined;
-    var pct_cardio = pct(props['Cardiova_1'] / hits, ranges['Cardiova_1']);
-    var pct_obesity = (!!props['OBESITY_Cr']) ? pct(props['OBESITY_Cr'], ranges['OBESITY_Cr']) : undefined;
-
-    document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
-    document.querySelector('#bar-vmt > .bar').className = 'bar';
-    document.querySelector('#bar-vmt > .bar').className += typology(pct_vmt);
-
-    document.querySelector('#bar-ghg > .bar').style.width = pct_str(pct_vmt);
-    document.querySelector('#bar-ghg > .bar').className = 'bar';
-    document.querySelector('#bar-ghg > .bar').className += typology(pct_vmt);
-
-    document.querySelector('#bar-dwelling-density > .bar').style.width = pct_str(pct_dwellingdensity);
-    document.querySelector('#bar-dwelling-density > .bar').className = 'bar';
-    document.querySelector('#bar-dwelling-density > .bar').className += typology(pct_dwellingdensity);
-
-    document.querySelector('#bar-housing > .bar').style.width = pct_str(pct_housing);
-    document.querySelector('#bar-housing > .bar').className = 'bar';
-    document.querySelector('#bar-housing > .bar').className += typology(pct_housing);
-
-    if (isNaN(pct_pedcol) || pct_pedcol === Infinity) {
-        document.querySelector('#bar-pedcol > .bar').className = 'bar na';
-    } else {
-        document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
-        document.querySelector('#bar-pedcol > .bar').className = 'bar';
-        document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
-    }
-
-    document.querySelector('#bar-jobs-density > .bar').style.width = pct_str(pct_housing);
-    document.querySelector('#bar-jobs-density > .bar').className = 'bar';
-    document.querySelector('#bar-jobs-density > .bar').className += typology(pct_housing);
-
-    document.querySelector('#bar-jobs-accessibility > .bar').style.width = pct_str(pct_jobsaccessibility);
-    document.querySelector('#bar-jobs-accessibility > .bar').className = 'bar';
-    document.querySelector('#bar-jobs-accessibility > .bar').className += typology(pct_jobsaccessibility);
-
-    document.querySelector('#bar-ped-environment > .bar').style.width = pct_str(pct_pedenvironment);
-    document.querySelector('#bar-ped-environment > .bar').className = 'bar';
-    document.querySelector('#bar-ped-environment > .bar').className += typology(pct_pedenvironment);
-
-    document.querySelector('#bar-population-density > .bar').style.width = pct_str(pct_persondensity);
-    document.querySelector('#bar-population-density > .bar').className = 'bar';
-    document.querySelector('#bar-population-density > .bar').className += typology(pct_persondensity);
-
-    document.querySelector('#bar-walkscore > .bar').style.width = pct_str(pct_walkscore);
-    document.querySelector('#bar-walkscore > .bar').className = 'bar';
-    document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
-
-    if (isNaN(pct_obesity) || pct_obesity === Infinity) {
-        document.querySelector('#bar-obesity > .bar').className = 'bar na';
-    } else {
-        document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
-        document.querySelector('#bar-obesity > .bar').className = 'bar';
-        document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
-    }
-
-    document.querySelector('#bar-cardio > .bar').style.width = pct_str(pct_cardio);
-    document.querySelector('#bar-cardio > .bar').className = 'bar';
-    document.querySelector('#bar-cardio > .bar').className += typology(pct_cardio);
-
-    if (isNaN(pct_walkshare) || pct_walkshare === Infinity) {
-        document.querySelector('#bar-walkshare > .bar').className = 'bar na';
-    } else {
-        document.querySelector('#bar-walkshare > .bar').style.width = pct_str(pct_walkshare);
-        document.querySelector('#bar-walkshare > .bar').className = 'bar';
-        document.querySelector('#bar-walkshare > .bar').className += typology(pct_walkshare);
-    }
-
-    function withCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-
-    // set values for readouts (according to formatting)
-    dwellingdensity.innerHTML = (props['D1A'] / hits).toFixed(2);
-    personsdensity.innerHTML = (props['D1B'] / hits).toFixed(2);
-    jobsdensity.innerHTML = (props['D1C'] / hits).toFixed(2);
-    vmt.innerHTML = withCommas((props['hh_type1_vmt'] / hits).toFixed(0));
-    ghg.innerHTML = withCommas(((props['hh_type1_vmt'] / hits) * .90).toFixed(0));
-    housing.innerHTML = (props['hh_type1_h'] / hits).toFixed(1);
-    pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
-    pedenv.innerHTML = (props['D3b'] / hits).toFixed(1);
-    jobsaccess.innerHTML = withCommas((props['D5br_cleaned'] / hits).toFixed(0));
-    walkscore.innerHTML = (props['walkscore'] / hits).toFixed(1);
-    walkshare.innerHTML = (!!props['JTW_WALK']) ? (100 * (props['JTW_WALK'] / props['JTW_TOTAL'])).toFixed(1) : 'N/A';
-    cardio.innerHTML = (props['Cardiova_1'] / hits).toFixed(1);
-    obesity.innerHTML = (!!props['OBESITY_Cr']) ? (props['OBESITY_Cr'] / hits).toFixed(1) : 'N/A';
-    cbgs.innerHTML = hits;
-}
-
-
 // add event handler for when a drawn feature is deleted 
 map.on(L.Draw.Event.DELETESTOP, (e) => {
-    delete_mode = false;
+    geojsonLayer.eachLayer((l) => { delete l.feature.properties._selected; });
 
-    // when a drawn feature is deleted, we want to reset the readouts
-    hits = 0;
-    sums = {
-        hh_type1_vmt: 0.0,
-        'SumAllPed': 0.0,
-        'JTW_TOTAL': 0.0,
-        'JTW_WALK': 0.0,
-        'hh_type1_h': 0.0,
-        'D3b': 0.0,
-        'D5br_cleaned': 0.0,
-        'D1A': 0.0,
-        'D1B': 0.0,
-        'D1C': 0.0,
-        TOTPOP1: 0,
-        pop_ped: 0,
-        'walkscore': 0.0,
-        'Cardiova_1': 0.0,
-        'OBESITY_Cr': 0.0
-    };
-
-    // reset style of selected features
     geojsonLayer.setStyle((f) => {
-
-        f.properties._selected = false; // BAD!!! SIDE EFFECT!!!
-
         return {
             color: NORMAL_COLOR,
             weight: 0.0
         };
     });
 
-    // get the readout divs in order to reset
-    var vmt = document.querySelector('#stat-vmt');
-    var ghg = document.querySelector('#stat-ghg');
-    var pedcol = document.querySelector('#stat-pedcol');
-    var cbgs = document.querySelector('#stat-cbgs');
-    var housing = document.querySelector('#stat-housing');
-    var pedenv = document.querySelector('#stat-ped-environment');
-    var jobsaccess = document.querySelector('#stat-jobs-accessibility');
-    var dwellingdensity = document.querySelector('#stat-dwelling-density');
-    var persondensity = document.querySelector('#stat-population-density');
-    var jobsdensity = document.querySelector('#stat-jobs-density');
-    var walkscore = document.querySelector('#stat-walkscore');
-    var walkshare = document.querySelector('#stat-walkshare');
-    var cardio = document.querySelector('#stat-cardio');
-    var obesity = document.querySelector('#stat-obesity');
-
-    // clear bars
-    [
-        'bar-vmt',
-        'bar-ghg',
-        'bar-dwelling-density',
-        'bar-housing',
-        'bar-pedcol',
-        'bar-jobs-density',
-        'bar-jobs-accessibility',
-        'bar-ped-environment',
-        'bar-population-density',
-        'bar-walkshare',
-        'bar-obesity',
-        'bar-cardio'
-    ].forEach(id => {
-        document.querySelector(`#${id} > .bar`).className = "bar na";
-    });
-
-    // set all values to 'N/A'
-    vmt.innerHTML = 'N/A';
-    ghg.innerHTML = 'N/A';
-    pedcol.innerHTML = 'N/A';
-    cbgs.innerHTML = 0;
-    housing.innerHTML = 'N/A';
-    pedenv.innerHTML = 'N/A';
-    jobsaccess.innerHTML = 'N/A';
-    dwellingdensity.innerHTML = 'N/A';
-    persondensity.innerHTML = 'N/A';
-    jobsdensity.innerHTML = 'N/A';
-    walkscore.innerHTML = 'N/A';
-    walkshare.innerHTML = 'N/A';
-    cardio.innerHTML = 'N/A';
-    obesity.innerHTML = 'N/A';
+    clearReadouts();
+    document.querySelector('#stat-cbgs').innerHTML = 0;
+    
 });
 
-
 function selectFeatures(buffer) {
-    // need to grab the CBG layer as a geojson in order to
-    // iterate over features
     var cbgs = geojsonLayer.toGeoJSON();
-
     var bufferLayer = new L.geoJson(buffer);
-
-    // is this legit? to delete a layer?
-    bufferLayer.on('click', (e) => {
-        if (delete_mode) {
-            map.removeLayer(e.layer);
-            map.fire(L.Draw.Event.DELETESTOP);
-        }
-    });
 
     // add feature to drawing layer
     drawnItems.addLayer(bufferLayer);
 
-    /*
-     *
-     * this should be like:
-     * selected = cbgs.filter()
-     * sums = sum(selected)
-     * summarize(sums);
-     * ....
-     */
-    // go through each CBG feature and determine
-    // whether intersects the drawn feature
-    cbgs.features.forEach((f) => {
+    // turf.insersect does not work for multipolygons...
+    function intersects(a, b) {
 
-        // turf.insersect does not work for multipolygons...
-        function intersects(a, b) {
+        if (b.geometry.type === 'Polygon') {
+            return turf.intersect(a, b);
+        } else if (b.geometry.type === 'MultiPolygon') {
+            var polys_coords = b.geometry.coordinates;
 
-            if (b.geometry.type === 'Polygon') {
-                return turf.intersect(a, b);
-            } else if (b.geometry.type === 'MultiPolygon') {
-                var polys_coords = b.geometry.coordinates;
-
-                for (var i = 0; i < polys_coords.length; i++) {
-                    var polygon = {
-                        geometry: {
-                            type: 'Polygon',
-                            coordinates: polys_coords[i]
-                        }
-                    };
-
-                    if (turf.intersect(a, polygon)) {
-                        return true;
+            for (var i = 0; i < polys_coords.length; i++) {
+                var polygon = {
+                    geometry: {
+                        type: 'Polygon',
+                        coordinates: polys_coords[i]
                     }
+                };
+
+                if (turf.intersect(a, polygon)) {
+                    return true;
                 }
             }
-
-            return false;
         }
 
-        // if this feature intersects with the drawn feature,
-        // sum up the attributes
+        return false;
+    }
+    
+    cbgs.features.forEach((f) => {
         if (intersects(buffer, f)) {
             f.properties._selected = true;
-            var keys = Object.keys(sums);
-
-            keys.forEach((k) => {
-                // only parsing int because some variables are being converted to 
-                // strings when exporting to geojson... (fix this!!)
-                sums[k] = (sums[k] + parseInt(f.properties[k])) || sums[k];
-            });
-
-            hits++;
-
-            function isNumeric(n) {
-                return !isNaN(parseFloat(n)) && isFinite(n);
-            }
-
-            if (isNumeric(f.properties['SumAllPed'])) {
-                sums.pop_ped += f.properties.TOTPOP1;
-            }
         }
     });
 
+}
+
+function updateSelected(layer=geojsonLayer) {
+    var cbgs = geojsonLayer.toGeoJSON();
+    
     // set style of selected CBGs
     geojsonLayer.setStyle((f) => {
         return {
@@ -637,148 +273,11 @@ function selectFeatures(buffer) {
         };
     });
 
-    // grab DIVs for the readouts
-    var vmt = document.querySelector('#stat-vmt');
-    var ghg = document.querySelector('#stat-ghg');
-    var dwellingdensity = document.querySelector('#stat-dwelling-density');
-    var personsdensity = document.querySelector('#stat-population-density');
-    var jobsdensity = document.querySelector('#stat-jobs-density');
-    var pedcol = document.querySelector('#stat-pedcol');
-    var cbgs = document.querySelector('#stat-cbgs');
-    var housing = document.querySelector('#stat-housing');
-    var pedenv = document.querySelector('#stat-ped-environment');
-    var jobsaccess = document.querySelector('#stat-jobs-accessibility');
-    var walkscore = document.querySelector('#stat-walkscore');
-    var walkshare = document.querySelector('#stat-walkshare');
-    var cardio = document.querySelector('#stat-cardio');
-    var obesity = document.querySelector('#stat-obesity');
+    var selected_features = cbgs.features.filter((f) => f.properties._selected);
 
-    function pct(score, range) {
-        var {
-            min,
-            max
-        } = range;
+    populateReadouts(selected_features);
 
-        return 100 * ((score - min) / (max - min));
-    }
-
-    const pct_str = pct => `${Math.floor(pct)}%`;
-
-    function typology(pct) {
-        if (pct < 33) {
-            return ' integrated';
-        } else if (pct < 66) {
-            return ' transitioning';
-        } else {
-            return ' emerging';
-        }
-    }
-
-    var total_collisions = sums['SumAllPed'];
-    var walk_pct = sums['JTW_WALK'] / sums['JTW_TOTAL'];
-
-    var ped_per_100k = 100000 * (total_collisions / sums.pop_ped);
-    var ped_per_100k_walk = ped_per_100k / walk_pct;
-    var ped_per_100k_walk_daily = ped_per_100k_walk / 365.0;
-
-    var pct_pedcol = pct(ped_per_100k_walk_daily, ranges['pedcol']);
-    var pct_dwellingdensity = pct(sums['D1A'] / hits, ranges['D1A']);
-    var pct_vmt = pct(sums['hh_type1_vmt'] / hits, ranges['hh_type1_vmt']);
-    var pct_ghg = pct_vmt;
-    var pct_housing = pct(sums['hh_type1_h'] / hits, ranges['hh_type1_h']);
-    var pct_jobsdensity = pct(sums['D1C'] / hits, ranges['D1C']);
-    var pct_pedenvironment = pct(sums['D3b'] / hits, ranges['D3b'])
-    var pct_jobsaccessibility = pct(sums['D5br_cleaned'] / hits, ranges['D5br_cleaned']);
-    var pct_persondensity = pct(sums['D1B'] / hits, ranges['D1B']);
-    var pct_walkscore = pct(sums['walkscore'] / hits, ranges['walkscore']);
-    var pct_walkshare = pct(sums['JTW_WALK'] / sums['JTW_TOTAL'], {min: 0, max: 1});
-    var pct_cardio = pct(sums['Cardiova_1'] / hits, ranges['Cardiova_1']);
-    var pct_obesity = pct(sums['OBESITY_Cr'] / hits, ranges['OBESITY_Cr']);
-
-    document.querySelector('#bar-vmt > .bar').style.width = pct_str(pct_vmt);
-    document.querySelector('#bar-vmt > .bar').className = 'bar';
-    document.querySelector('#bar-vmt > .bar').className += typology(pct_vmt);
-
-    document.querySelector('#bar-ghg > .bar').style.width = pct_str(pct_vmt);
-    document.querySelector('#bar-ghg > .bar').className = 'bar';
-    document.querySelector('#bar-ghg > .bar').className += typology(pct_vmt);
-
-    document.querySelector('#bar-dwelling-density > .bar').style.width = pct_str(pct_dwellingdensity);
-    document.querySelector('#bar-dwelling-density > .bar').className = 'bar';
-    document.querySelector('#bar-dwelling-density > .bar').className += typology(pct_dwellingdensity);
-
-    document.querySelector('#bar-housing > .bar').style.width = pct_str(pct_housing);
-    document.querySelector('#bar-housing > .bar').className = 'bar';
-    document.querySelector('#bar-housing > .bar').className += typology(pct_housing);
-
-    if (isNaN(pct_pedcol) || pct_pedcol === Infinity) {
-        document.querySelector('#bar-pedcol > .bar').className = 'bar na';
-    } else {
-        document.querySelector('#bar-pedcol > .bar').style.width = pct_str(pct_pedcol);
-        document.querySelector('#bar-pedcol > .bar').className = 'bar';
-        document.querySelector('#bar-pedcol > .bar').className += typology(pct_pedcol);
-    }
-
-    document.querySelector('#bar-jobs-density > .bar').style.width = pct_str(pct_housing);
-    document.querySelector('#bar-jobs-density > .bar').className = 'bar';
-    document.querySelector('#bar-jobs-density > .bar').className += typology(pct_housing);
-
-    document.querySelector('#bar-jobs-accessibility > .bar').style.width = pct_str(pct_jobsaccessibility);
-    document.querySelector('#bar-jobs-accessibility > .bar').className = 'bar';
-    document.querySelector('#bar-jobs-accessibility > .bar').className += typology(pct_jobsaccessibility);
-
-    document.querySelector('#bar-ped-environment > .bar').style.width = pct_str(pct_pedenvironment);
-    document.querySelector('#bar-ped-environment > .bar').className = 'bar';
-    document.querySelector('#bar-ped-environment > .bar').className += typology(pct_pedenvironment);
-
-    document.querySelector('#bar-population-density > .bar').style.width = pct_str(pct_persondensity);
-    document.querySelector('#bar-population-density > .bar').className = 'bar';
-    document.querySelector('#bar-population-density > .bar').className += typology(pct_persondensity);
-
-    document.querySelector('#bar-walkscore > .bar').style.width = pct_str(pct_walkscore);
-    document.querySelector('#bar-walkscore > .bar').className = 'bar';
-    document.querySelector('#bar-walkscore > .bar').className += typology(pct_walkscore);
-
-    if (isNaN(pct_obesity) || pct_obesity === Infinity) {
-        document.querySelector('#bar-obesity > .bar').className = 'bar na';
-    } else {
-        document.querySelector('#bar-obesity > .bar').style.width = pct_str(pct_obesity);
-        document.querySelector('#bar-obesity > .bar').className = 'bar';
-        document.querySelector('#bar-obesity > .bar').className += typology(pct_obesity);
-    }
-
-    document.querySelector('#bar-cardio > .bar').style.width = pct_str(pct_cardio);
-    document.querySelector('#bar-cardio > .bar').className = 'bar';
-    document.querySelector('#bar-cardio > .bar').className += typology(pct_cardio);
-
-    if (isNaN(pct_walkshare) || pct_walkshare === Infinity) {
-        document.querySelector('#bar-walkshare > .bar').className = 'bar na';
-    } else {
-        document.querySelector('#bar-walkshare > .bar').style.width = pct_str(pct_walkshare);
-        document.querySelector('#bar-walkshare > .bar').className = 'bar';
-        document.querySelector('#bar-walkshare > .bar').className += typology(pct_walkshare);
-    }
-
-    function withCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-
-    // set values for readouts (according to formatting)
-    dwellingdensity.innerHTML = (sums['D1A'] / hits).toFixed(2);
-    personsdensity.innerHTML = (sums['D1B'] / hits).toFixed(2);
-    jobsdensity.innerHTML = (sums['D1C'] / hits).toFixed(2);
-    vmt.innerHTML = withCommas((sums['hh_type1_vmt'] / hits).toFixed(0));
-    ghg.innerHTML = withCommas(((sums['hh_type1_vmt'] / hits) * .90).toFixed(0));
-    housing.innerHTML = (sums['hh_type1_h'] / hits).toFixed(1);
-    pedcol.innerHTML = isFinite(ped_per_100k_walk_daily) ? ped_per_100k_walk_daily.toFixed(2) : 'N/A';
-    pedenv.innerHTML = (sums['D3b'] / hits).toFixed(1);
-    jobsaccess.innerHTML = withCommas((sums['D5br_cleaned'] / hits).toFixed(0));
-    walkscore.innerHTML = (sums['walkscore'] / hits).toFixed(1);
-    walkshare.innerHTML = (100 * (sums['JTW_WALK'] / sums['JTW_TOTAL'])).toFixed(1);
-    cardio.innerHTML = (sums['Cardiova_1'] / hits).toFixed(1);
-    obesity.innerHTML = (sums['OBESITY_Cr'] / hits).toFixed(1);
-    cbgs.innerHTML = hits;
-
+    document.querySelector('#stat-cbgs').innerHTML = selected_features.length;
 }
 
 // add event handler for when a feature is drawn by the user
@@ -815,5 +314,5 @@ map.on(L.Draw.Event.CREATED, (e) => {
     }
 
     selectFeatures(buffer);
-
+    updateSelected();
 });

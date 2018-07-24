@@ -111,7 +111,7 @@
                                 <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
                                 <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
                                 <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
-                                <li><a id="people-density" class="dropdown-item" href="#"> Population Density </a></li>
+                                <li><a id="pop-density" class="dropdown-item" href="#"> Population Density </a></li>
                                 <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
                                 <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
                                 <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
@@ -136,10 +136,10 @@
                         <li class="statistic" data-toggle="tooltip" data-placement="top">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Vehicle Miles Traveled
+                                    Vehicle Miles Traveled <br> (per household)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-vmt"> N/A </span>
+                                    <span id="stat-vmt"> n/a </span>
                                 </span>
                             </div>
                             <div id='bar-vmt' class="bar bar-full">
@@ -148,13 +148,13 @@
                         </li>
 
                         <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                title="Housing Affordability reflects housing costs as a percent of income."">
+                                title="housing affordability reflects housing costs as a percent of income.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Housing Affordability
+                                    housing affordability
                                 </span>
                                 <span class="value">
-                                    <span id="stat-housing"> N/A </span>
+                                    <span id="stat-housing"> n/a </span>
                                 </span>
                             </div>
                             <div id='bar-housing' class="bar bar-full">
@@ -165,10 +165,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Dwelling Density <br> (Units Per Acre)
+                                    dwelling density <br> (units per acre)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-dwelling-density"> N/A </span>
+                                    <span id="stat-dwelling-density"> n/a </span>
                                 </span>
                             </div>
                             <div id='bar-dwelling-density' class="bar bar-full">
@@ -179,10 +179,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Carbon Emissions <br> (lbs per person)
+                                    carbon emissions <br> (lbs per household)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-ghg"> N/A </span>
+                                    <span id="stat-ghg"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-ghg" class="bar bar-full">
@@ -193,10 +193,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Pedestrian Collisions <br> (per 100K walkers)
+                                    pedestrian collisions <br> (per 100k walkers)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-pedcol"> N/A </span>
+                                    <span id="stat-pedcol"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-pedcol" class="bar bar-full">
@@ -207,13 +207,13 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Population Density <br> (Persons Per Acre)
+                                    population density <br> (persons per acre)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-population-density"> N/A </span>
+                                    <span id="stat-pop-density"> n/a </span>
                                 </span>
                             </div>
-                            <div id="bar-population-density" class="bar bar-full">
+                            <div id="bar-pop-density" class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>
@@ -221,10 +221,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Jobs Density <br> (Jobs Per Acre)
+                                    jobs density <br> (jobs per acre)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-jobs-density"> N/A </span>
+                                    <span id="stat-jobs-density"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-jobs-density" class="bar bar-full">
@@ -233,13 +233,13 @@
                         </li>
 
                         <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                    title="Jobs Accessibility reflects the number of jobs accessible within a 45 minute transit commute.">
+                                    title="jobs accessibility reflects the number of jobs accessible within a 45 minute transit commute.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Jobs Accessibility
+                                    jobs accessibility
                                 </span>
                                 <span class="value">
-                                    <span id="stat-jobs-accessibility"> N/A </span>
+                                    <span id="stat-jobs-accessibility"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-jobs-accessibility" class="bar bar-full">
@@ -250,10 +250,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Walkability <br> (Intersection Density)
+                                    walkability <br> (intersection density)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-ped-environment"> N/A </span>
+                                    <span id="stat-ped-environment"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-ped-environment" class="bar bar-full">
@@ -264,10 +264,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    WalkScore
+                                    walkscore
                                 </span>
                                 <span class="value">
-                                    <span id="stat-walkscore"> N/A </span>
+                                    <span id="stat-walkscore"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-walkscore" class="bar bar-full">
@@ -278,10 +278,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Walking Percent
+                                    walking percent
                                 </span>
                                 <span class="value">
-                                    <span id="stat-walkshare"> N/A </span>
+                                    <span id="stat-walkshare"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-walkshare" class="bar bar-full">
@@ -292,11 +292,11 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Cardiovascular Disease <br>
-                                    (Percentile)
+                                    cardiovascular disease <br>
+                                    (percentile)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-cardio"> N/A </span>
+                                    <span id="stat-cardio"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-cardio" class="bar bar-full">
@@ -307,11 +307,11 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Obesity <br>
-                                    (Percentage Obese)
+                                    obesity <br>
+                                    (percentage obese)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-obesity"> N/A </span>
+                                    <span id="stat-obesity"> n/a </span>
                                 </span>
                             </div>
                             <div id="bar-obesity" class="bar bar-full">
@@ -335,21 +335,21 @@
         </div>
     </div>
 
-    <!-- Modals -->
+    <!-- modals -->
     <div class="modal fade" id="modal-select-city" tabindex="-1" role="dialog" aria-hidden="false"
         data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-body" class="p-5">
-                    <h4 class="text-center"> SELECT A COUNTY: </h4>
+                    <h4 class="text-center"> select a county: </h4>
 
                     <!-- <div class="d-flex justify-content-around flex-wrap mt-5"> -->
                     <div class="d-flex flex-column">
                         <button type="button" id="btn-sd-county" class="btn btn-squared btn-success btn-md">
-                                <span id="btn-label" class="text-center"> San Diego County </span>
+                                <span id="btn-label" class="text-center"> san diego county </span>
                             </button>
                         <button type="button" id="btn-sm-county" class="btn btn-squared btn-success btn-md">
-                                <span id="btn-label" class="text-center"> San Mateo County </span>
+                                <span id="btn-label" class="text-center"> san mateo county </span>
                             </button>
                     </div>
 
@@ -363,39 +363,39 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-weight-bold"> PROJECT DESCRIPTION </h4>
+                    <h4 class="modal-title font-weight-bold"> project description </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
                 </div>
                 <div class="modal-body">
                     <p>
-                        Developed by Dr. Bruce Appleyard (<a href="mailto:bappleyard@mail.sdsu.edu"
+                        developed by dr. bruce appleyard (<a href="mailto:bappleyard@mail.sdsu.edu"
                             target="_top">bappleyard@mail.sdsu.edu</a>) and research
-                        assistants Chris Allen and Eduardo Cordova, this new online
-                        Smart Growth & Livability Calculator prototype is designed
+                        assistants chris allen and eduardo cordova, this new online
+                        smart growth & livability calculator prototype is designed
                         to help practitioners and researchers meet a variety of
                         planning and design challenges related to corridors, station
                         areas, and complete streets, climate action planning and
                         providing affordable housing near transit in support of
-                        active and sustainable travel. This Smart Growth & Livability
-                        Calculator builds on work developing <a href="http://www.trb.org/Main/Blurbs/174953.aspx">The Handbook for 
-                                Building Livable Transit Corridors</a> and the
-                        associated <a href="http://www.trb.org/Main/Blurbs/174953.aspx">
-                                Livability Calculator</a>, sponsored by the National
-                        Academies of Sciences' Transportation Research Board.
+                        active and sustainable travel. this smart growth & livability
+                        calculator builds on work developing <a href="http://www.trb.org/main/blurbs/174953.aspx">the handbook for 
+                                building livable transit corridors</a> and the
+                        associated <a href="http://www.trb.org/main/blurbs/174953.aspx">
+                                livability calculator</a>, sponsored by the national
+                        academies of sciences' transportation research board.
                     </p>
                     <p>
-                        In the future, this Calculator will be designed to help plan the future of autonomous
+                        in the future, this calculator will be designed to help plan the future of autonomous
                         vehicles, as outlines in this
                         <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3040783">
                             publication</a> on a new transportation/land
-                        use performance measurement framework. For now, this prototype
-                        covers San Diego, CA, but we have the necessary data for
-                        California and the entire US.
+                        use performance measurement framework. for now, this prototype
+                        covers san diego, ca, but we have the necessary data for
+                        california and the entire us.
                     </p>
                     <p>
-                        Special thanks to Geoff Boeing, PhD, for his advice and assistance on this Calculator.
+                        special thanks to geoff boeing, phd, for his advice and assistance on this calculator.
                     </p>
                 </div>
             </div>
@@ -407,69 +407,69 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-weight-bold"> ABOUT US </h4>
+                    <h4 class="modal-title font-weight-bold"> about us </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
                 </div>
                 <div class="modal-body">
-                    <h5> Bruce Appleyard, PhD </h5>
+                    <h5> bruce appleyard, phd </h5>
                     <h5><a href="mailto:bappleyard@mail.sdsu.edu" target="_top"> bappleyard@mail.sdsu.edu</a></h5>
                     <p>
-                        Dr. Appleyard is an Associate Professor in City & Regional Planning and Public
-                        Administration at SDSU, with doctoral training in geo-spatial
+                        dr. appleyard is an associate professor in city & regional planning and public
+                        administration at sdsu, with doctoral training in geo-spatial
                         analysis, behavioral economics, econometrics, and applied
-                        transportation and land use policy analysis. Dr. Appleyard
-                        is also an Associate Director in the Human Dynamics in
-                        the Mobile Age (HDMA) research center, and the Assistant
-                        Director of the Active Transportation Research Center,
-                        both based at SDSU. Dr. Appleyard has led several research
+                        transportation and land use policy analysis. dr. appleyard
+                        is also an associate director in the human dynamics in
+                        the mobile age (hdma) research center, and the assistant
+                        director of the active transportation research center,
+                        both based at sdsu. dr. appleyard has led several research
                         efforts examining the relationship between public transport,
                         land use, socio-economics, and a variety of outcomes related
                         to public health, sustainability, economic vitality, and
                         equity.
                     </p>
                     <p>
-                        Dr. Appleyard was the Co-PI for the development of <a href="http://www.trb.org/Main/Blurbs/174953.aspx">The Handbook for 
-                                Building Livable Transit Corridors</a> and the
-                        associated <a href="http://www.trb.org/Main/Blurbs/174953.aspx">
-                                Livability Calculator</a>, sponsored by the National
-                        Academies of Sciences&#8217 Transit Cooperative Research
-                        Project (TCRP). This required extensive geo-spatial and
+                        dr. appleyard was the co-pi for the development of <a href="http://www.trb.org/main/blurbs/174953.aspx">the handbook for 
+                                building livable transit corridors</a> and the
+                        associated <a href="http://www.trb.org/main/blurbs/174953.aspx">
+                                livability calculator</a>, sponsored by the national
+                        academies of sciences&#8217 transit cooperative research
+                        project (tcrp). this required extensive geo-spatial and
                         econometric, mixed method analysis of all transit stations
-                        and corridors throughout the US. Dr. Appleyard has also
-                        been the project lead for the development of the Sustainable
-                        Transportation Calculator for the Smart Mobility Framework
-                        Implementation Project for the State of California
+                        and corridors throughout the us. dr. appleyard has also
+                        been the project lead for the development of the sustainable
+                        transportation calculator for the smart mobility framework
+                        implementation project for the state of california
                     </p>
 
-                    <h5> Chris Allen </h5>
+                    <h5> chris allen </h5>
                     <p>
-                        Chris Allen is a PhD candidate in the Department of Geography at San Diego State
-                        University, where he focuses on using geospatial techniques
+                        chris allen is a phd candidate in the department of geography at san diego state
+                        university, where he focuses on using geospatial techniques
                         and new data sources to examine well-being in urban areas.
-                        Prior to entering the PhD program, Chris worked as a software
+                        prior to entering the phd program, chris worked as a software
                         verification engineer in the avionics industry and completed
-                        an MA in urban history at San Diego State. As a research
-                        assistant at San Diego State, he has worked primarily on
+                        an ma in urban history at san diego state. as a research
+                        assistant at san diego state, he has worked primarily on
                         projects to collect and analyze social media data to study
                         topics ranging from disease outbreak to disaster management.
-                        In this role, Chris&#8217s duties have included database
+                        in this role, chris&#8217s duties have included database
                         administration, web dashboard creation (both server-side
                         and client-side programming), and geospatial analysis.
                     </p>
 
-                    <h5> Eduardo Cordova </h5>
+                    <h5> eduardo cordova </h5>
                     <p>
-                        Eduardo Cordova graduated with distinction in his major from San Diego State University
-                        with a degree in Geography with an emphasis in Geographic
-                        Information Systems (GIS) in December of 2016. He has worked
-                        on a variety of projects which include the Excel Livability
-                        Calculator, Typology of Transit Corridor Livability, Carbon
-                        Emissions Study, and Crime Stop studies. His contributions
-                        range from map creation, Python application development,
-                        and data interpretation and management. His primary skill-set
-                        include Python Programming, ArcGIS, and Arc Online.
+                        eduardo cordova graduated with distinction in his major from san diego state university
+                        with a degree in geography with an emphasis in geographic
+                        information systems (gis) in december of 2016. he has worked
+                        on a variety of projects which include the excel livability
+                        calculator, typology of transit corridor livability, carbon
+                        emissions study, and crime stop studies. his contributions
+                        range from map creation, python application development,
+                        and data interpretation and management. his primary skill-set
+                        include python programming, arcgis, and arc online.
                     </p>
 
                 </div>
@@ -482,24 +482,24 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-weight-bold"> DIRECTIONS </h4>
+                    <h4 class="modal-title font-weight-bold"> directions </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h5> SELECTING LAYERS </h5>
+                    <h5> selecting layers </h5>
                     <p>
-                        The Smart Growth Livability Calculator allows users to turn overlays on and off
-                        by using the Layer Selection control, which is located
+                        the smart growth livability calculator allows users to turn overlays on and off
+                        by using the layer selection control, which is located
                         in the top-right corner of the map:
 
                         <div class="d-flex justify-content-center">
                             <img src="img/layer-selection-1.png" style="margin: 10px; height: 240px;">
                         </div>
 
-                        Hovering over the Layer Selection control will display the layers that are loaded
-                        into the calculator. Show or hide layers by selecting or
+                        hovering over the layer selection control will display the layers that are loaded
+                        into the calculator. show or hide layers by selecting or
                         deselecting the checkboxes next to each layer label:
 
                         <div class="d-flex justify-content-center">
@@ -507,13 +507,13 @@
                         </div>
                     </p>
 
-                    <h5> SELECTING GEOGRAPHIC UNITS </h5>
+                    <h5> selecting geographic units </h5>
                     <p>
-                        The Calculator gives users the option to dynamically select geographic units to
-                        calculate smart growth scores for these sub-regions. This
+                        the calculator gives users the option to dynamically select geographic units to
+                        calculate smart growth scores for these sub-regions. this
                         is accomplished by using the drawing controls to the left
                         of map display, and users can select geographic units by
-                        drawing point or line features. Currently, these tools
+                        drawing point or line features. currently, these tools
                         select all units within a half-mile buffer of the drawn
                         feature, which was chosen to account for catchment areas
                         that exist around point or linear features:
@@ -523,7 +523,7 @@
                             <img src="img/area-selection-2.png" style="margin: 20px; height: 240px;">
                         </div>
 
-                        After one or more features are drawn on the map, the statistic readouts will be
+                        after one or more features are drawn on the map, the statistic readouts will be
                         populated to display the aggregate smart growth scores
                         for the selected geographic units:
 
@@ -533,10 +533,10 @@
 
                     </p>
 
-                    <h5> DESELECTING GEOGRAPHIC UNITS </h5>
+                    <h5> deselecting geographic units </h5>
                     <p>
-                        To remove any user selections, click the delete button (indicated by the trash
-                        can icon) and choose "Clear All":
+                        to remove any user selections, click the delete button (indicated by the trash
+                        can icon) and choose "clear all":
 
                         <div class="d-flex justify-content-center">
                             <img src="img/area-selection-delete.png" style="margin: 10px; height: 240px;">
@@ -548,20 +548,20 @@
         </div>
     </div>
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- jquery first, then popper.js, then bootstrap js -->
 
-    <!-- Not using slim version since no animate functionality -->
-    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <!-- not using slim version since no animate functionality -->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-kj3o2dktikvyik3uenzmm7kckrr/re9/qpg6aazgjwfdmvna/gpgff93hxpg5kkn"
 crossorigin="anonymous"></script>-->
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          integrity="sha256-fgpcb/kjqllnfou91ta32o/nmzxltwro8qtmkmrdau8="
           crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        integrity="sha384-apnbgh9b+y1qktv3rn7w3mgpxhu9k/scqsap7huibx39j7fakfpskvxusvfa0b4q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        integrity="sha384-jzr6spejh4u02d8jot6vlehfe/jqgirrsqqxsffwpi1mquvdayjuar5+76pvcmyl"
         crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
