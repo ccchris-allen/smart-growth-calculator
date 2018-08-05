@@ -108,6 +108,8 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
                                 <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
+                                <li><a id="afford-transport" class="dropdown-item" href="#"> Transportation Affordability </a></li>
+                                <li><a id="afford-house-transport" class="dropdown-item" href="#"> Housing + Transportation Affordability </a></li>
                                 <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
                                 <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
                                 <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
@@ -158,6 +160,36 @@
                                 </span>
                             </div>
                             <div id='bar-housing' class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
+                                title="Transportation affordability reflects transportation costs as a percent of income.">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">
+                                    Transportation affordability
+                                </span>
+                                <span class="value">
+                                    <span id="stat-afford-transport"> n/a </span>
+                                </span>
+                            </div>
+                            <div id='bar-afford-transport' class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
+                                title="Housing + transportation affordability reflects housing + transportation costs as a percent of income.">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">
+                                    Housing + Transportation affordability
+                                </span>
+                                <span class="value">
+                                    <span id="stat-afford-house-transport"> n/a </span>
+                                </span>
+                            </div>
+                            <div id='bar-afford-house-transport' class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>

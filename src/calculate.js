@@ -7,6 +7,7 @@ const forceArray = (a) => Array.isArray(a) ? a : [a];
 
 function getTypologyFromPct(pct) {
     // very simple way of defining bins 
+    // should do jenks (?)
 
     if (pct < 33) {
         return 'integrated';
@@ -70,6 +71,8 @@ function createSimpleSummarizer(prop) {
 export const PROPERTY_ORDER = [
     "vmt",
     "housing",
+    "afford-transport",
+    "afford-house-transport",
     "ghg",
     "pop-density",
     "jobs-density",
@@ -95,6 +98,18 @@ export let property_config = {
         dom_name: "housing",
         precision: 1,
         summarizer: createSimpleSummarizer("hh_type1_h")
+    }, 
+    "afford-transport": {
+        name: "Transportation Affordability",
+        dom_name: "afford-transport",
+        precision: 1,
+        summarizer: createSimpleSummarizer("hh_type1_t")
+    }, 
+    "afford-house-transport": {
+        name: "Housing + Transportation Affordability",
+        dom_name: "afford-house-transport",
+        precision: 1,
+        summarizer: createSimpleSummarizer("hh_type1_ht")
     }, 
     "pop-density": {
         name: "Population Density",

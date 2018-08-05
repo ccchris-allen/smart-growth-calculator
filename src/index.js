@@ -35,7 +35,7 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 var areas = {
     'btn-sd-county': {
         files: {
-            polygons: 'data/sd_cbgs_latest_attributes_normed5.geojson',
+            polygons: 'data/sd_cbgs_latest_attributes_normed6.geojson',
             stations: 'data/sd-rail-stations-buffered.geojson'
         },
         center: [32.7157, -117.11],
@@ -43,7 +43,7 @@ var areas = {
     },
     'btn-sm-county': {
         files: {
-            polygons: 'data/san-mateo-with-data_normed5.geojson',
+            polygons: 'data/san-mateo-with-data_normed6.geojson',
             stations: 'data/stations-san-mateo.geojson'
         },
         center: [37.56, -122.313],
