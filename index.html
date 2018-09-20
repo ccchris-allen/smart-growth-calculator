@@ -2,7 +2,7 @@
 
 <head>
 
-    <title> SMART GROWTH LIVABILITY CALCULATOR </title>
+    <title> SMART GROWTH LIVABILITY CALCULATOR (BETA) </title>
 
     <!-- Bootstrap CSS -->
     <link 
@@ -56,7 +56,7 @@
         fixed (?) by adding fixed-top and adding padding-top to body (see above
         -->
         <nav class="navbar navbar-dark navbar-expand-lg bg-dark fixed-top navbar-default row">
-            <a class="navbar-brand" href="#"> Smart Growth Livability Calculator </a>
+            <a class="navbar-brand" href="#"> Smart Growth Livability Calculator (Beta Version) </a>
 
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
@@ -98,7 +98,7 @@
 
                     <!--<span class="section-title"> Customize Map </span>-->
 
-                    <h7 class="item-label"> Select Attribute: </h7>
+                    <h7 class="item-label"> Select Urban Quality Metric: </h7>
                         <span id="select-property" class="dropdown">
                             <button type="button" id="dropdownMenuButton" class="btn btn-xs dropdown-toggle"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
@@ -141,7 +141,7 @@
                                     Vehicle Miles Traveled <br> (per household)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-vmt"> n/a </span>
+                                    <span id="stat-vmt"> N/A </span>
                                 </span>
                             </div>
                             <div id='bar-vmt' class="bar bar-full">
@@ -153,10 +153,10 @@
                                 title="housing affordability reflects housing costs as a percent of income.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    housing affordability
+                                    Housing Affordability
                                 </span>
                                 <span class="value">
-                                    <span id="stat-housing"> n/a </span>
+                                    <span id="stat-housing"> N/A </span>
                                 </span>
                             </div>
                             <div id='bar-housing' class="bar bar-full">
@@ -168,10 +168,10 @@
                                 title="Transportation affordability reflects transportation costs as a percent of income.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Transportation affordability
+                                    Transportation Affordability
                                 </span>
                                 <span class="value">
-                                    <span id="stat-afford-transport"> n/a </span>
+                                    <span id="stat-afford-transport"> N/A </span>
                                 </span>
                             </div>
                             <div id='bar-afford-transport' class="bar bar-full">
@@ -183,10 +183,10 @@
                                 title="Housing + transportation affordability reflects housing + transportation costs as a percent of income.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Housing + Transportation affordability
+                                    Housing + Transportation Affordability
                                 </span>
                                 <span class="value">
-                                    <span id="stat-afford-house-transport"> n/a </span>
+                                    <span id="stat-afford-house-transport"> N/A </span>
                                 </span>
                             </div>
                             <div id='bar-afford-house-transport' class="bar bar-full">
@@ -197,10 +197,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    dwelling density <br> (units per acre)
+                                    Dwelling Density <br> (units per acre)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-dwelling-density"> n/a </span>
+                                    <span id="stat-dwelling-density"> N/A </span>
                                 </span>
                             </div>
                             <div id='bar-dwelling-density' class="bar bar-full">
@@ -211,10 +211,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    carbon emissions <br> (lbs per household)
+                                    Carbon Emissions <br> (lbs per household)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-ghg"> n/a </span>
+                                    <span id="stat-ghg"> N/A </span>
                                 </span>
                             </div>
                             <div id="bar-ghg" class="bar bar-full">
@@ -225,10 +225,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    pedestrian collisions <br> (per 100k walkers)
+                                    Pedestrian Collisions <br> (per 100k walkers)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-pedcol"> n/a </span>
+                                    <span id="stat-pedcol"> N/A </span>
                                 </span>
                             </div>
                             <div id="bar-pedcol" class="bar bar-full">
@@ -239,10 +239,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    population density <br> (persons per acre)
+                                    Population Density <br> (persons per acre)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-pop-density"> n/a </span>
+                                    <span id="stat-pop-density"> N/A </span>
                                 </span>
                             </div>
                             <div id="bar-pop-density" class="bar bar-full">
@@ -253,10 +253,10 @@
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    jobs density <br> (jobs per acre)
+                                    Jobs Density <br> (jobs per acre)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-jobs-density"> n/a </span>
+                                    <span id="stat-jobs-density"> N/A </span>
                                 </span>
                             </div>
                             <div id="bar-jobs-density" class="bar bar-full">
@@ -268,10 +268,10 @@
                                     title="jobs accessibility reflects the number of jobs accessible within a 45 minute transit commute.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    jobs accessibility
+                                    Jobs Accessibility
                                 </span>
                                 <span class="value">
-                                    <span id="stat-jobs-accessibility"> n/a </span>
+                                    <span id="stat-jobs-accessibility"> N/A </span>
                                 </span>
                             </div>
                             <div id="bar-jobs-accessibility" class="bar bar-full">
@@ -373,15 +373,15 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-body" class="p-5">
-                    <h4 class="text-center"> select a county: </h4>
+                    <h4 class="text-center"> Select a County: </h4>
 
                     <!-- <div class="d-flex justify-content-around flex-wrap mt-5"> -->
                     <div class="d-flex flex-column">
                         <button type="button" id="btn-sd-county" class="btn btn-squared btn-success btn-md">
-                                <span id="btn-label" class="text-center"> san diego county </span>
+                                <span id="btn-label" class="text-center"> San Diego County </span>
                             </button>
                         <button type="button" id="btn-sm-county" class="btn btn-squared btn-success btn-md">
-                                <span id="btn-label" class="text-center"> san mateo county </span>
+                                <span id="btn-label" class="text-center"> San Mateo County </span>
                             </button>
                     </div>
 
@@ -395,40 +395,43 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-weight-bold"> project description </h4>
+                    <h4 class="modal-title font-weight-bold"> Project Description </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
                 </div>
                 <div class="modal-body">
                     <p>
-                        developed by dr. bruce appleyard (<a href="mailto:bappleyard@mail.sdsu.edu"
+                        Developed by Dr. Bruce Appleyard (<a href="mailto:bappleyard@mail.sdsu.edu"
                             target="_top">bappleyard@mail.sdsu.edu</a>) and research
-                        assistants chris allen and eduardo cordova, this new online
+                        assistants Chris Allen and Eduardo Cordova, this new online
                         smart growth & livability calculator prototype is designed
                         to help practitioners and researchers meet a variety of
                         planning and design challenges related to corridors, station
                         areas, and complete streets, climate action planning and
                         providing affordable housing near transit in support of
-                        active and sustainable travel. this smart growth & livability
+                        active and sustainable travel. This smart growth & livability
                         calculator builds on work developing <a href="http://www.trb.org/main/blurbs/174953.aspx">the handbook for 
                                 building livable transit corridors</a> and the
                         associated <a href="http://www.trb.org/main/blurbs/174953.aspx">
-                                livability calculator</a>, sponsored by the national
-                        academies of sciences' transportation research board.
+                                livability calculator</a>, sponsored by the National
+                        Academies of Sciences' Transportation Research Board.
                     </p>
                     <p>
-                        in the future, this calculator will be designed to help plan the future of autonomous
+                        In the future, this calculator will be designed to help plan the future of autonomous
                         vehicles, as outlines in this
                         <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3040783">
                             publication</a> on a new transportation/land
                         use performance measurement framework. for now, this prototype
-                        covers san diego, ca, but we have the necessary data for
-                        california and the entire us.
+                        covers San Diego, CA and San Mateo, CA, but we have the necessary data for
+                        California and the entire us.
                     </p>
                     <p>
-                        special thanks to geoff boeing, phd, for his advice and assistance on this calculator.
+                        Special thanks to Geoff Boeing, PhD, for his advice and assistance on this calculator.
                     </p>
+
+                    <p>
+                        See funding information <a href="https://spa.sdsu.edu/index.php/alumni/philanthropy">here</a>.
                 </div>
             </div>
         </div>
@@ -514,15 +517,15 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-weight-bold"> directions </h4>
+                    <h4 class="modal-title font-weight-bold"> Directions </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h5> selecting layers </h5>
+                    <h5> Selecting Layers </h5>
                     <p>
-                        the smart growth livability calculator allows users to turn overlays on and off
+                        The smart growth livability calculator allows users to turn overlays on and off
                         by using the layer selection control, which is located
                         in the top-right corner of the map:
 
@@ -530,7 +533,7 @@
                             <img src="img/layer-selection-1.png" style="margin: 10px; height: 240px;">
                         </div>
 
-                        hovering over the layer selection control will display the layers that are loaded
+                        Hovering over the layer selection control will display the layers that are loaded
                         into the calculator. show or hide layers by selecting or
                         deselecting the checkboxes next to each layer label:
 
@@ -539,13 +542,13 @@
                         </div>
                     </p>
 
-                    <h5> selecting geographic units </h5>
+                    <h5> Selecting Geographic Units </h5>
                     <p>
-                        the calculator gives users the option to dynamically select geographic units to
-                        calculate smart growth scores for these sub-regions. this
+                        The calculator gives users the option to dynamically select geographic units to
+                        calculate smart growth scores for these sub-regions. This
                         is accomplished by using the drawing controls to the left
                         of map display, and users can select geographic units by
-                        drawing point or line features. currently, these tools
+                        drawing point or line features. Currently, these tools
                         select all units within a half-mile buffer of the drawn
                         feature, which was chosen to account for catchment areas
                         that exist around point or linear features:
@@ -555,7 +558,7 @@
                             <img src="img/area-selection-2.png" style="margin: 20px; height: 240px;">
                         </div>
 
-                        after one or more features are drawn on the map, the statistic readouts will be
+                        After one or more features are drawn on the map, the statistic readouts will be
                         populated to display the aggregate smart growth scores
                         for the selected geographic units:
 
@@ -565,9 +568,9 @@
 
                     </p>
 
-                    <h5> deselecting geographic units </h5>
+                    <h5> Deselecting geographic units </h5>
                     <p>
-                        to remove any user selections, click the delete button (indicated by the trash
+                        To remove any user selections, click the delete button (indicated by the trash
                         can icon) and choose "clear all":
 
                         <div class="d-flex justify-content-center">
