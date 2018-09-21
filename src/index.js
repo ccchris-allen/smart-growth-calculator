@@ -316,3 +316,59 @@ map.on(L.Draw.Event.CREATED, (e) => {
     selectFeatures(buffer);
     updateSelected();
 });
+
+initializeLegend();
+
+function initializeLegend() {
+
+    // Legend Class
+    var SGCLegend = L.Control.extend({
+        options: {
+            position: 'bottomleft'
+        },
+        initialize: function (options) {
+            L.Util.setOptions(this, options);
+        },
+        onAdd: function (map) {
+            this._container = L.DomUtil.create('div', 'info legend');
+
+            // set up legend title (with bootstrap collapse functionality
+            this._title = L.DomUtil.create('h6', '', this._container);
+            this._title.id = 'title';
+            this._title.setAttribute('href', '#legend-items');
+            this._title.setAttribute('data-toggle', 'collapse');
+            this._title.innerHTML = "Legend";
+            L.DomUtil.create('span', 'is-displayed', this._title);
+
+            // set up legend body container
+            this._body = L.DomUtil.create('div', 'collapse show', this._container);
+            this._body.id = 'legend-items';
+            this._body.innerHTML =   
+                            `<ul>
+                                <li> 
+                                    <i class="integrated polygon"></i> 
+                                    <span class="legend-label"> 
+                                        High Performing Transit Station Areas 
+                                    </span>
+                                </li>
+                                <li> 
+                                    <i class="transitioning polygon"></i> 
+                                    <span class="legend-label">
+                                        Medium Performing Transit Station Areas 
+                                    </span>
+                                </li>
+                                <li> 
+                                    <i class="emerging polygon"></i> 
+                                    <span class="legend-label">
+                                        Low Performing Transit Station Areas 
+                                    </span>
+                                </li>
+                             </ul>`;
+
+            return this._container;
+        }
+    });
+
+    let legend = new SGCLegend();
+    legend.addTo(map)
+}

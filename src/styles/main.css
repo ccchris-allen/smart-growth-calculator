@@ -206,3 +206,52 @@ button {
     padding-left: 25px;
 }
 
+.legend {
+    min-width: 100px;
+    padding: 10px;
+    background: white;
+    line-height: 18px;
+    color: #555;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 2px;
+    padding: 10px;
+}
+
+.legend > #title {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.legend-label { 
+    font-weight: bold;
+}
+
+.legend ul {
+    padding: 0px;
+    list-style-type: none;
+    list-style: none;
+}
+
+.legend ul li {
+    vertical-align: middle;
+}
+
+.legend ul li i.polygon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    min-width: 15px;
+    height: 15px;
+    border-radius: 7.5px;
+}
+
+#title[data-toggle="collapse"] .is-displayed:before {  
+    content: " [-]";
+}
+
+
+#title[data-toggle="collapse"].collapsed .is-displayed:before {
+    content: " [+]";
+}
+
+   
