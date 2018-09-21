@@ -324,7 +324,7 @@ function initializeLegend() {
     // Legend Class
     var SGCLegend = L.Control.extend({
         options: {
-            position: 'bottomleft'
+            position: 'topright'
         },
         initialize: function (options) {
             L.Util.setOptions(this, options);
