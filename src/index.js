@@ -180,7 +180,7 @@ $('.btn-squared').click(function() {
 
                     //l.bindPopup(msg);
                 }
-            }).addTo(map);
+            });
 
             // add control to map (allows users to turn off/on layers)
             L.control.layers([], {
@@ -338,8 +338,10 @@ function initializeLegend() {
             this._title.setAttribute('href', '#legend-items');
             this._title.setAttribute('data-toggle', 'collapse');
             this._title.innerHTML = "Legend";
-            L.DomUtil.create('span', 'is-displayed', this._title);
+            // uncomment this for expandable legend
+            //L.DomUtil.create('span', 'is-displayed', this._title);
 
+            /*
             // set up legend body container
             this._body = L.DomUtil.create('div', 'collapse show', this._container);
             this._body.id = 'legend-items';
@@ -364,7 +366,7 @@ function initializeLegend() {
                                     </span>
                                 </li>
                              </ul>`;
-
+            */
             return this._container;
         }
     });

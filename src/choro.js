@@ -10,8 +10,8 @@ const DEFAULT_OPTIONS = {
     property: 'value',
     // use this scale to mimic readouts:
     //scale: ['SeaGreen', 'Gold', 'Crimson'],
-    scale: ['#eeeeee', '#ee2222'],
-    steps: 10,
+    scale: ['SeaGreen', 'Gold', 'Crimson'],
+    steps: 9,
     mode: 'q',
     defaultStyle: { opacity: 0.0 }
 }; 
