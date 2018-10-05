@@ -398,7 +398,7 @@ function initializeLegend() {
     legend.addTo(map)
 }
 
-$("#download-csv").click(() => {
+$("#download-csv").on('click', () => {
     let cbgs = geojsonLayer.toGeoJSON();
     let selected = cbgs.features.filter((f) => f.properties._selected);
 
@@ -407,7 +407,6 @@ $("#download-csv").click(() => {
         return;
     }
 
-    console.log(selected);
     let rows = selected.map((s) => {
         return PROPERTY_ORDER.reduce((result, prop) => {
             let attr = property_config[prop].attribute;
