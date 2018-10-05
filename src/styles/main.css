@@ -122,8 +122,8 @@ button {
 }
 
 .integrated { background-color: SeaGreen; }
-.emerging { background-color: Crimson; }
 .transitioning { background-color: Gold; }
+.emerging { background-color: Crimson; }
 .na { width: 0% !important; }
 
 /* Readout CSS (see: https://codepen.io/ssteigen/pen/ALAzgw) */
@@ -201,13 +201,30 @@ button {
     //border-top:15px solid #2c3e50;
 }
 
+.leaflet-control-layers-toggle {
+    width: 30px;
+    height: 30px;
+}
+            
 .navbar {
     padding-right: 25px;
     padding-left: 25px;
 }
 
+.legend #scale-labels {
+    font-size: 10px;
+}
+
+.legend #scale-swatches {
+    height: 16px;
+}
+
+.legend #scale-swatches > div {
+    opacity: .6;
+}
+
 .legend {
-    min-width: 100px;
+    min-width: 500px;
     padding: 10px;
     background: white;
     line-height: 18px;
@@ -254,4 +271,23 @@ button {
     content: " [+]";
 }
 
-   
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+         
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

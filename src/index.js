@@ -183,10 +183,11 @@ $('.btn-squared').click(function() {
             });
 
             // add control to map (allows users to turn off/on layers)
+            let opts = { position: 'topleft' };
             L.control.layers([], {
                 "Livability Attributes": geojsonLayer,
                 "Rail Transit Stations": stationsLayer
-            }).addTo(map);
+            }, opts).addTo(map);
         });
 });
 
@@ -337,7 +338,7 @@ function initializeLegend() {
             this._title.id = 'title';
             this._title.setAttribute('href', '#legend-items');
             this._title.setAttribute('data-toggle', 'collapse');
-            this._title.innerHTML = "Legend";
+            this._title.innerHTML = "LEGEND";
             // uncomment this for expandable legend
             //L.DomUtil.create('span', 'is-displayed', this._title);
 
@@ -367,6 +368,32 @@ function initializeLegend() {
                                 </li>
                              </ul>`;
             */
+            this._body = L.DomUtil.create('div', 'collapse show', this._container);
+            this._body.id = 'legend-items';
+            this._body.innerHTML =   
+                            `<div id="scale-swatches" class="d-flex">
+                                <div class="flex-fill" style="background-color: #2e8b57"> </div>
+                                <div class="flex-fill" style="background-color: #709e4d"> </div>
+                                <div class="flex-fill" style="background-color: #a2b142"> </div>
+                                <div class="flex-fill" style="background-color: #d1c42f"> </div>
+                                <div class="flex-fill" style="background-color: #ffd700"> </div>
+                                <div class="flex-fill" style="background-color: #f9b025"> </div>
+                                <div class="flex-fill" style="background-color: #f28832"> </div>
+                                <div class="flex-fill" style="background-color: #e85b39"> </div>
+                                <div class="flex-fill" style="background-color: #dc143c"> </div>
+                            </div>
+                            <div id="scale-labels" class="d-flex justify-content-between">
+                                <span>
+                                    HIGH
+                                </span>
+                                <span>
+                                    MEDIUM
+                                </span>
+                                <span>
+                                    LOW
+                                </span>
+                            </div>`;
+
             return this._container;
         }
     });
