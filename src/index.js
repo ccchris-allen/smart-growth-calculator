@@ -13,21 +13,15 @@ import * as turf from '@turf/turf';
 
 // our module for drawing choropleth maps
 import Choropleth from './choro';
-
-//
-import {
-    PROPERTY_ORDER, 
-    property_config, 
-    populateReadouts,
-    clearReadouts,
-} from './calculate';
+import { exportCSVFile } from './exportCSV';
+import { PROPERTY_ORDER, property_config, populateReadouts, clearReadouts } from './calculate';
 
 // global constants
 const SELECTED_COLOR = '#444';
 const NORMAL_COLOR = '#000';
 const BUFFER_RADIUS = 0.5; // units = miles
 
-// we're going to only do some things when in production modex, ex: only show 'directions' modal 
+// we're going to only do some things when in production mode, ex: only show 'directions' modal 
 // immediately when in production mode (otherwise, it's annoying for debugging purposes to have to 
 // close the window each reload)
 const IS_PROD = process.env.NODE_ENV === 'production';
@@ -403,3 +397,28 @@ function initializeLegend() {
     let legend = new SGCLegend();
     legend.addTo(map)
 }
+
+$("#download-csv").click(() => {
+    let cbgs = geojsonLayer.toGeoJSON();
+    let selected = cbgs.features.filter((f) => f.properties._selected);
+
+    if (selected.length == 0) {
+        alert("Select features first!");
+        return;
+    }
+
+    console.log(selected);
+    let rows = selected.map((s) => {
+        return PROPERTY_ORDER.reduce((result, prop) => {
+            let attr = property_config[prop].attribute;
+            let name = property_config[prop].name;
+
+            if (!attr) return result;
+
+            result[name] = s.properties[attr] || "NA";
+            return result;
+        }, { 'FIPS': s.properties['GEOIDCLEAN']});
+    });
+
+    exportCSVFile(rows);
+});

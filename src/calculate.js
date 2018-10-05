@@ -91,72 +91,84 @@ export let property_config = {
         name: "Vehicle Miles Traveled",
         dom_name: "vmt",
         precision: 0,
+        attribute: "hh_type1_vmt",
         summarizer: createSimpleSummarizer("hh_type1_vmt")
     }, 
     "housing": {
         name: "Housing Affordability",
         dom_name: "housing",
         precision: 1,
+        attribute: "hh_type1_h",
         summarizer: createSimpleSummarizer("hh_type1_h")
     }, 
     "afford-transport": {
         name: "Transportation Affordability",
         dom_name: "afford-transport",
         precision: 1,
+        attribute: "hh_type1_t",
         summarizer: createSimpleSummarizer("hh_type1_t")
     }, 
     "afford-house-transport": {
         name: "Housing + Transportation Affordability",
         dom_name: "afford-house-transport",
         precision: 1,
+        attribute: "hh_type1_ht",
         summarizer: createSimpleSummarizer("hh_type1_ht")
     }, 
     "pop-density": {
         name: "Population Density",
         dom_name: "pop-density",
         precision: 1,
+        attribute: "D1B",
         summarizer: createSimpleSummarizer("D1B")
     }, 
     "dwelling-density": {
         name: "Dwelling Density",
         dom_name: "dwelling-density",
         precision: 1,
+        attribute: "D1A",
         summarizer: createSimpleSummarizer("D1A")
     }, 
     "jobs-density": {
         name: "Jobs Density",
         dom_name: "jobs-density",
         precision: 1,
+        attribute: "D1C",
         summarizer: createSimpleSummarizer("D1C")
     }, 
     "ped-environment": {
         name: "Pedestrian Environment",
         dom_name: "ped-environment",
         precision: 1,
+        attribute: "D1b",
         summarizer: createSimpleSummarizer("D3b")
     }, 
     "jobs-accessibility": {
         name: "Jobs Accessibility",
         dom_name: "jobs-accessibility",
         precision: 0,
+        attribute: "D5br_cleaned",
         summarizer: createSimpleSummarizer("D5br_cleaned")
     }, 
     "walkscore": {
         name: "WalkScore",
         dom_name: "walkscore",
         precision: 1,
+        attribute: "walkscore",
         summarizer: createSimpleSummarizer("walkscore")
     }, 
     "cardio": {
         name: "Cardiovascular Disease",
         dom_name: "cardio",
         precision: 1,
+        attribute: "Cardiova_1",
         summarizer: createSimpleSummarizer("Cardiova_1")
     }, 
     "obesity": {
         name: "Obesity",
         dom_name: "obesity",
         precision: 1,
+        attribute: "OBESITY_Cr",
         summarizer: createSimpleSummarizer("OBESITY_Cr")
     }, 
     "walkshare": {

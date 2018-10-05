@@ -2,6 +2,7 @@
 node_modules/
 share/
 data-old/
+tags
 
 packages.json
 *.swp

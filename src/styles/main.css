@@ -60,7 +60,7 @@ a {
 
 #sidebar {
     overflow-y: auto;
-    min-width: 300px;
+    //min-width: 400px;
     //padding: 20px;
     //padding-left: 10px;
 }
