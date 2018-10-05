@@ -370,6 +370,8 @@ function initializeLegend() {
             */
             this._body = L.DomUtil.create('div', 'collapse show', this._container);
             this._body.id = 'legend-items';
+            // grabbing colors manually. total hack to get this legend in ASAP.  
+            // should grab from choropleth module
             this._body.innerHTML =   
                             `<div id="scale-swatches" class="d-flex">
                                 <div class="flex-fill" style="background-color: #2e8b57"> </div>
