@@ -408,6 +408,8 @@ $("#download-csv").on('click', () => {
     }
 
     let rows = selected.map((s) => {
+        let fips = s.properties['GEOIDCLEAN'] || s.properties['GEOID'];
+
         return PROPERTY_ORDER.reduce((result, prop) => {
             let attr = property_config[prop].attribute;
             let name = property_config[prop].name;
@@ -416,7 +418,7 @@ $("#download-csv").on('click', () => {
 
             result[name] = s.properties[attr] || "NA";
             return result;
-        }, { 'FIPS': s.properties['GEOIDCLEAN']});
+        }, { 'FIPS': fips });
     });
 
     exportCSVFile(rows);

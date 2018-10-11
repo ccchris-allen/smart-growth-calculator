@@ -22,6 +22,7 @@ function CSVify(rows, headers=null) {
 export function exportCSVFile(items, headers=null, filename="export.csv") {
     var csv = CSVify(items, headers);
     var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+
     if (navigator.msSaveBlob) { // IE 10+
         navigator.msSaveBlob(blob, filename);
     } else {
