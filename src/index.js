@@ -177,7 +177,7 @@ $('.btn-squared').click(function() {
             });
 
             // add control to map (allows users to turn off/on layers)
-            let opts = { position: 'topleft' };
+            let opts = { position: 'topright' };
             L.control.layers([], {
                 "Livability Attributes": geojsonLayer,
                 "Rail Transit Stations": stationsLayer
@@ -369,7 +369,7 @@ function initializeLegend() {
     });
 
     let legend = new SGCLegend();
-    legend.addTo(map)
+    //legend.addTo(map)
 }
 
 $("#download-csv").on('click', () => {
