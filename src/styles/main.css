@@ -73,7 +73,7 @@ a {
 
 #sidebar,
 #container-body {
-    background-color: ivory;
+    background-color: snow;
     overflow-y: auto;
     //min-width: 400px;
     //padding: 20px;
@@ -259,7 +259,7 @@ button {
 .section {
     min-width: 400px;
     padding: 10px;
-    background: ivory;
+    background: snow;
     line-height: 18px;
     color: #555;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
