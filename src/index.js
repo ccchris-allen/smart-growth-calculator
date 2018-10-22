@@ -319,7 +319,7 @@ function initializeLegend() {
     // Legend Class
     var SGCLegend = L.Control.extend({
         options: {
-            position: 'topright'
+            position: 'bottomleft'
         },
         initialize: function (options) {
             L.Util.setOptions(this, options);
@@ -336,32 +336,6 @@ function initializeLegend() {
             // uncomment this for expandable legend
             //L.DomUtil.create('span', 'is-displayed', this._title);
 
-            /*
-            // set up legend body container
-            this._body = L.DomUtil.create('div', 'collapse show', this._container);
-            this._body.id = 'legend-items';
-            this._body.innerHTML =   
-                            `<ul>
-                                <li> 
-                                    <i class="integrated polygon"></i> 
-                                    <span class="legend-label"> 
-                                        High Performing Transit Station Areas 
-                                    </span>
-                                </li>
-                                <li> 
-                                    <i class="transitioning polygon"></i> 
-                                    <span class="legend-label">
-                                        Medium Performing Transit Station Areas 
-                                    </span>
-                                </li>
-                                <li> 
-                                    <i class="emerging polygon"></i> 
-                                    <span class="legend-label">
-                                        Low Performing Transit Station Areas 
-                                    </span>
-                                </li>
-                             </ul>`;
-            */
             this._body = L.DomUtil.create('div', 'collapse show', this._container);
             this._body.id = 'legend-items';
             // grabbing colors manually. total hack to get this legend in ASAP.  

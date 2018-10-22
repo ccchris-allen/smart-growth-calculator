@@ -1,4 +1,4 @@
-$btn-xs-bg: #575757;
+$btn-xs-bg: rgb(52, 58, 64);
 $btn-xs-fg: #fefefe;
 $btn-xs-border-radius: 2px;
 
@@ -30,10 +30,9 @@ $btn-xs-border-radius: 2px;
     font-size: 25px;
 }
     
-.dropdown-menu{
+.dropdown-menu {
     border-radius: $btn-xs-border-radius;
     margin: 0px !important;
-    //padding: 0px !important;
 
     li > a:active {
         background-color: lighten($btn-xs-bg, 30%);

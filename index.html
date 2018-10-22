@@ -91,54 +91,54 @@
         </nav>
 
 
-        <div class="row d-flex h-100">
+        <!-- h-100 ensures body will take up entire space -->
+        <div id="container-body" class="row h-100">
 
             <!-- Map -->
-            <div id="map" class="col d-flex justify-content-center"> </div>
+            <div id="map" class="col h-100"> </div>
 
             <!-- Sidebar -->
-            <div id="sidebar" class="col-3 d-flex flex-column align-items-center">
+            <div id="sidebar" class="col-3 d-flex flex-column align-items-center h-100">
 
                 <div class="section">
 
                     <!--<span class="section-title"> Customize Map </span>-->
 
-                    <h7 class="item-label"> Select Urban Quality Metric: </h7>
-                        <span id="select-property" class="dropdown">
-                            <button type="button" id="dropdownMenuButton" class="btn btn-xs dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                                    <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
-                            </button>
+                    <h6 class="section-header item-label"> Select Urban Quality Metric: </h6>
+                    <span id="select-property" class="dropdown">
+                        <button type="button" id="dropdownMenuButton" class="btn btn-xs dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
+                        </button>
 
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
-                                <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
-                                <li><a id="afford-transport" class="dropdown-item" href="#"> Transportation Affordability </a></li>
-                                <li><a id="afford-house-transport" class="dropdown-item" href="#"> Housing + Transportation Affordability </a></li>
-                                <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
-                                <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
-                                <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
-                                <li><a id="pop-density" class="dropdown-item" href="#"> Population Density </a></li>
-                                <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
-                                <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
-                                <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
-                                <li><a id="walkscore" class="dropdown-item" href="#"> WalkScore </a></li>
-                                <li><a id="walkshare" class="dropdown-item" href="#"> Walking Percent </a></li>
-                                <li><a id="cardio" class="dropdown-item" href="#"> Cardiovascular Disease </a></li>
-                                <li><a id="obesity" class="dropdown-item" href="#"> Obesity </a></li>
-                            </ul>
-                        </span>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
+                            <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
+                            <li><a id="afford-transport" class="dropdown-item" href="#"> Transportation Affordability </a></li>
+                            <li><a id="afford-house-transport" class="dropdown-item" href="#"> Housing + Transportation Affordability </a></li>
+                            <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
+                            <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
+                            <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
+                            <li><a id="pop-density" class="dropdown-item" href="#"> Population Density </a></li>
+                            <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
+                            <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
+                            <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
+                            <li><a id="walkscore" class="dropdown-item" href="#"> WalkScore </a></li>
+                            <li><a id="walkshare" class="dropdown-item" href="#"> Walking Percent </a></li>
+                            <li><a id="cardio" class="dropdown-item" href="#"> Cardiovascular Disease </a></li>
+                            <li><a id="obesity" class="dropdown-item" href="#"> Obesity </a></li>
+                        </ul>
                     </span>
                 </div>
 
                 <hr>
 
                 <!-- Container for statistics -->
-                <div class="section">
+                <div id="container-statistics" class="section">
 
-                    <h7> <span id="stat-cbgs"> 0 </span> Block Groups Selected </h7>
+                    <h6 class="section-header">  Block Groups Selected (<span id="stat-cbgs">0</span>) </h6>
 
-                    <i id="download-csv" class="fa fa-download float-right" style="cursor: pointer" aria-hidden="true"></i>
+                    <i id="download-csv" class="fa fa-download float-right" href="#" aria-hidden="true"> </i>
 
                     <ul id="readouts" class="plain-list">
 
