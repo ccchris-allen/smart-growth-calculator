@@ -1,3 +1,5 @@
+var chroma = require('chroma-js');
+
 const isNumericable = (val) => !isNaN(parseFloat(n));
 const isNumeric = (val) => !isNaN(val) && isFinite(val);
 const formatNumber = (val, precision) => val.toLocaleString(undefined, {maximumFractionDigits: precision});
@@ -16,6 +18,23 @@ function getTypologyFromPct(pct) {
     } else {
         return 'emerging';
     }
+}
+
+function getColor(value, values, scale=['SeaGreen', 'Gold', 'Crimson'], mode='q', steps=9) {
+    // this is sloppy, rewrite later...
+
+    values = values.filter((v) => (!isNaN(v) && v !== undefined && v !== Infinity));
+
+    let limits = chroma.limits(values, mode, steps - 1);
+    let colors = chroma.scale(scale).colors(limits.length));
+
+    for (var i = 0; i < limits.length; i++) { 
+        if (featureValue <= limits[i]) {
+            return colors[i];
+            break;
+        }
+    }
+    return null;
 }
 
 function clearReadout(prop) {

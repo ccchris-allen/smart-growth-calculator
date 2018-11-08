@@ -9,7 +9,6 @@ var chroma = require('chroma-js');
 const DEFAULT_OPTIONS = {
     property: 'value',
     // use this scale to mimic readouts:
-    //scale: ['SeaGreen', 'Gold', 'Crimson'],
     scale: ['SeaGreen', 'Gold', 'Crimson'],
     steps: 9,
     mode: 'q',
@@ -61,8 +60,8 @@ L.Choropleth = L.GeoJSON.extend({
                                      opts.colors :
                                      chroma.scale(opts.scale).colors(limits.length));
 
-        // color mapper
-        // note: scale/domain doesn't work as expected (https://github.com/gka/chroma.js/issues/103)
+        // color mapper (not actually working...)
+        // note: scale/domain doesn't work as expected (https://github.com/gka/chroma.js/issues/103) 
         var cmapper = chroma.scale(colors).domain(limits);
 
         var userStyle = style || opts.style;
