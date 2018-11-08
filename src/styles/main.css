@@ -10,8 +10,8 @@ html {
 
 /* Need this when using navbar fixed-top */
 body {
-    padding-top: 50px;
-    max-height: calc(100% - 50px);
+    padding-top: 55px;
+    max-height: calc(100% - 55x);
 }
 
 .section {
@@ -84,7 +84,7 @@ a {
 
 #sidebar {
     margin: 0;
-    //padding-top: 5px;
+    //padding-top: 10px;
     padding: 0;
 }
 

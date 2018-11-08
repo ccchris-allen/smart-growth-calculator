@@ -26,7 +26,7 @@ function getColor(value, values, scale=['SeaGreen', 'Gold', 'Crimson'], mode='q'
     values = values.filter((v) => (!isNaN(v) && v !== undefined && v !== Infinity));
 
     let limits = chroma.limits(values, mode, steps - 1);
-    let colors = chroma.scale(scale).colors(limits.length));
+    let colors = chroma.scale(scale).colors(limits.length);
 
     for (var i = 0; i < limits.length; i++) { 
         if (featureValue <= limits[i]) {
