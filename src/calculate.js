@@ -59,10 +59,12 @@ export function populateReadouts(features, verbose=false) {
 
         if (isNumeric(val)) {
             let pct = calculatePct(val, info.range);
+            console.log(info);
+            pct = info.invert ? (100 - pct) : pct;
 
             $bar.style.width = formatPctStr(pct);
             $stat.innerHTML = formatNumber(val, info.precision); 
-            $bar.className = 'bar ' + getTypologyFromPct(pct);
+            /$bar.className = 'bar ' + getTypologyFromPct(pct);
         } else {
             clearReadout(prop);
         }
@@ -139,6 +141,7 @@ export let property_config = {
         dom_name: "pop-density",
         precision: 1,
         attribute: "D1B",
+        invert: true,  // some metrics need to be inverted, to conform with high = bad
         summarizer: createSimpleSummarizer("D1B")
     }, 
     "dwelling-density": {
@@ -146,6 +149,7 @@ export let property_config = {
         dom_name: "dwelling-density",
         precision: 1,
         attribute: "D1A",
+        invert: true,  // some metrics need to be inverted, to conform with high = bad
         summarizer: createSimpleSummarizer("D1A")
     }, 
     "jobs-density": {
@@ -153,6 +157,7 @@ export let property_config = {
         dom_name: "jobs-density",
         precision: 1,
         attribute: "D1C",
+        invert: true,  // some metrics need to be inverted, to conform with high = bad
         summarizer: createSimpleSummarizer("D1C")
     }, 
     "ped-environment": {
@@ -167,6 +172,7 @@ export let property_config = {
         dom_name: "jobs-accessibility",
         precision: 0,
         attribute: "D5br_cleaned",
+        invert: true,  // some metrics need to be inverted, to conform with high = bad
         summarizer: createSimpleSummarizer("D5br_cleaned")
     }, 
     "walkscore": {
@@ -174,6 +180,7 @@ export let property_config = {
         dom_name: "walkscore",
         precision: 1,
         attribute: "walkscore",
+        invert: true,  // some metrics need to be inverted, to conform with high = bad
         summarizer: createSimpleSummarizer("walkscore")
     }, 
     "cardio": {
@@ -194,6 +201,7 @@ export let property_config = {
         name: "Walking Percent",
         dom_name: "walkshare",
         precision: 1,
+        invert: true,  // some metrics need to be inverted, to conform with high = bad
         summarizer: (features) => {
             features = forceArray(features);
 
