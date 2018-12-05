@@ -4,7 +4,7 @@ const isNumericable = (val) => !isNaN(parseFloat(n));
 const isNumeric = (val) => !isNaN(val) && isFinite(val);
 const formatNumber = (val, precision) => val.toLocaleString(undefined, {maximumFractionDigits: precision});
 const calculatePct = (val, { min, max }) => 100 * ((val - min) / (max - min));
-const formatPctStr = (pct) => `${pct}%`;
+const formatPctStr = (pct) => `${Math.floor(pct)}%`;
 const forceArray = (a) => Array.isArray(a) ? a : [a];
 
 function getTypologyFromPct(pct) {
@@ -59,12 +59,12 @@ export function populateReadouts(features, verbose=false) {
 
         if (isNumeric(val)) {
             let pct = calculatePct(val, info.range);
-            console.log(info);
             pct = info.invert ? (100 - pct) : pct;
 
             $bar.style.width = formatPctStr(pct);
+
             $stat.innerHTML = formatNumber(val, info.precision); 
-            /$bar.className = 'bar ' + getTypologyFromPct(pct);
+            $bar.className = 'bar ' + getTypologyFromPct(pct);
         } else {
             clearReadout(prop);
         }

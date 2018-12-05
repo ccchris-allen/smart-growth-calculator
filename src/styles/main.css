@@ -157,7 +157,7 @@ button {
 .integrated { background-color: SeaGreen; }
 .transitioning { background-color: Gold; }
 .emerging { background-color: Crimson; }
-.na { width: 0% !important; }
+//.na { width: 0% !important; }
 
 .statistic {
     padding: 2px;

@@ -8,7 +8,7 @@ import axios from 'axios';
 // mapping and geometry modules
 import L from 'leaflet';
 import leafletDraw from 'leaflet-draw';
-import selectArea from 'leaflet-area-select';
+import leafletPattern from 'leaflet.pattern';
 import * as turf from '@turf/turf';
 
 // our module for drawing choropleth maps
@@ -30,7 +30,8 @@ var areas = {
     'btn-sd-county': {
         files: {
             polygons: 'data/sd_cbgs_latest_attributes_normed6.geojson',
-            stations: 'data/sd-rail-stations-buffered.geojson'
+            stations: 'data/sd-rail-stations-buffered.geojson',
+            ces: 'data/ces-tracts.geojson'
         },
         center: [32.7157, -117.11],
         zoom: 12
@@ -38,7 +39,8 @@ var areas = {
     'btn-sm-county': {
         files: {
             polygons: 'data/san-mateo-with-data_normed6.geojson',
-            stations: 'data/stations-san-mateo.geojson'
+            stations: 'data/stations-san-mateo.geojson',
+            ces: 'data/ces-tracts.geojson'
         },
         center: [37.56, -122.313],
         zoom: 12
@@ -48,6 +50,7 @@ var areas = {
 // variables that will reference out leaflet layers and map object
 var geojsonLayer;
 var stationsLayer;
+var cesLayer;
 
 // create a leaflet map object
 var map = L.map('map').setView([32.7157, -117.11], 12);
@@ -95,12 +98,16 @@ $('.btn-squared').click(function() {
 
     map.setView(area.center, area.zoom);
 
-    var GEOJSON_FILES = [area.files.polygons, area.files.stations];
+    var GEOJSON_FILES = [
+        area.files.polygons, 
+        area.files.stations,
+        area.files.ces
+    ];
 
     // use axios to get the geojson files we need for this map 
     axios.all(GEOJSON_FILES.map(axios.get))
         .then((resp) => {
-            var [resp1, resp2] = resp;
+            var [resp1, resp2, resp3] = resp;
 
             var feats = resp1.data.features;
 
@@ -176,11 +183,28 @@ $('.btn-squared').click(function() {
                 }
             });
 
+            let stripes = new L.StripePattern({
+                angle: 45,
+                weight:  4,
+                color:  'black',
+                opacity:  1.0
+            });
+            stripes.addTo(map);
+
+            // add the ces layer to the map
+            cesLayer = L.geoJSON(resp3.data, {
+                style: {
+                    fillPattern: stripes,
+                    opacity: 0.0
+                }
+            });
+
             // add control to map (allows users to turn off/on layers)
             let opts = { position: 'topright' };
             L.control.layers([], {
                 "Livability Attributes": geojsonLayer,
-                "Rail Transit Stations": stationsLayer
+                "Rail Transit Stations": stationsLayer,
+                'CES': cesLayer
             }, opts).addTo(map);
         });
 });
