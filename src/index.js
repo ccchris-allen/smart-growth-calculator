@@ -204,7 +204,7 @@ $('.btn-squared').click(function() {
             L.control.layers([], {
                 "Livability Attributes": geojsonLayer,
                 "Rail Transit Stations": stationsLayer,
-                'CES': cesLayer
+                'Disadvantage Communities': cesLayer
             }, opts).addTo(map);
         });
 });
