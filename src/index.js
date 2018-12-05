@@ -155,16 +155,16 @@ $('.btn-squared').click(function() {
             stationsLayer = L.geoJSON(resp2.data, {
                 style: (f) => {
                     var style = {
-                        weight: 0.0,
-                        fillOpacity: .5
+                        weight: 3.0,
+                        fillOpacity: 0.0
                     };
 
                     if (f.properties.FINAL_TYPO === 'INTEGRATED') {
-                        style.fillColor = 'SeaGreen';
+                        style.color = 'SeaGreen';
                     } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
-                        style.fillColor = 'Gold';
+                        style.color = 'Gold';
                     } else {
-                        style.fillColor = 'Crimson';
+                        style.color = 'Crimson';
                     }
 
                     return style;
@@ -181,7 +181,7 @@ $('.btn-squared').click(function() {
 
                     //l.bindPopup(msg);
                 }
-            });
+            }).addTo(map);
 
             let stripes = new L.StripePattern({
                 angle: 45,
@@ -195,9 +195,10 @@ $('.btn-squared').click(function() {
             cesLayer = L.geoJSON(resp3.data, {
                 style: {
                     fillPattern: stripes,
+                    fillOpacity: 0.3,
                     opacity: 0.0
                 }
-            });
+            }).addTo(map);
 
             // add control to map (allows users to turn off/on layers)
             let opts = { position: 'topright' };
