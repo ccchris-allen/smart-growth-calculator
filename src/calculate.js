@@ -58,13 +58,18 @@ export function populateReadouts(features, verbose=false) {
         let val = info.summarizer(features);
 
         if (isNumeric(val)) {
+            let {avg} = info.range;
+
             let pct = calculatePct(val, info.range);
-            pct = info.invert ? (100 - pct) : pct;
+            //pct = info.invert ? (100 - pct) : pct;
+
+            let pctDiff = Math.floor((val - avg) / ((val + avg) / 2.0) * 100);
+            let pctDiffStr = (pctDiff > 0) ? '+%' + pctDiff : '-%' + Math.abs(pctDiff);
 
             $bar.style.width = formatPctStr(pct);
 
-            $stat.innerHTML = formatNumber(val, info.precision); 
-            $bar.className = 'bar ' + getTypologyFromPct(pct);
+            $stat.innerHTML = `${formatNumber(val, info.precision)} (${pctDiffStr})`;
+            $bar.className = `bar ${getTypologyFromPct(info.invert ? 100 - pct: pct)}`;
         } else {
             clearReadout(prop);
         }

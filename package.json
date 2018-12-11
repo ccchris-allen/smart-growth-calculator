@@ -34,6 +34,7 @@
         "bootstrap": "^4.0.0",
         "chroma-js": "^1.3.5",
         "jquery": "^3.3.1",
+        "leaflet-geosearch": "^2.7.0",
         "leaflet.pattern": "^0.1.0"
     }
 }

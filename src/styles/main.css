@@ -319,3 +319,5 @@ button {
 ::-webkit-scrollbar-thumb:hover {
     background: #555; 
 }
+
+.leaflet-control-geosearch.bar{position:absolute!important;left:50px;right:515px}

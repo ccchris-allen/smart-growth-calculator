@@ -1,6 +1,7 @@
 // import styles (need to do this for webpack to handle stylesheet files)
 import './styles/main.css';
 import './styles/main.scss';
+//import 'leaflet-geosearch/dist/style.css';
 
 // axios handles requests
 import axios from 'axios';
@@ -9,6 +10,11 @@ import axios from 'axios';
 import L from 'leaflet';
 import leafletDraw from 'leaflet-draw';
 import leafletPattern from 'leaflet.pattern';
+import {
+  GeoSearchControl,
+  EsriProvider,
+} from 'leaflet-geosearch';
+
 import * as turf from '@turf/turf';
 
 // our module for drawing choropleth maps
@@ -85,6 +91,15 @@ var drawControlOptions = {
 var drawControl = new L.Control.Draw(drawControlOptions);
 map.addControl(drawControl);
 
+// add geosearch control
+const provider = new EsriProvider();
+const searchControl = new GeoSearchControl({
+    provider: provider,
+    style: 'bar'
+});
+
+map.addControl(searchControl);
+
 
 $('.btn-squared').click(function() {
     $('#modal-select-city').modal('hide');
@@ -98,7 +113,7 @@ $('.btn-squared').click(function() {
 
     map.setView(area.center, area.zoom);
 
-    var GEOJSON_FILES = [
+    const GEOJSON_FILES = [
         area.files.polygons, 
         area.files.stations,
         area.files.ces
@@ -107,23 +122,21 @@ $('.btn-squared').click(function() {
     // use axios to get the geojson files we need for this map 
     axios.all(GEOJSON_FILES.map(axios.get))
         .then((resp) => {
-            var [resp1, resp2, resp3] = resp;
+            let [resp1, resp2, resp3] = resp;
 
-            var feats = resp1.data.features;
+            let feats = resp1.data.features;
 
             PROPERTY_ORDER.forEach((p) => {
-                var vals = feats
+                let vals = feats
                             .map(property_config[p].summarizer)
                             .filter((v) => !isNaN(v) && isFinite(v))
                             .filter((v) => v > 0); //do we really want to filter out zeros?
 
-                var min = Math.min(...vals);
-                var max = Math.max(...vals);
+                let min = Math.min(...vals);
+                let max = Math.max(...vals);
+                let avg = vals.reduce((r, v) => r + v, 0) / vals.length; // average calculation
 
-                property_config[p].range = { 
-                    min: min, 
-                    max: max
-                };
+                property_config[p].range = { min, max, avg };
             });
 
             // create a choropleth map using the CBG features
@@ -197,6 +210,9 @@ $('.btn-squared').click(function() {
                     fillPattern: stripes,
                     fillOpacity: 0.3,
                     opacity: 0.0
+                },
+                onEachFeature: (f, l) => {
+                    l.on('click', () => selectFeatures(f));
                 }
             }).addTo(map);
 
@@ -207,6 +223,7 @@ $('.btn-squared').click(function() {
                 "Rail Transit Stations": stationsLayer,
                 'Disadvantage Communities': cesLayer
             }, opts).addTo(map);
+
         });
 });
 
@@ -218,11 +235,15 @@ $('.dropdown-menu a').click(function() {
     // (this is a bit of a hack, since bootstrap doesn't really support dropdowns)
     $('#btn-label').text(this.text);
 
-    var summarizer = property_config[this.id].summarizer;
+    let {summarizer, range, invert} = property_config[this.id];
+    let { max } = range;
 
     // update the choropleth layer with the new property
-    geojsonLayer.setProperty(summarizer, true);
-
+    if (invert) {
+        geojsonLayer.setProperty((f) => max - summarizer(f), true);
+    } else {
+        geojsonLayer.setProperty(summarizer, true);
+    }
 });
 
 // add event handler for when a drawn feature is deleted 
@@ -274,6 +295,7 @@ function selectFeatures(buffer) {
     }
     
     cbgs.features.forEach((f) => {
+        console.log(intersects(buffer, f));
         if (intersects(buffer, f)) {
             f.properties._selected = true;
         }
@@ -282,7 +304,7 @@ function selectFeatures(buffer) {
 }
 
 function updateSelected(layer=geojsonLayer) {
-    var cbgs = geojsonLayer.toGeoJSON();
+    var cbgs = layer.toGeoJSON();
     
     // set style of selected CBGs
     geojsonLayer.setStyle((f) => {
@@ -303,20 +325,18 @@ function updateSelected(layer=geojsonLayer) {
 // add event handler for when a feature is drawn by the user
 map.on(L.Draw.Event.CREATED, (e) => {
 
-    var buffer;
-    var layer = e.layer;
-    var opts = {
-        units: 'miles'
-    };
+    let buffer;
+    let { layer, layerType } = e;
+    let opts = { units: 'miles' };
 
     // this is where we take the drawn feature and draw a buffer around
-    if (e.layerType === 'marker') {
+    if (layerType === 'marker') {
         var coords = [layer._latlng.lng, layer._latlng.lat];
         buffer = turf.circle(coords, BUFFER_RADIUS, opts);
-    } else if (e.layerType === 'circle') {
+    } else if (layerType === 'circle') {
         var coords = [layer._latlng.lng, layer._latlng.lat];
         buffer = turf.circle(coords, BUFFER_RADIUS, opts);
-    } else if (e.layerType === 'polyline') {
+    } else if (layerType === 'polyline') {
         var coords = layer._latlngs.map((item) => {
             return [item.lng, item.lat];
         });
