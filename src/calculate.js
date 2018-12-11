@@ -170,6 +170,7 @@ export let property_config = {
         dom_name: "ped-environment",
         precision: 1,
         attribute: "D1b",
+        invert: true,
         summarizer: createSimpleSummarizer("D3b")
     }, 
     "jobs-accessibility": {
