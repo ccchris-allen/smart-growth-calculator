@@ -182,14 +182,14 @@ $('.btn-squared').click(function() {
             stationsLayer = L.geoJSON(resp2.data, {
                 style: (f) => {
                     var style = {
-                        weight: 6.0,
+                        weight: 3.0,
                         fillOpacity: 0.0
                     };
 
                     if (f.properties.FINAL_TYPO === 'INTEGRATED') {
                         style.color = 'SeaGreen';
                     } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
-                        style.color = 'Gold';
+                        style.color = 'rgb(255, 195, 0)'; //'Gold';
                     } else {
                         style.color = 'Crimson';
                     }

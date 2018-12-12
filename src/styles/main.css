@@ -173,10 +173,9 @@ button {
 }
 
 .statistic.showcased {
-    background-color: rgb(201, 201, 201);
-    padding-top: 8px;
-    padding-bottom: 8px;
+    //background-color: rgb(201, 201, 201);
     //border: 2px solid #444;
+    font-size: 1em;
     font-weight: bold;
 }
 
