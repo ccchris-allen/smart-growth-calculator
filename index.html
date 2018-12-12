@@ -138,17 +138,24 @@
                 <div class="section legend">
                     <h6 class="section-header"> PERFORMANCE LEGEND </h6>
                     <div id="legend-items">
-                        <div id="scale-swatches" class="d-flex">
-                            <div class="flex-fill" style="background-color: #2e8b57"> </div>
-                            <div class="flex-fill" style="background-color: #709e4d"> </div>
-                            <div class="flex-fill" style="background-color: #a2b142"> </div>
-                            <div class="flex-fill" style="background-color: #d1c42f"> </div>
-                            <div class="flex-fill" style="background-color: #ffd700"> </div>
-                            <div class="flex-fill" style="background-color: #f9b025"> </div>
-                            <div class="flex-fill" style="background-color: #f28832"> </div>
-                            <div class="flex-fill" style="background-color: #e85b39"> </div>
-                            <div class="flex-fill" style="background-color: #dc143c"> </div>
+                        <div id="scale-swatches" class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-center align-items-center" style="background-color: #2e8b57"> 
+                                <span> GOOD </span>
+                            </div>
+                            <!--<div class="flex-fill" style="background-color: #709e4d"> </div>-->
+                            <!--<div class="flex-fill" style="background-color: #a2b142"> </div>-->
+                            <!--<div class="flex-fill" style="background-color: #d1c42f"> </div>-->
+                            <div class="d-flex justify-content-center align-items-center" style="background-color: #ffd700"> 
+                                <span> MEDIUM </span>
+                            </div>
+                            <!--<div class="flex-fill" style="background-color: #f9b025"> </div>-->
+                            <!--<div class="flex-fill" style="background-color: #f28832"> </div>-->
+                            <!--<div class="flex-fill" style="background-color: #e85b39"> </div>-->
+                            <div class="d-flex justify-content-center align-items-center" style="background-color: #dc143c"> 
+                                <span> POOR </span>
+                            </div>
                         </div>
+                        <!--
                         <div id="scale-labels" class="d-flex justify-content-between">
                             <span>
                                 GOOD
@@ -160,6 +167,7 @@
                                 POOR
                             </span>
                         </div>
+                        -->
                     </div>
                 </div>
 
@@ -175,7 +183,7 @@
 
                     <ul id="readouts" class="plain-list">
 
-                        <li class="statistic" data-toggle="tooltip" data-placement="top">
+                        <li class="statistic showcased" data-toggle="tooltip" data-placement="top">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Vehicle Miles Traveled <br> (per household)

@@ -56,6 +56,7 @@ var areas = {
 // variables that will reference out leaflet layers and map object
 var geojsonLayer;
 var stationsLayer;
+var stationsPtsLayer;
 var cesLayer;
 
 // create a leaflet map object
@@ -163,12 +164,25 @@ $('.btn-squared').click(function() {
                 }
             }).addTo(map);
 
+            let cloned = JSON.parse(JSON.stringify(resp2.data));
+            cloned.features = cloned.features.map((f) => turf.centroid(turf.polygon(f.geometry.coordinates)));
+            
+            stationsPtsLayer = L.geoJSON(cloned, {
+                pointToLayer: function (feature, latLng) {
+                    return L.circleMarker(latLng, {
+                        radius: 3,
+                        color: '$444',
+                        fillOpacity: 1.0
+                    });
+                }
+            }).addTo(map);
+
             // add the stations layer to the map
             // set style of stations layer based on typology
             stationsLayer = L.geoJSON(resp2.data, {
                 style: (f) => {
                     var style = {
-                        weight: 3.0,
+                        weight: 6.0,
                         fillOpacity: 0.0
                     };
 
@@ -220,7 +234,8 @@ $('.btn-squared').click(function() {
             let opts = { position: 'topright' };
             L.control.layers([], {
                 "Livability Attributes": geojsonLayer,
-                "Rail Transit Stations": stationsLayer,
+                "Rail Transit Station .5 Mile Buffers": stationsLayer,
+                "Rail Transit Stations": stationsPtsLayer,
                 'Disadvantage Communities': cesLayer
             }, opts).addTo(map);
 
