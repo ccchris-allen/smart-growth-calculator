@@ -217,6 +217,7 @@ $('.btn-squared').click(function() {
                 opacity:  1.0
             });
             stripes.addTo(map);
+            console.log(stripes);
 
             // add the ces layer to the map
             cesLayer = L.geoJSON(resp3.data, {
@@ -224,9 +225,6 @@ $('.btn-squared').click(function() {
                     fillPattern: stripes,
                     fillOpacity: 0.3,
                     opacity: 0.0
-                },
-                onEachFeature: (f, l) => {
-                    l.on('click', () => selectFeatures(f));
                 }
             }).addTo(map);
 
