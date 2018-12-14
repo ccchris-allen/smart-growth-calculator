@@ -10,8 +10,8 @@ html {
 
 /* Need this when using navbar fixed-top */
 body {
-    padding-top: 55px;
-    max-height: calc(100% - 55x);
+    padding-top: 75px;
+    max-height: calc(100% - 75px);
 }
 
 .section {
@@ -271,7 +271,7 @@ button {
 
 .legend,
 .section {
-    min-width: 400px;
+    //min-width: 400px;
     padding: 10px;
     background: snow;
     line-height: 18px;
