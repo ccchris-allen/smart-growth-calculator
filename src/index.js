@@ -102,15 +102,16 @@ const searchControl = new GeoSearchControl({
 map.addControl(searchControl);
 
 
-$('.btn-squared').click(function() {
-    $('#modal-select-city').modal('hide');
+// Commenting out this part because Bruce doesn't want to show the "Select a County" modal right now...
+//$('.btn-squared').click(function() {
+//    $('#modal-select-city').modal('hide');
 
     // only show annoying popups initially if in production mode
     if (IS_PROD) {
         $('#modal-directions').modal('show');
     }
 
-    var area = areas[this.id];
+    var area = areas['btn-sd-county']; //areas[this.id];
 
     map.setView(area.center, area.zoom);
 
@@ -238,7 +239,7 @@ $('.btn-squared').click(function() {
             }, opts).addTo(map);
 
         });
-});
+//});
 
 // create an event handler for when the user clicks the drop-down menu
 // to select a layer for visualization
