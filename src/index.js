@@ -187,7 +187,8 @@ map.addControl(searchControl);
                         fillOpacity: 0.0
                     };
 
-                    if (f.properties.FINAL_TYPO === 'INTEGRATED') {
+                    // make sure SDSU station (83) is green --hacky!!!
+                    if (f.properties.F02 === 83 ||f.properties.FINAL_TYPO === 'INTEGRATED') {
                         style.color = 'SeaGreen';
                     } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
                         style.color = 'rgb(255, 195, 0)'; //'Gold';
@@ -218,7 +219,6 @@ map.addControl(searchControl);
                 opacity:  1.0
             });
             stripes.addTo(map);
-            console.log(stripes);
 
             // add the ces layer to the map
             cesLayer = L.geoJSON(resp3.data, {

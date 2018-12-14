@@ -69,7 +69,11 @@ export function populateReadouts(features, verbose=false) {
             $bar.style.width = formatPctStr(pct);
 
             $stat.innerHTML = `${formatNumber(val, info.precision)} (${pctDiffStr})`;
-            $bar.className = `bar ${getTypologyFromPct(info.invert ? 100 - pct: pct)}`;
+            if (info.invert) {
+                $bar.className = `bar no-typology`;
+            } else {
+                $bar.className = `bar ${getTypologyFromPct(info.invert ? 100 - pct: pct)}`;
+            }
         } else {
             clearReadout(prop);
         }
