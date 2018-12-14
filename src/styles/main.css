@@ -187,11 +187,11 @@ button {
 }
 
 /* Bootstrap override CSS (create separate classes?) */
-.nav-link {
+.nav-link * {
     color: rgba(255, 255, 255, .6);
 }
 
-.nav-link:hover {
+.nav-link:hover * {
     color: rgba(255, 255, 255, .95);
 }
 
