@@ -14,6 +14,10 @@ body {
     max-height: calc(100% - 75px);
 }
 
+#logo {
+    height: 50px;
+}
+
 .section {
     padding: 5px;
 }
@@ -188,6 +192,11 @@ button {
 }
 
 /* Bootstrap override CSS (create separate classes?) */
+.nav-link {
+    text-transform: uppercase;
+    font-size: .8em;
+}
+
 .nav-link * {
     color: rgba(255, 255, 255, .6);
 }
