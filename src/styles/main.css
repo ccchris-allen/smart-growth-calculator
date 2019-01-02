@@ -10,13 +10,13 @@ html {
 
 /* Need this when using navbar fixed-top */
 body {
-    padding-top: 75px;
-    max-height: calc(100% - 75px);
+    padding-top: 60px;
+    max-height: calc(100% - 60px);
 }
 
 #logo {
     margin-left: 10px;
-    height: 50px;
+    height: 45px;
 }
 
 .section {
@@ -251,6 +251,7 @@ button {
 .navbar {
     padding-right: 25px;
     padding-left: 25px;
+    height: 60px !important;
 }
 
 .legend #scale-labels {
