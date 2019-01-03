@@ -10,13 +10,19 @@ html {
 
 /* Need this when using navbar fixed-top */
 body {
-    padding-top: 70px;
-    max-height: calc(100% - 70px);
+    padding-top: 62px;
+    max-height: calc(100% - 62px);
 }
 
 #logo {
     margin-left: 10px;
     height: 45px;
+    margin: 5px 0px;
+}
+
+.navbar,
+.navbar > * {
+    padding: 2px;
 }
 
 .section {
