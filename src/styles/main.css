@@ -10,8 +10,8 @@ html {
 
 /* Need this when using navbar fixed-top */
 body {
-    padding-top: 60px;
-    max-height: calc(100% - 60px);
+    padding-top: 70px;
+    max-height: calc(100% - 70px);
 }
 
 #logo {
@@ -251,7 +251,8 @@ button {
 .navbar {
     padding-right: 25px;
     padding-left: 25px;
-    height: 60px !important;
+    /* if we set this explicitly, it works except is weird when responsive (in mobile) */
+    //height: 60px !important;
 }
 
 .legend #scale-labels {
