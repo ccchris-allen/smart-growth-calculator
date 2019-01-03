@@ -226,7 +226,8 @@ map.addControl(searchControl);
                     fillPattern: stripes,
                     fillOpacity: 0.3,
                     opacity: 0.0
-                }
+                },
+                interactive: false // need this to allow for selection of cbgs UNDER this layer
             }).addTo(map);
 
             // add control to map (allows users to turn off/on layers)
