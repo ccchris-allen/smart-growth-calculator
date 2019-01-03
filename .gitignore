@@ -7,3 +7,4 @@ tags
 packages.json
 *.swp
 *.zip
+launch.json
