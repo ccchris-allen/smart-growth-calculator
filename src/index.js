@@ -155,11 +155,11 @@ map.addControl(searchControl);
                 },
                 onEachFeature: (f, l) => {
                     l.on('mouseover', (e) => {
-                        f.properties._selected = true; 
+                        f.properties._hovered = true; 
                         updateSelected();
                     });
                     l.on('mouseout', (e) => {
-                        delete f.properties._selected;
+                        delete f.properties._hovered;
                         updateSelected();
                     });
                 }
@@ -309,7 +309,6 @@ function selectFeatures(buffer) {
     }
     
     cbgs.features.forEach((f) => {
-        console.log(intersects(buffer, f));
         if (intersects(buffer, f)) {
             f.properties._selected = true;
         }
@@ -322,14 +321,15 @@ function updateSelected(layer=geojsonLayer) {
     
     // set style of selected CBGs
     geojsonLayer.setStyle((f) => {
+        let is_selected = (f.properties._selected || f.properties._hovered);
         return {
-            color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
+            color: is_selected ? SELECTED_COLOR : NORMAL_COLOR,
             dashArray: "3 3",
-            weight: f.properties._selected ? 2. : 0.0
+            weight: is_selected ? 2. : 0.0
         };
     });
 
-    var selected_features = cbgs.features.filter((f) => f.properties._selected);
+    var selected_features = cbgs.features.filter((f) => (f.properties._selected || f.properties._hovered));;
 
     populateReadouts(selected_features);
 
