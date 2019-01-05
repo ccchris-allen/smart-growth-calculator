@@ -201,7 +201,7 @@ button {
 /* Bootstrap override CSS (create separate classes?) */
 .nav-link {
     text-transform: uppercase;
-    font-size: .8em;
+    font-size: .7em;
 }
 
 .nav-link * {
@@ -257,8 +257,6 @@ button {
 .navbar {
     padding-right: 25px;
     padding-left: 25px;
-    /* if we set this explicitly, it works except is weird when responsive (in mobile) */
-    //height: 60px !important;
 }
 
 .legend #scale-labels {
@@ -333,7 +331,9 @@ button {
     content: " [+]";
 }
 
+
 /* Scrollbar */
+
 /* width */
 ::-webkit-scrollbar {
     width: 8px;

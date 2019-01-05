@@ -26,6 +26,7 @@ import { PROPERTY_ORDER, property_config, populateReadouts, clearReadouts } from
 const SELECTED_COLOR = '#444';
 const NORMAL_COLOR = '#000';
 const BUFFER_RADIUS = 0.5; // units = miles
+const BASEMAP_URL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
 
 // we're going to only do some things when in production mode, ex: only show 'directions' modal 
 // immediately when in production mode (otherwise, it's annoying for debugging purposes to have to 
@@ -62,10 +63,7 @@ var cesLayer;
 // create a leaflet map object
 var map = L.map('map').setView([32.7157, -117.11], 12);
 
-// create a mapbox basemap layer and add to map
-var basemap_url = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
-
-L.tileLayer(basemap_url, {
+L.tileLayer(BASEMAP_URL, {
     maxZoom: 18,
     attribution: '',
     id: 'mapbox.streets'
@@ -89,7 +87,7 @@ var drawControlOptions = {
     }
 };
 
-var drawControl = new L.Control.Draw(drawControlOptions);
+const drawControl = new L.Control.Draw(drawControlOptions);
 map.addControl(drawControl);
 
 // add geosearch control
@@ -111,7 +109,8 @@ map.addControl(searchControl);
         $('#modal-directions').modal('show');
     }
 
-    var area = areas['btn-sd-county']; //areas[this.id];
+    //var area = areas[this.id]; 
+    var area = areas['btn-sd-county']; 
 
     map.setView(area.center, area.zoom);
 
@@ -165,6 +164,7 @@ map.addControl(searchControl);
                 }
             }).addTo(map);
 
+            // cloning the transit station buffers to get the centroid to display as points 
             let cloned = JSON.parse(JSON.stringify(resp2.data));
             cloned.features = cloned.features.map((f) => turf.centroid(turf.polygon(f.geometry.coordinates)));
             
@@ -383,17 +383,18 @@ $("#download-csv").on('click', () => {
     }
 
     let rows = selected.map((s) => {
+        // sometimes the geoid is called 'GEOIDCLEAN' and sometimes 'GEOID' (need to fix this in future...)
         let fips = s.properties['GEOIDCLEAN'] || s.properties['GEOID'];
 
+        // grab row data in proper order (defined by `PROPERTY_ORDER`)
         return PROPERTY_ORDER.reduce((result, prop) => {
-            let attr = property_config[prop].attribute;
-            let name = property_config[prop].name;
+            let { attribute, name } = property_config[prop];
 
-            if (!attr) return result;
+            if (!attribute) return result;
 
-            result[name] = s.properties[attr] || "NA";
+            result[name] = s.properties[attribute] || "NA";
             return result;
-        }, { 'FIPS': fips });
+        }, { 'FIPS': fips }); 
     });
 
     exportCSVFile(rows);
