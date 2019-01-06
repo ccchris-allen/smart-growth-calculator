@@ -201,7 +201,7 @@ button {
 /* Bootstrap override CSS (create separate classes?) */
 .nav-link {
     text-transform: uppercase;
-    font-size: .7em;
+    font-size: .8em;
 }
 
 .nav-link * {
@@ -331,9 +331,7 @@ button {
     content: " [+]";
 }
 
-
 /* Scrollbar */
-
 /* width */
 ::-webkit-scrollbar {
     width: 8px;
@@ -353,3 +351,7 @@ button {
 ::-webkit-scrollbar-thumb:hover {
     background: #555; 
 }
+
+/**************************/
+/* Leaflet Draw Overrides */
+/**************************/

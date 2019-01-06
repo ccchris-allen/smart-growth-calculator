@@ -1,14 +1,25 @@
 var chroma = require('chroma-js');
 
+import {
+    isNumericable,
+    isNumeric,
+    formatNumber,
+    calculatePct,
+    formatPctStr,
+    forceArray
+} from './utils';
+
+/*
 const isNumericable = (val) => !isNaN(parseFloat(n));
 const isNumeric = (val) => !isNaN(val) && isFinite(val);
 const formatNumber = (val, precision) => val.toLocaleString(undefined, {maximumFractionDigits: precision});
 const calculatePct = (val, { min, max }) => 100 * ((val - min) / (max - min));
 const formatPctStr = (pct) => `${Math.floor(pct)}%`;
 const forceArray = (a) => Array.isArray(a) ? a : [a];
+*/
 
 function getTypologyFromPct(pct) {
-    // very simple way of defining bins 
+    // very simple way of defining bins (equal interval)
     // should do jenks (?)
 
     if (pct < 33) {

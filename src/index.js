@@ -15,6 +15,7 @@ import {
   EsriProvider,
 } from 'leaflet-geosearch';
 
+// should try to only import necessary turf code...
 import * as turf from '@turf/turf';
 
 // our module for drawing choropleth maps

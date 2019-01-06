@@ -2,7 +2,7 @@
 
 <head>
 
-    <title> SMART GROWTH EQUITY CALCULATOR (BETA) </title>
+    <title> SMART GROWTH EQUITY CALCULATOR </title>
 
     <!-- Bootstrap CSS -->
     <link 
@@ -51,12 +51,12 @@
 
     <div id="main-container" class="container-fluid d-flex flex-column h-100">
 
-        <!-- Title and navigation bar -->
         <!-- 
-        NOTE: adding fixed-top seems to fix navbar cutoff issue, BUT 
-        it draws over map/sidebar... 
-        fixed (?) by adding fixed-top and adding padding-top to body (see above
+        NOTE: adding fixed-top seems to fix navbar cutoff issue, BUT it draws over map/sidebar... 
+        fixed (?) by adding fixed-top and adding padding-top to body (see above)
         -->
+
+        <!-- Title and navigation bar -->
         <nav class="navbar navbar-dark navbar-expand-xl bg-dark fixed-top navbar-default row">
             <a class="navbar-brand" href="#"> 
                 <img id="logo" src="img/logo.png" />
@@ -207,7 +207,7 @@
 
                     <h6 class="section-header">  Selected Block Groups (<span id="stat-cbgs">0</span>) </h6>
 
-                    <i id="download-csv" class="fa fa-download float-right" href="#" aria-hidden="true"> </i>
+                    <i id="download-csv" class="fa fa-download float-right" href="#" title="Download as CSV" aria-hidden="true"> </i>
 
                     <ul id="readouts" class="plain-list">
 
