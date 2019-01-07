@@ -9,14 +9,6 @@ import {
     forceArray
 } from './utils';
 
-/*
-const isNumericable = (val) => !isNaN(parseFloat(n));
-const isNumeric = (val) => !isNaN(val) && isFinite(val);
-const formatNumber = (val, precision) => val.toLocaleString(undefined, {maximumFractionDigits: precision});
-const calculatePct = (val, { min, max }) => 100 * ((val - min) / (max - min));
-const formatPctStr = (pct) => `${Math.floor(pct)}%`;
-const forceArray = (a) => Array.isArray(a) ? a : [a];
-*/
 
 function getTypologyFromPct(pct) {
     // very simple way of defining bins (equal interval)
@@ -34,7 +26,7 @@ function getTypologyFromPct(pct) {
 function getColor(value, values, scale=['SeaGreen', 'Gold', 'Crimson'], mode='q', steps=9) {
     // this is sloppy, rewrite later...
 
-    values = values.filter((v) => (!isNaN(v) && v !== undefined && v !== Infinity));
+    values = values.filter(isNumeric);
 
     let limits = chroma.limits(values, mode, steps - 1);
     let colors = chroma.scale(scale).colors(limits.length);
@@ -72,7 +64,6 @@ export function populateReadouts(features, verbose=false) {
             let {avg} = info.range;
 
             let pct = calculatePct(val, info.range);
-            //pct = info.invert ? (100 - pct) : pct;
 
             let pctDiff = Math.floor((val - avg) / ((val + avg) / 2.0) * 100);
             let pctDiffStr = (pctDiff > 0) ? '+%' + pctDiff : '-%' + Math.abs(pctDiff);
@@ -91,24 +82,26 @@ export function populateReadouts(features, verbose=false) {
     });
 }
 
+// in most cases, metrics can be aggregated with this simple summarizer (which just averages)
 function createSimpleSummarizer(prop) {
+    // return function that encloses the `prop` value
     return (features) => {
-        features = Array.isArray(features) ? features : [features];
-
+        features = forceArray(features);
         let valid_features = features.filter((f) => isNumeric(f.properties[prop]));
 
-        if (valid_features.length == 0) {
+        if (valid_features.length === 0) {
             return undefined;
         }
 
-        let sum = valid_features.reduce((total, f) => {
-            return total + f.properties[prop];
-        }, 0);
+        let sum = valid_features.reduce((total, f) => total + f.properties[prop], 0);
 
         return sum / features.length;
     };
 }
 
+
+// array that defines order of metrics to be dispayed
+// if you want to change the order, change the order of these items.
 export const PROPERTY_ORDER = [
     "vmt",
     "housing",
@@ -127,6 +120,12 @@ export const PROPERTY_ORDER = [
     "obesity"
 ];
 
+
+/*
+This object defines the metrics to be display as well as some other configuration details 
+related to the display and aggregation of multiple values.  The `summarizer` property 
+defines how values will be aggregated (in cases where mutiple features have been selected).
+*/
 export let property_config = {
     "vmt": {
         name: "Vehicle Miles Traveled",
