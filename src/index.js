@@ -16,7 +16,12 @@ import {
 } from 'leaflet-geosearch';
 
 // should try to only import necessary turf code...
-import * as turf from '@turf/turf';
+//import * as turf from '@turf/turf';
+import { polygon, lineString } from '@turf/helpers';
+import turfBuffer from '@turf/buffer';
+import centroid from '@turf/centroid';
+import intersect from '@turf/intersect';
+import circle from '@turf/circle';
 
 // our module for drawing choropleth maps
 import Choropleth from './choro';
@@ -167,7 +172,7 @@ map.addControl(searchControl);
 
             // cloning the transit station buffers to get the centroid to display as points 
             let cloned = JSON.parse(JSON.stringify(resp2.data));
-            cloned.features = cloned.features.map((f) => turf.centroid(turf.polygon(f.geometry.coordinates)));
+            cloned.features = cloned.features.map((f) => centroid(polygon(f.geometry.coordinates)));
             
             stationsPtsLayer = L.geoJSON(cloned, {
                 pointToLayer: function (feature, latLng) {
@@ -289,7 +294,7 @@ function selectFeatures(buffer) {
     function intersects(a, b) {
 
         if (b.geometry.type === 'Polygon') {
-            return turf.intersect(a, b);
+            return intersect(a, b);
         } else if (b.geometry.type === 'MultiPolygon') {
             var polys_coords = b.geometry.coordinates;
 
@@ -301,7 +306,7 @@ function selectFeatures(buffer) {
                     }
                 };
 
-                if (turf.intersect(a, polygon)) {
+                if (intersect(a, polygon)) {
                     return true;
                 }
             }
@@ -348,15 +353,15 @@ map.on(L.Draw.Event.CREATED, (e) => {
     // this is where we take the drawn feature and draw a buffer around
     if (layerType === 'marker') {
         var coords = [layer._latlng.lng, layer._latlng.lat];
-        buffer = turf.circle(coords, BUFFER_RADIUS, opts);
+        buffer = circle(coords, BUFFER_RADIUS, opts);
     } else if (layerType === 'circle') {
         var coords = [layer._latlng.lng, layer._latlng.lat];
-        buffer = turf.circle(coords, BUFFER_RADIUS, opts);
+        buffer = circle(coords, BUFFER_RADIUS, opts);
     } else if (layerType === 'polyline') {
         var coords = layer._latlngs.map((item) => {
             return [item.lng, item.lat];
         });
-        buffer = turf.buffer(turf.lineString(coords), BUFFER_RADIUS, opts);
+        buffer = turfBuffer(lineString(coords), BUFFER_RADIUS, opts);
     } else {
         var coords = layer._latlngs.map((ring) => {
             return ring.map((poly) => {
@@ -366,7 +371,7 @@ map.on(L.Draw.Event.CREATED, (e) => {
 
         // need to complete the polygon by repeating first coords
         coords[0].push(coords[0][0]);
-        buffer = turf.polygon(coords);
+        buffer = polygon(coords);
     }
 
     selectFeatures(buffer);
