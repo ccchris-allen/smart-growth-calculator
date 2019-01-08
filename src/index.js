@@ -1,6 +1,8 @@
-// import styles (need to do this for webpack to handle stylesheet files)
+// import styles (need to do this for webpack to handle stylesheet files for css bundle)
 import './styles/main.css';
 import './styles/main.scss';
+
+// having trouble importing styles for installed libraries
 //import 'leaflet-geosearch/dist/style.css';
 
 // axios handles requests
@@ -15,8 +17,7 @@ import {
   EsriProvider,
 } from 'leaflet-geosearch';
 
-// should try to only import necessary turf code...
-//import * as turf from '@turf/turf';
+// only import turf modules needed (otherwise the import is very large)
 import { polygon, lineString } from '@turf/helpers';
 import turfBuffer from '@turf/buffer';
 import centroid from '@turf/centroid';
@@ -26,7 +27,13 @@ import circle from '@turf/circle';
 // our module for drawing choropleth maps
 import Choropleth from './choro';
 import { exportCSVFile } from './exportCSV';
-import { PROPERTY_ORDER, property_config, populateReadouts, clearReadouts } from './calculate';
+import { 
+    PROPERTY_ORDER, 
+    property_config, 
+    populateReadouts, 
+    clearReadouts 
+} from './calculate';
+
 
 // global constants
 const SELECTED_COLOR = '#444';
@@ -39,7 +46,7 @@ const BASEMAP_URL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access
 // close the window each reload)
 const IS_PROD = process.env.NODE_ENV === 'production';
 
-var areas = {
+const areas = {
     'btn-sd-county': {
         files: {
             polygons: 'data/sd_cbgs_latest_attributes_normed6.geojson',

@@ -1,7 +1,6 @@
-var chroma = require('chroma-js');
+import chroma from 'chroma-js';
 
 import {
-    isNumericable,
     isNumeric,
     formatNumber,
     calculatePct,

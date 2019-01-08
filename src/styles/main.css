@@ -20,6 +20,17 @@ body {
     margin: 5px 0px;
 }
 
+#download-csv {
+    /*
+    color: #888;
+    transition: .5s ease;
+    */
+}
+
+#download-csv:hover {
+    //color: #444;
+}
+
 .navbar,
 .navbar > * {
     padding: 2px;
@@ -270,7 +281,7 @@ button {
     min-width: 50px;
     border-radius: 25px;
     font-size: 9px; 
-    margin: 0px 10px; 
+    margin: 2px 10px; 
     color: black;
 }
 
