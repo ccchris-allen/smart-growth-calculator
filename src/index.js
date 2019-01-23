@@ -68,10 +68,10 @@ const areas = {
 };
 
 // variables that will reference out leaflet layers and map object
-var geojsonLayer;
-var stationsLayer;
-var stationsPtsLayer;
-var cesLayer;
+let geojsonLayer;
+let stationsLayer;
+let stationsPtsLayer;
+let cesLayer;
 
 // create a leaflet map object
 var map = L.map('map').setView([32.7157, -117.11], 12);
@@ -296,6 +296,14 @@ function selectFeatures(buffer) {
 
     // add feature to drawing layer
     drawnItems.addLayer(bufferLayer);
+
+    /*
+    bufferLayer.bindTooltip("polygon!", {
+        permanent: true,
+        direction: "center"
+    }).openTooltip();
+    */ 
+    
 
     // turf.insersect does not work for multipolygons...
     function intersects(a, b) {
