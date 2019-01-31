@@ -211,8 +211,13 @@ button {
 
 /* Bootstrap override CSS (create separate classes?) */
 .nav-link {
+    position: relative;
     text-transform: uppercase;
     font-size: .8em;
+}
+
+.nav-link > i { 
+    //display: none; // TURNING OFF ICONS FOR NOW...
 }
 
 .nav-link * {
@@ -221,6 +226,36 @@ button {
 
 .nav-link:hover * {
     color: rgba(255, 255, 255, .95);
+}
+
+/*
+.nav-link::before {
+    content: '';
+    position: absolute;
+    left: 10px; right: 10px;
+    top: 80%;
+    height: 2px;
+    background: rgba(255, 255, 255, .95);
+    transform: scaleX(0);
+    transition: all .5s ease;
+}
+
+.nav-link:hover::before {
+    transform: scaleX(1);
+}
+*/
+
+.nav-link.pulsate {
+    animation-name: pulse;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-iteration-count: 10;
+}
+
+@keyframes pulse {
+  0% {transform: scale(1);}
+  50% {transform: scale(1.1);}
+  100% {transform: scale(1);}
 }
 
 .navbar-brand {

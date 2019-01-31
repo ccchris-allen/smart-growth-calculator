@@ -118,7 +118,7 @@ map.addControl(searchControl);
 //    $('#modal-select-city').modal('hide');
 
     // only show annoying popups initially if in production mode
-    if (IS_PROD) {
+    if (0) { //IS_PROD) {
         $('#modal-directions').modal('show');
     }
 
@@ -139,6 +139,10 @@ map.addControl(searchControl);
             let [resp1, resp2, resp3] = resp;
 
             let feats = resp1.data.features;
+
+            // after the data loads, emphasize the directions link by pulsating
+            let link = document.querySelector('#nav-link-directions');
+            link.classList.add('pulsate');
 
             PROPERTY_ORDER.forEach((p) => {
                 let vals = feats
