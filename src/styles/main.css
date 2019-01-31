@@ -246,6 +246,15 @@ button {
 */
 
 .nav-link.pulsate {
+    /* 
+    Animating text tends to make things blurry, so using
+    tricks described here:
+    https://stackoverflow.com/questions/14677490/blurry-text-after-using-css-transform-scale-in-chrome
+    */
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-font-smoothing: subpixel-antialiased;
+
     animation-name: pulse;
     animation-duration: 1s;
     animation-fill-mode: both;
