@@ -14,6 +14,11 @@ body {
     max-height: calc(100% - 62px);
 }
 
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #logo {
     margin-left: 10px;
     height: 45px;
