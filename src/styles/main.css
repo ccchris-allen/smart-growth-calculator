@@ -251,6 +251,8 @@ button {
     tricks described here:
     https://stackoverflow.com/questions/14677490/blurry-text-after-using-css-transform-scale-in-chrome
     */
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-smoothing: subpixel-antialiased;
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
     -webkit-filter: blur(0);
@@ -267,7 +269,7 @@ button {
     transform: scale(1) translateZ(0);
   }
   50% {
-    transform: scale(1.3) translateZ(0);
+    transform: scale(1.301) translateZ(0);
   }
   100% {
     transform: scale(1) translateZ(0);
