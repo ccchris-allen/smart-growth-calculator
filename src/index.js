@@ -142,7 +142,7 @@ map.addControl(searchControl);
 
             // after the data loads, emphasize the directions link by pulsating
             let link = document.querySelector('#nav-link-directions');
-            link.classList.add('pulsate');
+            link.classList.add('emphasize');
 
             PROPERTY_ORDER.forEach((p) => {
                 let vals = feats
