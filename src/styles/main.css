@@ -254,6 +254,8 @@ button {
     backface-visibility: hidden;
     transform: translateZ(0);
     -webkit-font-smoothing: subpixel-antialiased;
+    font-smoothing: antialiased !important;
+    filter: blur(.0px);
 
     animation-name: pulse;
     animation-duration: 1s;
@@ -262,9 +264,15 @@ button {
 }
 
 @keyframes pulse {
-  0% {transform: scale(1);}
-  50% {transform: scale(1.1);}
-  100% {transform: scale(1);}
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .navbar-brand {
