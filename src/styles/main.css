@@ -252,6 +252,11 @@ button {
 
 .nav-link.emphasize:after,
 .nav-link.emphasize:before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 5px);
+    border: 5px solid white;
+
     /* 
     Animating text tends to make things blurry, so using
     tricks described here:
@@ -268,38 +273,24 @@ button {
     animation-duration: 1s;
     animation-fill-mode: both;
     animation-iteration-count: 5;
+    animation-timing-function: ease-in;
 }
 
 .nav-link.emphasize:after {
-    content: '';
-    position: absolute;
     right: -2.5px;
-    top: calc(50% - 5px);
-    border: 5px solid white;
     border-color: transparent white transparent transparent;
 }
 
 .nav-link.emphasize:before {
-    content: '';
-    position: absolute;
     left: -2.5px;
-    top: calc(50% - 5px);
-    border: 5px solid white;
     border-color: transparent transparent transparent white;
 }
 
 @keyframes pulsate {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
 }
-
 
 .navbar-brand {
     color: #eee !important;
