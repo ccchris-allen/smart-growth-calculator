@@ -269,7 +269,6 @@ button {
     -webkit-filter: blur(0);
     filter: blur(0);
 
-    animation-name: pulsate;
     animation-duration: 1s;
     animation-fill-mode: both;
     animation-iteration-count: 5;
@@ -279,17 +278,25 @@ button {
 .nav-link.emphasize:after {
     right: -2.5px;
     border-color: transparent white transparent transparent;
+    animation-name: pulsateright;
 }
 
 .nav-link.emphasize:before {
     left: -2.5px;
     border-color: transparent transparent transparent white;
+    animation-name: pulsateleft;
 }
 
-@keyframes pulsate {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; }
+@keyframes pulsateright {
+  0% { opacity: 0; transform: translateX(5px); }
+  50% { opacity: 1; transform: translateX(0px); }
+  100% { opacity: 0; transform: translateX(5px); }
+}
+
+@keyframes pulsateleft {
+  0% { opacity: 0; transform: translateX(-5px); }
+  50% { opacity: 1; transform: translateX(0px); }
+  100% { opacity: 0; transform: translateX(-5px); }
 }
 
 .navbar-brand {
