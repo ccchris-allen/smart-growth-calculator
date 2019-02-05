@@ -250,54 +250,93 @@ button {
 }
 */
 
-.nav-link.emphasize:after,
-.nav-link.emphasize:before {
+.emphasize:after,
+.emphasize:before {
     content: '';
     position: absolute;
     top: calc(50% - 5px);
     border: 5px solid white;
 
-    /* 
-    Animating text tends to make things blurry, so using
-    tricks described here:
-    https://stackoverflow.com/questions/14677490/blurry-text-after-using-css-transform-scale-in-chrome
-    */
-    -webkit-font-smoothing: subpixel-antialiased;
-    font-smoothing: subpixel-antialiased;
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-    -webkit-filter: blur(0);
-    filter: blur(0);
-
     animation-duration: 1s;
     animation-fill-mode: both;
-    animation-iteration-count: 5;
+    animation-iteration-count: 7;
     animation-timing-function: ease-in;
 }
 
-.nav-link.emphasize:after {
+.emphasize:after {
     right: -2.5px;
     border-color: transparent white transparent transparent;
-    animation-name: pulsateright;
+    animation-name: pulsate-right;
 }
 
-.nav-link.emphasize:before {
+.emphasize:before {
     left: -2.5px;
     border-color: transparent transparent transparent white;
-    animation-name: pulsateleft;
+    animation-name: pulsate-left;
 }
 
-@keyframes pulsateright {
+@keyframes pulsate-right {
   0% { opacity: 0; transform: translateX(5px); }
   50% { opacity: 1; transform: translateX(0px); }
   100% { opacity: 0; transform: translateX(5px); }
 }
 
-@keyframes pulsateleft {
+@keyframes pulsate-left {
   0% { opacity: 0; transform: translateX(-5px); }
   50% { opacity: 1; transform: translateX(0px); }
   100% { opacity: 0; transform: translateX(-5px); }
 }
+
+#container-body {
+    position: relative;
+}
+
+.loading {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: rgba(225, 225, 225, .85);
+  z-index: 99999; /* need REALLY high z-index to draw over leaflet controls */
+}
+
+.loading-container {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.loading-ball {
+  display: inline-block;
+    width: 20px;
+    height: 20px;
+  margin: auto 5px;
+  background-color: rgba(#000, .8);
+  border-radius: 50%;
+}
+
+.loading-ball:nth-of-type(1) { animation: ball-1 1.5s ease-in infinite; }
+.loading-ball:nth-of-type(2) { animation: ball-2 1.5s ease-in infinite; }
+.loading-ball:nth-of-type(3) { animation: ball-3 1.5s ease-in infinite; }
+
+@keyframes ball-1 {
+  25% { transform: scale(1.5); }
+    50% { transform: scale(1); }
+}
+@keyframes ball-2 {
+  25% { transform: scale(1); }
+    50% {	transform: scale(1.5); }
+    75% { transform: scale(1); }
+}
+@keyframes ball-3 {
+  0% { transform: scale(1); }
+  50% { transform: scale(1); }
+  75% {	transform: scale(1.5);	}
+}
+
+
+
+
 
 .navbar-brand {
     color: #eee !important;
