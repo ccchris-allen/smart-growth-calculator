@@ -147,7 +147,7 @@ map.addControl(searchControl);
             link.classList.add('emphasize');
             // after animation is complete, remove the `emphasize` class
             // to prevent re-animation on re-draw
-            link.addEventListener('animationend', (e) => {
+            link.addEventListener('animationend webkitAnimationEnd', (e) => {
                 e.target.classList.remove('emphasize');
             });
             
