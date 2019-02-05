@@ -292,27 +292,27 @@ button {
 }
 
 .loading {
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 0; right: 0;
-  background-color: rgba(225, 225, 225, .85);
-  z-index: 99999; /* need REALLY high z-index to draw over leaflet controls */
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    background-color: rgba(225, 225, 225, .85);
+    z-index: 99999; /* need REALLY high z-index to draw over leaflet controls */
 }
 
 .loading-container {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
 }
 
 .loading-ball {
-  display: inline-block;
+    display: inline-block;
     width: 20px;
     height: 20px;
-  margin: auto 5px;
-  background-color: rgba(#000, .8);
-  border-radius: 50%;
+    margin: auto 5px;
+    background-color: rgba(#000, .8);
+    border-radius: 50%;
 }
 
 .loading-ball:nth-of-type(1) { animation: ball-1 1.5s ease-in infinite; }
@@ -320,23 +320,22 @@ button {
 .loading-ball:nth-of-type(3) { animation: ball-3 1.5s ease-in infinite; }
 
 @keyframes ball-1 {
-  25% { transform: scale(1.5); }
+    0% { transform: scale(.6); }
+    25% { transform: scale(1.5); }
     50% { transform: scale(1); }
 }
+
 @keyframes ball-2 {
-  25% { transform: scale(1); }
+    25% { transform: scale(.6); }
     50% {	transform: scale(1.5); }
     75% { transform: scale(1); }
 }
+
 @keyframes ball-3 {
-  0% { transform: scale(1); }
-  50% { transform: scale(1); }
-  75% {	transform: scale(1.5);	}
+    0% { transform: scale(1); }
+    50% { transform: scale(.6); }
+    75% {	transform: scale(1.5);	}
 }
-
-
-
-
 
 .navbar-brand {
     color: #eee !important;

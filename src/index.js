@@ -34,6 +34,8 @@ import {
     clearReadouts 
 } from './calculate';
 
+import { getTransitionEndProp } from './utils';
+
 
 // global constants
 const SELECTED_COLOR = '#444';
@@ -143,9 +145,15 @@ map.addControl(searchControl);
             // after the data loads, emphasize the directions link by pulsating
             let link = document.querySelector('#nav-link-directions');
             link.classList.add('emphasize');
+            // after animation is complete, remove the `emphasize` class
+            // to prevent re-animation on re-draw
+            link.addEventListener('animationend', (e) => {
+                e.target.classList.remove('emphasize');
+            });
             
             let loading = document.querySelector('.loading');
             loading.style.display = 'none';
+            
 
 
             PROPERTY_ORDER.forEach((p) => {
