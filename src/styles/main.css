@@ -102,7 +102,7 @@ a {
 #container-body {
     background-color: snow;
     overflow-y: auto;
-    //min-width: 400px;
+    min-width: 300px;
     //padding: 20px;
     //padding-left: 10px;
     //height: calc(100% - 50px);
@@ -111,7 +111,6 @@ a {
 
 #sidebar {
     margin: 0;
-    //padding-top: 10px;
     padding: 0;
 }
 
@@ -188,9 +187,9 @@ button {
 //.na { width: 0% !important; }
 
 .statistic {
-    padding: 5px;
+    padding: 5px 0px;
     width: 100%;
-    margin: .5em 0;
+    margin: 5px 0;
     margin-top: 20px;
     text-transform: capitalize;
     border-radius: 2px;
@@ -388,15 +387,20 @@ button {
     font-size: 9px;
 }
 
+/*
 .legend #scale-swatches div {
+*/
+.swatch-container > div {
     height: 50px;
     min-height: 50px;
     width: 50px;
-    min-width: 50px;
-    border-radius: 25px;
+    border-radius: 50%;
     font-size: 9px; 
     margin: 2px 10px; 
     color: black;
+
+    align-self: center;
+    justify-self: center;
 }
 
 .legend #scale-swatches span {
@@ -407,8 +411,25 @@ button {
     opacity: .6;
 }
 
+#scale-swatches {
+    display: flex;
+    justify-content: space-between;
+}
+
+.swatch-container {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    align-self: center;
+    max-width: 50%;
+}
+
+.tooltip-inner {
+    border-radius: 3px;
+}
+
 #legend-items {
-    width: 80%;
+    width: 95%;
     margin: 0 auto;
 }
 
@@ -425,7 +446,7 @@ button {
 }
 
 .legend-label { 
-    //font-weight: bold;
+    //font-weight: ;
 }
 
 .legend ul {

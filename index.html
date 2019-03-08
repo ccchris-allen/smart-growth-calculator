@@ -91,7 +91,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#modal-press"> 
                             <i class="fa fa-newspaper"></i>
-                            Press
+                            Links
                         </a>
                     </li>
                     <li class="nav-item">
@@ -164,16 +164,23 @@
                     <h6 class="section-header"> PERFORMANCE LEGEND </h6>
                     <div id="legend-items">
                         <div id="scale-swatches" class="d-flex flex-wrap justify-content-around">
-                            <div class="d-flex justify-content-center align-items-center" style="background-color: #2e8b57"> 
-                                <span> GOOD </span>
+                            <!-- Add container divs with flex: 1 to space things out right?-->
+                            <div class="swatch-container">
+                                <div class="d-flex justify-content-center align-items-center" style="background-color: #2e8b57"> 
+                                    <span> GOOD </span>
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center" style="background-color: #ffd700"> 
-                                <span> MEDIUM </span>
+                            <div class="swatch-container">
+                                <div class="d-flex justify-content-center align-items-center" style="background-color: #ffd700"> 
+                                    <span> MEDIUM </span>
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-center align-items-center" style="background-color: #dc143c"> 
-                                <span> POOR </span>
+                            <div class="swatch-container">
+                                <div class="d-flex justify-content-center align-items-center" style="background-color: #dc143c"> 
+                                    <span> POOR </span>
+                                </div>
                             </div>
-                            <div>
+                            <div class="swatch-container">
                                 <svg width="90" height="50">
                                     <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(90)">
                                         <path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" 
@@ -202,9 +209,11 @@
                     <ul id="readouts" class="plain-list">
 
                         <li> <hr /> </li>
-                        <li> <span style="font-size: .85em; font-weight: bold;"> Sustainability, Livability, Equity Performance (Low is Good) </span> </li>
+                        <li> <span style="font-size: .85em; font-weight: bold;"> Sustainability, Livability, Equity Performance </span> </li>
+                        <li> <span style="font-size: .6em;"> Lower Values are Better </span> </li>
 
-                        <li class="statistic showcased" data-toggle="tooltip" data-placement="top">
+                        <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
+                                title="Vehicle Miles Traveled reflect the number of miles driving each year per household.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Vehicle Miles Traveled <br> (per household)
@@ -219,7 +228,7 @@
                         </li>
 
                         <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                title="housing affordability reflects housing costs as a percent of income.">
+                                title="Housing Affordability reflects housing costs as a percent of income.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Housing Affordability
@@ -234,7 +243,7 @@
                         </li>
 
                         <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                title="Transportation affordability reflects transportation costs as a percent of income.">
+                                title="Transportation Affordability reflects transportation costs as a percent of income.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Transportation Affordability
@@ -249,7 +258,7 @@
                         </li>
 
                         <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                title="Housing + transportation affordability reflects housing + transportation costs as a percent of income.">
+                                title="Housing + Transportation Affordability reflects housing + transportation costs as a percent of income.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Housing + Transportation Affordability
@@ -263,7 +272,7 @@
                             </div>
                         </li>
 
-                        <li class="statistic">
+                        <li class="statistic" data-toggle="tooltip" data-placement="top">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Carbon Emissions <br> (lbs per household)
@@ -320,7 +329,8 @@
                         </li>
 
                         <li> <hr /> </li>
-                        <li> <span style="font-size: .85em; font-weight: bold;"> Urban Form/Livability Opportunities (High is Good) </span> </li>
+                        <li> <span style="font-size: .85em; font-weight: bold;"> Urban Form/Livability Opportunities </span> </li>
+                        <li> <span style="font-size: .6em;"> Higher Values are Better </span> </li>
 
                         <li class="statistic">
                             <div class="d-flex justify-content-between align-items-end">
@@ -447,13 +457,14 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-weight-bold"> Press </h4>
+                    <h4 class="modal-title font-weight-bold"> Links </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
                 </div>
 
                 <div class="modal-body">
+                    <h4> Press </h4>
                     <ul>
                         <li>
                             <a href="https://www.voiceofsandiego.org/topics/land-use/city-is-poised-to-back-down-on-plan-to-increase-height-limit-again">
@@ -464,6 +475,13 @@
                             <a href="https://ytcropper.com/cropped/-z5ba4840ae9494">
                                 KPBS Interview
                             </a>
+                        </li>
+                    </ul>
+
+                    <h4> Related Tools </h4>
+                    <ul>
+                        <li>
+                            <a href="http://app.restreat.com">ReStreet</a> is an interactive tool for street design.
                         </li>
                     </ul>
                 </div>
@@ -515,13 +533,13 @@
                         Developed by Dr. Bruce Appleyard (<a href="mailto:bappleyard@mail.sdsu.edu"
                             target="_top">bappleyard@mail.sdsu.edu</a>) and research
                         assistants Chris Allen and Eduardo Cordova, this new online
-                        smart growth & livability calculator prototype is designed
+                        Smart Growth Equity Calculator prototype is designed
                         to help practitioners and researchers meet a variety of
                         planning and design challenges related to corridors, station
                         areas, and complete streets, climate action planning and
                         providing affordable housing near transit in support of
-                        active and sustainable travel. This smart growth & livability
-                        calculator builds on work developing <a href="http://www.trb.org/main/blurbs/174953.aspx">The Handbook for 
+                        active and sustainable travel. This Smart Growth Equity 
+                        Calculator builds on work developing <a href="http://www.trb.org/main/blurbs/174953.aspx">The Handbook for 
                                 Building Livable Transit Corridors</a> and the
                         associated <a href="http://www.trb.org/main/blurbs/174953.aspx">
                                 Livability Calculator</a>, sponsored by the National
@@ -600,32 +618,18 @@
                         implementation project for the state of California.
                     </p>
 
-                    <h5> Geoff Boeing, PhD </h5>
-                    <p>
-                        Geoff Boeing is an Assistant Professor of urban informatics and planning in the School 
-                        of Public Policy and Urban Affairs at Northeastern University. He is a faculty 
-                        affiliate of the Network Science Institute and the Global Resilience Institute as well 
-                        as a core faculty member of the NULab for Texts, Maps, and Networks, Northeastern's 
-                        center for digital humanities and computational social science. He received his 
-                        PhD in City and Regional Planning from the University of California, Berkeley. 
-                        His work revolves around urban form, spatial networks, and data science. Recent 
-                        projects have focused on 1, the nature and character of urban street networks around 
-                        the world and 2, how data availability shapes our understanding of housing affordability. 
-                        He developed and maintains the OSMnx street network modeling software.
-                    </p>
-
                     <h5> Chris Allen </h5>
                     <p>
-                        Chris Allen is a PhD candidate in the department of geography at SDSU, 
+                        Chris Allen is a PhD candidate in the Department of Geography at SDSU, 
                         where he focuses on using geospatial techniques
                         and new data sources to examine well-being in urban areas.
                         prior to entering the PhD program, Chris worked as a software
-                        verification engineer in the avionics industry and completed
+                        engineer in the avionics industry and completed
                         an MA in urban history at San Diego State. As a research
-                        assistant at san diego state, he has worked primarily on
+                        assistant at San Diego State, he has worked primarily on
                         projects to collect and analyze social media data to study
                         topics ranging from disease outbreak to disaster management.
-                        in this role, Chris&#8217s duties have included database
+                        In this role, Chris&#8217s duties have included database
                         administration, web dashboard creation (both server-side
                         and client-side programming), and geospatial analysis.
                     </p>
@@ -635,8 +639,8 @@
                         Eduardo Cordova graduated with distinction in his major from San Diego State University
                         with a degree in geography with an emphasis in geographic
                         information systems (GIS) in December of 2016. He has worked
-                        on a variety of projects which include the excel livability
-                        calculator, typology of transit corridor livability, carbon
+                        on a variety of projects which include the excel Livability
+                        Calculator, typology of transit corridor livability, carbon
                         emissions study, and crime stop studies. his contributions
                         range from map creation, python application development,
                         and data interpretation and management. His primary skill-set
@@ -656,13 +660,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title font-weight-bold"> Directions </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: red;">
-                        CLOSE
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
                     </button>
                 </div>
                 <div class="modal-body">
                     <p>
-                        Welcome to the beta version of our Smart Growth Livability Calculator!  This Calculator is 
+                        Welcome to the beta version of our Smart Growth Equity Calculator!  This Calculator is 
                         designed to help people, public agencies, and professionals make better decisions about growth 
                         and development (where and what kind) by allowing them to explore and understand urban quality 
                         throughout a community and a region, and how this urban quality relates to sustainability, 

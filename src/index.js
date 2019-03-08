@@ -34,8 +34,6 @@ import {
     clearReadouts 
 } from './calculate';
 
-import { getTransitionEndProp } from './utils';
-
 
 // global constants
 const SELECTED_COLOR = '#444';
@@ -146,8 +144,7 @@ map.addControl(searchControl);
             let link = document.querySelector('#nav-link-directions');
             link.classList.add('emphasize');
             // after animation is complete, remove the `emphasize` class
-            // to prevent re-animation on re-draw
-            // NOTE: still not working on IE/Edge?
+            // to prevent re-animation on re-draw (NOTE: still not working on IE/Edge?)
             link.addEventListener('animationend webkitAnimationEnd', (e) => {
                 e.target.classList.remove('emphasize');
             });
