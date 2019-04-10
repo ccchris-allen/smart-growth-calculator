@@ -15,6 +15,12 @@ The Smart Growth Calculator uses the following tools/technologies:
 ### Build Tools
 * [Webpack](https://webpack.js.org) is used to build the JavaScript bundle used in the web page.  Webpack provides a number of capabilities, including transpiling ES6(allowing us to newer JS syntax) for broader browser capatibility and minifying the code to reduce file size. 
 
+* To generate build files for development, run `npm run dev`.  For production, run `npm run prod`.
+
+## Deployment
+
+* We're using [Netlify](https://netlify.com) to deploy the app (it syncs any changes pushed to Github).
+
 ## Code Structure
 
 The JavaScript code is divided into the following files:
