@@ -4,7 +4,7 @@ $btn-xs-border-radius: 2px;
 
 .btn-xs {
     color: $btn-xs-fg;
-    //width: 200px;
+    //width: 200px;!important;
     padding: 3px 7px;
     font-size: .8em;
     border: 0;
@@ -37,10 +37,6 @@ $btn-xs-border-radius: 2px;
     li > a:active {
         background-color: lighten($btn-xs-bg, 30%);
     }
-}
-
-.statistic:hover {
-    box-shadow: 5px 5px solid black;
 }
 
 

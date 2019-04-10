@@ -89,20 +89,21 @@ a {
     text-transform: uppercase;
 }
 
-.plain-list > li {
-    //display: inline-table;
-    //display: inline-block;
-}
+.plain-list > li { }
 
 #modal-directions {
     overflow-y: scroll;
+}
+
+.modal-dialog {
+    width: 80% !important;
 }
 
 #sidebar,
 #container-body {
     background-color: snow;
     overflow-y: auto;
-    min-width: 300px;
+    min-width: 350px;
     //padding: 20px;
     //padding-left: 10px;
     //height: calc(100% - 50px);
