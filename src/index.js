@@ -64,6 +64,15 @@ const areas = {
         },
         center: [37.56, -122.313],
         zoom: 12
+    },
+    'btn-ml-county': {
+        files: {
+            polygons: 'data/multnomah.geojson',
+            stations: 'data/stations-san-mateo.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [45.515, -122.679],
+        zoom: 12
     }
 };
 
@@ -114,16 +123,16 @@ map.addControl(searchControl);
 
 
 // Commenting out this part because Bruce doesn't want to show the "Select a County" modal right now...
-//$('.btn-squared').click(function() {
-//    $('#modal-select-city').modal('hide');
+$('.btn-squared').click(function() {
+    $('#modal-select-city').modal('hide');
 
     // only show annoying popups initially if in production mode
     if (0) { //IS_PROD) {
         $('#modal-directions').modal('show');
     }
 
-    //var area = areas[this.id]; 
-    var area = areas['btn-sd-county']; 
+    var area = areas[this.id]; 
+    //var area = areas['btn-sd-county']; 
 
     map.setView(area.center, area.zoom);
 
@@ -149,8 +158,10 @@ map.addControl(searchControl);
                 e.target.classList.remove('emphasize');
             });
             
+            /*
             let loading = document.querySelector('.loading');
             loading.style.display = 'none';
+            */
             
 
 
@@ -192,6 +203,7 @@ map.addControl(searchControl);
             }).addTo(map);
 
             // cloning the transit station buffers to get the centroid to display as points 
+            /*
             let cloned = JSON.parse(JSON.stringify(resp2.data));
             cloned.features = cloned.features.map((f) => centroid(polygon(f.geometry.coordinates)));
             
@@ -204,6 +216,7 @@ map.addControl(searchControl);
                     });
                 }
             }).addTo(map);
+            */
 
             // add the stations layer to the map
             // set style of stations layer based on typology
@@ -262,12 +275,12 @@ map.addControl(searchControl);
             L.control.layers([], {
                 "Livability Attributes": geojsonLayer,
                 "Rail Transit Station .5 Mile Buffers": stationsLayer,
-                "Rail Transit Stations": stationsPtsLayer,
+                /*"Rail Transit Stations": stationsPtsLayer,*/
                 'Disadvantage Communities': cesLayer
             }, opts).addTo(map);
 
         });
-//});
+});
 
 // create an event handler for when the user clicks the drop-down menu
 // to select a layer for visualization

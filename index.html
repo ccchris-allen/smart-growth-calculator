@@ -114,6 +114,7 @@
         <div id="container-body" class="row h-100">
 
             <!-- Loading Overlay -->
+            <!--
             <div class="loading"> 
                 <div class="loading-container">
                     <span class="loading-ball"></span>
@@ -121,6 +122,7 @@
                     <span class="loading-ball"></span>
                 </div>
             </div>
+            -->
 
             <!-- Map -->
             <div id="map" class="col h-100"> </div>
@@ -500,11 +502,14 @@
                     <!-- <div class="d-flex justify-content-around flex-wrap mt-5"> -->
                     <div class="d-flex flex-column">
                         <button type="button" id="btn-sd-county" class="btn btn-squared btn-success btn-md">
-                                <span id="btn-label" class="text-center"> San Diego County </span>
-                            </button>
-                        <!---<button type="button" id="btn-sm-county" class="btn btn-squared btn-success btn-md">
-                                <span id="btn-label" class="text-center"> San Mateo County </span>
-                            </button>-->
+                            <span id="btn-label" class="text-center"> San Diego County </span>
+                        </button>
+                        <button type="button" id="btn-ml-county" class="btn btn-squared btn-success btn-md">
+                            <span id="btn-label" class="text-center"> Multnomah County </span>
+                        </button>
+                        <button type="button" id="btn-sm-county" class="btn btn-squared btn-success btn-md">
+                            <span id="btn-label" class="text-center"> San Mateo County </span>
+                        </button>
                     </div>
 
                 </div>
@@ -754,7 +759,7 @@
 
     <script>
         $(window).ready(function() {
-            //$("#modal-select-city").modal('show');
+            $("#modal-select-city").modal('show');
             $('[data-toggle="tooltip"]').tooltip()
         });
     </script>
