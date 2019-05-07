@@ -73,6 +73,24 @@ const areas = {
         },
         center: [45.515, -122.679],
         zoom: 12
+    },
+    'btn-clk-county': {
+        files: {
+            polygons: 'data/OR_SLD_CLK_GJSON_4326.geojson',
+            stations: 'data/stations-san-mateo.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [45.3364, -122.60],
+        zoom: 12
+    },
+    'btn-wa-county': {
+        files: {
+            polygons: 'data/OR_SLD_WA_GJSON_4326.geojson',
+            stations: 'data/stations-san-mateo.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [45.515, -122.80],
+        zoom: 12
     }
 };
 
