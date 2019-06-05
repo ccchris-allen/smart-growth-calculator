@@ -109,6 +109,11 @@
             </div>
         </nav>
 
+        <!--Radar Graph-->
+        <div id="radar" class="col-3 flex-column fixed-bottom">
+                <h6 class="section-header"> Urban Quality Preformance </h6>
+                <canvas id="myChart"></canvas>
+        </div>
 
         <!-- h-100 ensures body will take up entire space -->
         <div id="container-body" class="row h-100">
@@ -126,7 +131,7 @@
 
             <!-- Map -->
             <div id="map" class="col h-100"> </div>
-
+            
             <!-- Sidebar -->
             <div id="sidebar" class="col-3 d-flex flex-column align-items-center h-100">
 
@@ -761,7 +766,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
     <!-- Project JS -->
-    <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+    <script src="dist/bundle.js" charset="utf-8"></script>
 
     <script>
         $(window).ready(function() {
@@ -769,6 +774,29 @@
             $('[data-toggle="tooltip"]').tooltip()
         });
     </script>
+
+    <!-- Radar Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script>
+        var config = {
+			type: 'radar',
+			data: {
+				labels: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"],
+				data: [20, 30, 40, 30, 40, 50, 20]
+			},
+			options: {
+				scale: {
+					ticks: {
+						beginAtZero: true
+                    }
+                }
+			}
+		};
+		window.onload = function() {
+			window.myRadar = new Chart(document.getElementById('myChart'), config);
+		};
+    </script>
+
 </body>
 
 </html>

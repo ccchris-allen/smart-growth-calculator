@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractTextPlugin = require('mini-css-extract-plugin');
 
 var mode = process.env.NODE_ENV ? process.env.NODE_ENV.toUpperCase() : "DEV";
 var IS_PROD = mode === 'PRODUCTION'; 
