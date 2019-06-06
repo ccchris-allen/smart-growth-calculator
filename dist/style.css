@@ -76,24 +76,6 @@ a {
   overflow-y: auto;
   min-width: 350px; }
 
-#radar {
-  background-color: snow; }
-
-.axis {
-  font: 15px sans-serif; }
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #D4D8DA;
-  stroke-width: 2px;
-  shape-rendering: crispEdges; }
-
-#chart {
-  position: absolute;
-  top: 50px;
-  left: 100px; }
-
 #sidebar {
   margin: 0;
   padding: 0; }
@@ -434,6 +416,7 @@ hr {
 /**************************/
 /* Leaflet Draw Overrides */
 /**************************/
+
 /*
 NOTE: This is all in SCSS (a CSS preprocessor).  Didn't use SCSS as much
 as I'd hoped to, so if it simplifies things, you may just want to convert
@@ -464,5 +447,6 @@ this to plain css and put it in the `main.css` file.
   margin: 0px !important; }
   .dropdown-menu li > a:active {
     background-color: #7a8793; }
+
 
 /*# sourceMappingURL=style.css.map*/
