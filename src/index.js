@@ -95,7 +95,7 @@ const areas = {
     }
 };
 
-alert(window.location.href.split('/').slice(-1))
+//alert(window.location.href.split('/').slice(-1))
 
 // variables that will reference out leaflet layers and map object
 let geojsonLayer;
