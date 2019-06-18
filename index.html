@@ -113,6 +113,7 @@
         <div id="radar" class="col-3 flex-column fixed-bottom">
                 <h6 class="section-header"> Urban Quality Preformance </h6>
                 <canvas id="myChart"></canvas>
+                <button onclick="updateChart()">Update</button>
         </div>
 
         <!-- h-100 ensures body will take up entire space -->
@@ -778,25 +779,43 @@
     <!-- Radar Chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script>
-        var config = {
-			type: 'radar',
-			data: {
-				labels: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"],
-				data: [20, 30, 40, 30, 40, 50, 20]
-			},
-			options: {
-				scale: {
-					ticks: {
-						beginAtZero: true
-                    }
-                }
-			}
-		};
-		window.onload = function() {
-			window.myRadar = new Chart(document.getElementById('myChart'), config);
-		};
-    </script>
+        var canvas = document.getElementById("myChart").getContext('2d');
 
+        var config = {
+            type: 'radar',
+            data: {
+                labels: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"],
+                datasets: [{
+                    data: [0, 0, 0, 0, 0, 0],
+                    label: 'Scenario 1'
+                }]
+            },
+            options: {
+                scale: {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                },
+                tooltips: {
+                    enabled: false
+                }
+            }
+        };
+
+        window.onload = function() {
+            myRadar = new Chart(canvas, config);
+        };
+        
+        function updateChart(){
+            var vehicle = document.getElementById('stat-vmt');
+            var housing = document.getElementById('stat-housing');
+            console.log(vehicle.innerHTML);
+            console.log(housing.innerHTML);
+            myRadar.data.datasets[0].data[0] = 25;
+            myRadar.data.datasets[0].data[1] = 30;
+			myRadar.update();
+        }
+    </script>
 </body>
 
 </html>
