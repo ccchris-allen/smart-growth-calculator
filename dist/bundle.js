@@ -64263,6 +64263,7 @@ const BASEMAP_URL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access
 // close the window each reload)
 const IS_PROD = "development" === 'production';
 
+// should be separate json config?
 const areas = {
     'btn-sd-county': {
         files: {
@@ -64310,6 +64311,8 @@ const areas = {
         zoom: 12
     }
 };
+
+//alert(window.location.href.split('/').slice(-1))
 
 // variables that will reference out leaflet layers and map object
 let geojsonLayer;
@@ -64425,7 +64428,7 @@ $('.btn-squared').click(function() {
                 },
                 onEachFeature: (f, l) => {
                     l.on('mouseover', (e) => {
-                        f.properties._hovered = true; 
+                        f.properties._hovered = true;
                         updateSelected();
                     });
                     l.on('mouseout', (e) => {
@@ -64680,7 +64683,6 @@ $("#download-csv").on('click', () => {
 
     Object(_exportCSV__WEBPACK_IMPORTED_MODULE_13__["exportCSVFile"])(rows);
 });
-
 
 
 /***/ }),
