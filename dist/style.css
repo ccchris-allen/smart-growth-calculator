@@ -48,7 +48,17 @@ a {
   outline: 0; }
 
 #btn-label {
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  text-align: center; }
+
+.btn-group {
+  margin: 5px; }
+
+/* Bootstrap messes with certain buttons */
+#btn-sm-county,
+#btn-ml-county,
+#btn-wa-county {
+  margin-left: 5px; }
 
 .popover-title {
   background: #333 !important; }
