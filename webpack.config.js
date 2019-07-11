@@ -1,6 +1,8 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+//const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+
+const path = require('path');
 
 var mode = process.env.NODE_ENV ? process.env.NODE_ENV.toUpperCase() : "DEV";
 var IS_PROD = mode === 'PRODUCTION'; 
@@ -16,6 +18,7 @@ if (IS_PROD) {
     optional_rules = [
         {
             test: /\.js$/,
+            exclude: /node_modules/,
             loaders: 'babel-loader',
             query: {
                 presets: ['es2015']
@@ -28,7 +31,8 @@ if (IS_PROD) {
 var config = {
     entry: './src/index.js',
     output: {
-        filename: './dist/bundle.js'
+        filename : 'bundle.js',
+        path : path.resolve(__dirname, 'dist')
     },
     devtool: 'source-map',
     module: {
@@ -36,16 +40,24 @@ var config = {
         rules: [
             {
                 test: /\.(s*)css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
-                })
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    { loader: 'css-loader', options: { url: false, sourceMap: true }},
+                    { loader: 'sass-loader', options: {sourceMap: true } }
+                ],
             }
         ].concat(optional_rules)
     },
+    devServer: {
+        contentBase: '.'
+    },
     plugins: [
-        new ExtractTextPlugin({filename: 'dist/style.css'})
-    ]
+        new MiniCssExtractPlugin({
+            filename: 'style.css'
+        }),
+        //new CleanWebpackPlugin()
+    ],
+    mode: 'development'
 };
 
 module.exports = config;
