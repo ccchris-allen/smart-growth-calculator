@@ -55,7 +55,16 @@ a {
   margin: 5px; }
 
 /* Bootstrap messes with certain buttons */
+#btn-al-county,
+#btn-cc-county,
+#btn-la-county,
+#btn-oc-county,
+#btn-sa-county,
+#btn-sd-county,
+#btn-sf-county,
 #btn-sm-county,
+#btn-sc-county,
+#btn-clk-county,
 #btn-ml-county,
 #btn-wa-county {
   margin-left: 5px; }
