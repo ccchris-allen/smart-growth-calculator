@@ -64331,6 +64331,7 @@ const areas = {
     'btn-cc-county': {
         files: {
             polygons: 'data/ContraCosta_County.geojson',
+            stations: '',
             ces: 'data/ces-tracts.geojson'
         },
         center: [37.97, -122.03],
