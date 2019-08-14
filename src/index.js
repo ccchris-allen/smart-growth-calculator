@@ -92,6 +92,69 @@ const areas = {
         },
         center: [45.515, -122.80],
         zoom: 12
+    },
+    'btn-la-county': {
+        files: {
+            polygons: 'data/LosAngeles_County.geojson',
+            stations: 'data/LosAngeles_County_Station.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [34.05, -118.24],
+        zoom: 12
+    },
+    'btn-al-county': {
+        files: {
+            polygons: 'data/Alameda_County.geojson',
+            stations: 'data/Alameda_County_Station.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [37.66, -121.87],
+        zoom: 12
+    },
+    'btn-cc-county': {
+        files: {
+            polygons: 'data/ContraCosta_County.geojson',
+            stations: '',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [37.97, -122.03],
+        zoom: 12
+    },
+    'btn-oc-county': {
+        files: {
+            polygons: 'data/Orange_County.geojson',
+            stations: 'data/Orange_County_Station.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [33.83, -117.91],
+        zoom: 12
+    },
+    'btn-sa-county': {
+        files: {
+            polygons: 'data/Sacramento_County.geojson',
+            stations: 'data/Sacramento_County_Station.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [38.58, -121.49],
+        zoom: 12
+    },
+    'btn-sf-county': {
+        files: {
+            polygons: 'data/SanFrancisco_County.geojson',
+            stations: 'data/SanFrancisco_County_Station.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [37.77, -122.41],
+        zoom: 12
+    },
+    'btn-sc-county': {
+        files: {
+            polygons: 'data/SantaClara_County.geojson',
+            stations: 'data/SantaClara_County_Station.geojson',
+            ces: 'data/ces-tracts.geojson'
+        },
+        center: [37.35, -121.95],
+        zoom: 12
     }
 };
 
