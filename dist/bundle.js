@@ -63715,7 +63715,7 @@ function getTypologyFromPct(pct) {
     }
 }
 
-function getColor(value, values, scale=['SeaGreen', 'Gold', 'Crimson'], mode='q', steps=9) {
+function getColor(value, values, scale=['DeepSkyBlue', 'Gold', 'Crimson'], mode='q', steps=9) {
     // this is sloppy, rewrite later...
 
     values = values.filter(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"]);
@@ -64031,7 +64031,7 @@ var chroma = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chro
 const DEFAULT_OPTIONS = {
     property: 'value',
     // use this scale to mimic readouts:
-    scale: ['DarkCyan', 'Gold', 'Crimson'],
+    scale: ['DeepSkyBlue', 'Gold', 'Crimson'],
     steps: 9,
     mode: 'q',
     defaultStyle: { opacity: 0.0 }
@@ -64528,7 +64528,7 @@ $('.btn-squared').click(function() {
 
                     // make sure SDSU station (83) is green --hacky!!!
                     if (f.properties.F02 === 83 ||f.properties.FINAL_TYPO === 'INTEGRATED') {
-                        style.color = 'SeaGreen';
+                        style.color = 'Lime';
                     } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
                         style.color = 'rgb(255, 195, 0)'; //'Gold';
                     } else {

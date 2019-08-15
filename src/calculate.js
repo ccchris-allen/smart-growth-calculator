@@ -22,7 +22,7 @@ function getTypologyFromPct(pct) {
     }
 }
 
-function getColor(value, values, scale=['SeaGreen', 'Gold', 'Crimson'], mode='q', steps=9) {
+function getColor(value, values, scale=['DeepSkyBlue', 'Gold', 'Crimson'], mode='q', steps=9) {
     // this is sloppy, rewrite later...
 
     values = values.filter(isNumeric);
