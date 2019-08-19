@@ -9,7 +9,7 @@ var chroma = require('chroma-js');
 const DEFAULT_OPTIONS = {
     property: 'value',
     // use this scale to mimic readouts:
-    scale: ['DeepSkyBlue', 'Gold', 'Crimson'],
+    scale: ['SpringGreen', 'Gold', 'Crimson'],
     steps: 9,
     mode: 'q',
     defaultStyle: { opacity: 0.0 }
