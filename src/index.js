@@ -313,7 +313,7 @@ $('.btn-squared').click(function() {
 
                     // make sure SDSU station (83) is green --hacky!!!
                     if (f.properties.F02 === 83 ||f.properties.FINAL_TYPO === 'INTEGRATED') {
-                        style.color = 'ForestGreen';
+                        style.color = 'SeaGreen';
                     } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
                         style.color = 'rgb(255, 195, 0)'; //'Gold';
                     } else {

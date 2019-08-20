@@ -64031,7 +64031,7 @@ var chroma = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chro
 const DEFAULT_OPTIONS = {
     property: 'value',
     // use this scale to mimic readouts:
-    scale: ['SpringGreen', 'Gold', 'Crimson'],
+    scale: ['DeepSkyBlue', 'Gold', 'Crimson'],
     steps: 9,
     mode: 'q',
     defaultStyle: { opacity: 0.0 }
@@ -64528,7 +64528,7 @@ $('.btn-squared').click(function() {
 
                     // make sure SDSU station (83) is green --hacky!!!
                     if (f.properties.F02 === 83 ||f.properties.FINAL_TYPO === 'INTEGRATED') {
-                        style.color = 'ForestGreen';
+                        style.color = 'SeaGreen';
                     } else if (f.properties.FINAL_TYPO === 'TRANSITIONING') {
                         style.color = 'rgb(255, 195, 0)'; //'Gold';
                     } else {
