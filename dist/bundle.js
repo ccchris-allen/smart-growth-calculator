@@ -64321,20 +64321,11 @@ const areas = {
     },
     'btn-al-county': {
         files: {
-            polygons: 'data/Alameda_County.geojson',
+            polygons: 'data/Alameda_ContraCosta_Counties_Offline_GJSN.geojson',
             stations: 'data/Alameda_County_Station.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [37.66, -121.87],
-        zoom: 12
-    },
-    'btn-cc-county': {
-        files: {
-            polygons: 'data/ContraCosta_County.geojson',
-            stations: '',
-            ces: 'data/ces-tracts.geojson'
-        },
-        center: [37.97, -122.03],
         zoom: 12
     },
     'btn-oc-county': {
