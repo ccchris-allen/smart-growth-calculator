@@ -179,10 +179,10 @@ export let property_config = {
         summarizer: createSimpleSummarizer("D1C")
     }, 
     "ped-environment": {
-        name: "Pedestrian Environment",
+        name: "Pedestrian Environment (Walkability)",
         dom_name: "ped-environment",
         precision: 1,
-        attribute: "D1b",
+        attribute: "D3b",
         invert: true,
         summarizer: createSimpleSummarizer("D3b")
     }, 
@@ -190,9 +190,9 @@ export let property_config = {
         name: "Jobs Accessibility",
         dom_name: "jobs-accessibility",
         precision: 0,
-        attribute: "D5br_cleaned",
+        attribute: "D5br",
         invert: true,  // some metrics need to be inverted, to conform with high = bad
-        summarizer: createSimpleSummarizer("D5br_cleaned")
+        summarizer: createSimpleSummarizer("D5br")
     }, 
     "walkscore": {
         name: "WalkScore",
@@ -214,10 +214,10 @@ export let property_config = {
         dom_name: "obesity",
         precision: 1,
         attribute: "OBESITY_Cr",
-        summarizer: createSimpleSummarizer("OBESITY_Cr")
+        summarizer: createSimpleSummarizer("Obesity_Cr")
     }, 
     "walkshare": {
-        name: "Walking Percent",
+        name: "Walking Percent (Walkshare)",
         dom_name: "walkshare",
         precision: 1,
         invert: true,  // some metrics need to be inverted, to conform with high = bad

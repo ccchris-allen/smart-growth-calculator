@@ -50,8 +50,8 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 const areas = {
     'btn-sd-county': {
         files: {
-            polygons: 'data/sd_cbgs_latest_attributes_normed6.geojson',
-            stations: 'data/sd-rail-stations-buffered.geojson',
+            polygons: 'data/SanDiegoCounty.geojson',
+            stations: 'data/SanDiegoStations.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [32.7157, -117.11],
@@ -59,8 +59,8 @@ const areas = {
     },
     'btn-sm-county': {
         files: {
-            polygons: 'data/san-mateo-with-data_normed6.geojson',
-            stations: 'data/stations-san-mateo.geojson',
+            polygons: 'data/SanMateoCounty.json',
+            stations: 'data/SanMateoStations.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [37.56, -122.313],
@@ -68,8 +68,8 @@ const areas = {
     },
     'btn-ml-county': {
         files: {
-            polygons: 'data/multnomah.geojson',
-            stations: 'data/stations-san-mateo.geojson',
+            polygons: 'data/MultnomahCounty.geojson',
+            stations: '',
             ces: 'data/ces-tracts.geojson'
         },
         center: [45.515, -122.679],
@@ -77,8 +77,8 @@ const areas = {
     },
     'btn-clk-county': {
         files: {
-            polygons: 'data/OR_SLD_CLK_GJSON_4326.geojson',
-            stations: 'data/stations-san-mateo.geojson',
+            polygons: 'data/ClackamasCounty.geojson',
+            stations: '',
             ces: 'data/ces-tracts.geojson'
         },
         center: [45.3364, -122.60],
@@ -86,8 +86,8 @@ const areas = {
     },
     'btn-wa-county': {
         files: {
-            polygons: 'data/OR_SLD_WA_GJSON_4326.geojson',
-            stations: 'data/stations-san-mateo.geojson',
+            polygons: 'data/WashingtonCounty.geojson',
+            stations: '',
             ces: 'data/ces-tracts.geojson'
         },
         center: [45.515, -122.80],
@@ -95,17 +95,17 @@ const areas = {
     },
     'btn-la-county': {
         files: {
-            polygons: 'data/LosAngeles_County.geojson',
-            stations: 'data/LosAngeles_County_Station.geojson',
+            polygons: 'data/LosAngelesCounty.json',
+            stations: 'data/LosAngelesStations.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [34.05, -118.24],
         zoom: 12
     },
-    'btn-al-county': {
+    'btn-alcc-county': {
         files: {
-            polygons: 'data/Alameda_ContraCosta_Counties_Offline_GJSN.geojson',
-            stations: 'data/Alameda_County_Station.geojson',
+            polygons: 'data/AlamedaContraCostaCounty.json',
+            stations: 'data/AlamedaStations.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [37.66, -121.87],
@@ -113,8 +113,8 @@ const areas = {
     },
     'btn-oc-county': {
         files: {
-            polygons: 'data/Orange_County.geojson',
-            stations: 'data/Orange_County_Station.geojson',
+            polygons: 'data/OrangeCounty.json',
+            stations: 'data/OrangeStations.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [33.83, -117.91],
@@ -122,8 +122,8 @@ const areas = {
     },
     'btn-sa-county': {
         files: {
-            polygons: 'data/Sacramento_County.geojson',
-            stations: 'data/Sacramento_County_Station.geojson',
+            polygons: 'data/SacramentoCounty.json',
+            stations: 'data/SacramentoStations.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [38.58, -121.49],
@@ -131,8 +131,8 @@ const areas = {
     },
     'btn-sf-county': {
         files: {
-            polygons: 'data/SanFrancisco_County.geojson',
-            stations: 'data/SanFrancisco_County_Station.geojson',
+            polygons: 'data/SanFranciscoCounty.json',
+            stations: 'data/SanFranciscoStations.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [37.77, -122.41],
@@ -140,8 +140,8 @@ const areas = {
     },
     'btn-sc-county': {
         files: {
-            polygons: 'data/SantaClara_County.geojson',
-            stations: 'data/SantaClara_County_Station.geojson',
+            polygons: 'data/SantaClaraCounty.json',
+            stations: 'data/SantaClaraStation.geojson',
             ces: 'data/ces-tracts.geojson'
         },
         center: [37.35, -121.95],
