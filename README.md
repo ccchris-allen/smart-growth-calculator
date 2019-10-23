@@ -15,7 +15,7 @@ The Smart Growth Calculator uses the following tools/technologies:
 * [Leaflet Draw](http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html) is used for handling the map drawing functions.
 
 ### Build Tools
-* [Webpack](https://webpack.js.org) is used to build the JavaScript bundle used in the web page.  Webpack provides a number of capabilities, including transpiling ES6(allowing us to newer JS syntax) for broader browser capatibility and minifying the code to reduce file size. 
+* [Webpack](https://webpack.js.org) is used to build the JavaScript bundle used in the web page.  Webpack provides a number of capabilities, including transpiling ES6 (allowing us to use newer JS syntax) for broader browser capatibility and minifying the code to reduce file size. 
 
 * To generate build files for development, run `npm run dev`.  For production, run `npm run prod`. Or if not on Linux use `npm run build` and `npm start` to see a live webpage. 
 
