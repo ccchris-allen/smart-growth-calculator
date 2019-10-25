@@ -8,8 +8,7 @@ html {
 
 /* Need this when using navbar fixed-top */
 body {
-  padding-top: 62px;
-  max-height: calc(100% - 62px); }
+  padding-top: 62px; }
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -73,7 +72,7 @@ a {
   background: #333 !important; }
 
 .dropdown-menu {
-  font-size: .8em; }
+  font-size: 0.8em; }
 
 .plain-list {
   margin: 0px;
@@ -105,7 +104,7 @@ a {
 hr {
   display: inline-block;
   border: 0;
-  border-top: .2px solid #9a9a9a;
+  border-top: 0.2px solid #9a9a9a;
   width: 100%; }
 
 #select-property {
@@ -115,7 +114,7 @@ hr {
 #select-property label {
   display: block;
   cursor: pointer !important;
-  font-size: .75em; }
+  font-size: 0.75em; }
 
 .section {
   width: 95%;
@@ -172,18 +171,18 @@ hr {
   font-weight: bold; }
 
 .statistic .value {
-  font-size: .8em; }
+  font-size: 0.8em; }
 
 .statistic .label {
   width: 60%;
   color: inherit;
-  font-size: .8em; }
+  font-size: 0.8em; }
 
 /* Bootstrap override CSS (create separate classes?) */
 .nav-link {
   position: relative;
   text-transform: uppercase;
-  font-size: .8em; }
+  font-size: 0.8em; }
 
 .nav-link * {
   color: rgba(255, 255, 255, 0.6); }
@@ -193,7 +192,7 @@ hr {
 
 .emphasize:after,
 .emphasize:before {
-  content: '';
+  content: "";
   position: absolute;
   top: calc(50% - 5px);
   border: 5px solid white;
@@ -322,7 +321,7 @@ hr {
   color: #fff;
   font-size: 16px;
   line-height: 24px;
-  border-radius: .15em; }
+  border-radius: 0.15em; }
 
 .leaflet-popup-content-wrapper a {
   color: rgba(255, 255, 255, 0.5); }
@@ -363,7 +362,7 @@ hr {
   font-weight: bold; }
 
 .legend #scale-swatches > div {
-  opacity: .6; }
+  opacity: 0.6; }
 
 #scale-swatches {
   display: flex;
