@@ -1,6 +1,7 @@
 # SMART GROWTH CALCULATOR CODE OVERVIEW
 
-[LINK](https://smartgrowthcalculator.netlify.com)
+[Production Site Link](https://smartgrowthcalculator.netlify.com)
+[Test Site Link](https://testsmartgrowthcalculator.netlify.com)
 
 ## Technology Used
 
