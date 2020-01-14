@@ -47,7 +47,7 @@ const IS_PROD = process.env.NODE_ENV === "production";
 const areas = {
   "btn-sd-county": {
     files: {
-      polygons: "data/SanDiegoCounty.geojson",
+      polygons: "data/SanDiegoCounty-new-polygon.geojson",
       stations: "data/SanDiegoStations.geojson",
       ces: "data/SanDiegoDC-old.geojson"
     },
