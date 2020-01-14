@@ -206,15 +206,15 @@ export let property_config = {
         name: "Cardiovascular Disease",
         dom_name: "cardio",
         precision: 1,
-        attribute: "Cardiova_1",
-        summarizer: createSimpleSummarizer("Cardiova_1")
+        attribute: "CHD_Crude1",
+        summarizer: createSimpleSummarizer("CHD_Crude1")
     }, 
     "obesity": {
         name: "Obesity",
         dom_name: "obesity",
         precision: 1,
-        attribute: "OBESITY_Cr",
-        summarizer: createSimpleSummarizer("OBESITY_Cr")
+        attribute: "OBESITY_C1",
+        summarizer: createSimpleSummarizer("OBESITY_C1")
     }, 
     "walkshare": {
         name: "Walking Percent (Walkshare)",
@@ -280,7 +280,7 @@ export let property_config = {
             features = forceArray(features); 
 
             let valid_features = features.filter((f) => { 
-                let props = ['SumAllPed', 'JTW_WALK', 'JTW_TOTAL', 'TOTPOP1'];
+                let props = ['SumAllPed', 'JTW_WALK', 'JTW_TOTAL', 'TOTPOP10'];
 
                 for (let i = 0; i < props.length; i++) {
                     if (!isNumeric(f.properties[props[i]])) {
@@ -301,12 +301,12 @@ export let property_config = {
                 totals['SumAllPed'] += parseInt(props['SumAllPed']);
                 totals['JTW_WALK'] += parseInt(props['JTW_WALK']);
                 totals['JTW_TOTAL'] += parseInt(props['JTW_TOTAL']);
-                totals['TOTPOP1'] += parseInt(props['TOTPOP1']);
+                totals['TOTPOP10'] += parseInt(props['TOTPOP10']);
 
                 return totals;
-            }, { 'SumAllPed': 0, 'JTW_WALK': 0, 'JTW_TOTAL': 0, 'TOTPOP1': 0 });
+            }, { 'SumAllPed': 0, 'JTW_WALK': 0, 'JTW_TOTAL': 0, 'TOTPOP10': 0 });
 
-            return 100000 * (sums['SumAllPed'] / sums['TOTPOP1']) / (sums['JTW_WALK'] / sums['JTW_TOTAL']) / 365.25;
+            return 100000 * (sums['SumAllPed'] / sums['TOTPOP10']) / (sums['JTW_WALK'] / sums['JTW_TOTAL']) / 365.25;
         }
     }
 };

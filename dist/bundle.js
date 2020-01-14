@@ -63749,8 +63749,8 @@ let property_config = {
         name: "Vehicle Miles Traveled",
         dom_name: "vmt",
         precision: 0,
-        attribute: "hh_type1_vmt",
-        summarizer: createSimpleSummarizer("hh_type1_vmt")
+        attribute: "hh_type1_v",
+        summarizer: createSimpleSummarizer("hh_type1_v")
     }, 
     "housing": {
         name: "Housing Affordability",
@@ -63770,8 +63770,8 @@ let property_config = {
         name: "Housing + Transportation Affordability",
         dom_name: "afford-house-transport",
         precision: 1,
-        attribute: "hh_type1_ht",
-        summarizer: createSimpleSummarizer("hh_type1_ht")
+        attribute: "hh_type1_2",
+        summarizer: createSimpleSummarizer("hh_type1_2")
     }, 
     "pop-density": {
         name: "Population Density",
@@ -63825,15 +63825,15 @@ let property_config = {
         name: "Cardiovascular Disease",
         dom_name: "cardio",
         precision: 1,
-        attribute: "Cardiova_1",
-        summarizer: createSimpleSummarizer("Cardiova_1")
+        attribute: "CHD_Crude1",
+        summarizer: createSimpleSummarizer("CHD_Crude1")
     }, 
     "obesity": {
         name: "Obesity",
         dom_name: "obesity",
         precision: 1,
-        attribute: "OBESITY_Cr",
-        summarizer: createSimpleSummarizer("Obesity_Cr")
+        attribute: "OBESITY_C1",
+        summarizer: createSimpleSummarizer("OBESITY_C1")
     }, 
     "walkshare": {
         name: "Walking Percent (Walkshare)",
@@ -63878,14 +63878,14 @@ let property_config = {
         summarizer: (features) => {
             features = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["forceArray"])(features);
 
-            let valid_features = features.filter((f) => Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties["hh_type1_vmt"]));
+            let valid_features = features.filter((f) => Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties["hh_type1_v"]));
 
             if (valid_features.length == 0) {
                 return undefined;
             }
 
             let sum = valid_features.reduce((total, f) => {
-                return total + f.properties["hh_type1_vmt"] * .90
+                return total + f.properties["hh_type1_v"] * .90
             }, 0);
 
             return sum / features.length;
@@ -63899,7 +63899,7 @@ let property_config = {
             features = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["forceArray"])(features); 
 
             let valid_features = features.filter((f) => { 
-                let props = ['SumAllPed', 'JTW_WALK', 'JTW_TOTAL', 'TOTPOP1'];
+                let props = ['SumAllPed', 'JTW_WALK', 'JTW_TOTAL', 'TOTPOP10'];
 
                 for (let i = 0; i < props.length; i++) {
                     if (!Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties[props[i]])) {
@@ -63920,12 +63920,12 @@ let property_config = {
                 totals['SumAllPed'] += parseInt(props['SumAllPed']);
                 totals['JTW_WALK'] += parseInt(props['JTW_WALK']);
                 totals['JTW_TOTAL'] += parseInt(props['JTW_TOTAL']);
-                totals['TOTPOP1'] += parseInt(props['TOTPOP1']);
+                totals['TOTPOP10'] += parseInt(props['TOTPOP10']);
 
                 return totals;
-            }, { 'SumAllPed': 0, 'JTW_WALK': 0, 'JTW_TOTAL': 0, 'TOTPOP1': 0 });
+            }, { 'SumAllPed': 0, 'JTW_WALK': 0, 'JTW_TOTAL': 0, 'TOTPOP10': 0 });
 
-            return 100000 * (sums['SumAllPed'] / sums['TOTPOP1']) / (sums['JTW_WALK'] / sums['JTW_TOTAL']) / 365.25;
+            return 100000 * (sums['SumAllPed'] / sums['TOTPOP10']) / (sums['JTW_WALK'] / sums['JTW_TOTAL']) / 365.25;
         }
     }
 };
@@ -64202,7 +64202,7 @@ const areas = {
   },
   "btn-sm-county": {
     files: {
-      polygons: "data/SanMateoCounty.json",
+      polygons: "data/SanMateoCounty.geojson",
       stations: "data/SanMateoStations.geojson",
       ces: "data/SanMateoDC.geojson"
     },
@@ -64238,7 +64238,7 @@ const areas = {
   },
   "btn-la-county": {
     files: {
-      polygons: "data/LosAngelesCounty.json",
+      polygons: "data/LosAngelesCounty.geojson",
       stations: "data/LosAngelesStations.geojson",
       ces: "data/LosAngelesDC.geojson"
     },
@@ -64247,7 +64247,7 @@ const areas = {
   },
   "btn-alcc-county": {
     files: {
-      polygons: "data/AlamedaContraCostaCounty.json",
+      polygons: "data/AlamedaContraCostaCounty.geojson",
       stations: "data/AlamedaStations.geojson",
       ces: "data/AlamedaDC.geojson"
     },
@@ -64256,7 +64256,7 @@ const areas = {
   },
   "btn-oc-county": {
     files: {
-      polygons: "data/OrangeCounty.json",
+      polygons: "data/OrangeCounty.geojson",
       stations: "data/OrangeStations.geojson",
       ces: "data/OrangeDC.geojson"
     },
@@ -64265,7 +64265,7 @@ const areas = {
   },
   "btn-sa-county": {
     files: {
-      polygons: "data/SacramentoCounty.json",
+      polygons: "data/SacramentoCounty.geojson",
       stations: "data/SacramentoStations.geojson",
       ces: "data/SacramentoDC.geojson"
     },
@@ -64274,7 +64274,7 @@ const areas = {
   },
   "btn-sf-county": {
     files: {
-      polygons: "data/SanFranciscoCounty.json",
+      polygons: "data/SanFranciscoCounty.geojson",
       stations: "data/SanFranciscoStations.geojson",
       ces: "data/SanFranciscoDC.geojson"
     },
@@ -64283,7 +64283,7 @@ const areas = {
   },
   "btn-sc-county": {
     files: {
-      polygons: "data/SantaClaraCounty.json",
+      polygons: "data/SantaClaraCounty.geojson",
       stations: "data/SantaClaraStation.geojson",
       ces: "data/SantaClaraDC.geojson"
     },
