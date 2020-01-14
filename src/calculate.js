@@ -130,8 +130,8 @@ export let property_config = {
         name: "Vehicle Miles Traveled",
         dom_name: "vmt",
         precision: 0,
-        attribute: "hh_type1_vmt",
-        summarizer: createSimpleSummarizer("hh_type1_vmt")
+        attribute: "hh_type1_v",
+        summarizer: createSimpleSummarizer("hh_type1_v")
     }, 
     "housing": {
         name: "Housing Affordability",
@@ -151,8 +151,8 @@ export let property_config = {
         name: "Housing + Transportation Affordability",
         dom_name: "afford-house-transport",
         precision: 1,
-        attribute: "hh_type1_ht",
-        summarizer: createSimpleSummarizer("hh_type1_ht")
+        attribute: "hh_type1_2",
+        summarizer: createSimpleSummarizer("hh_type1_2")
     }, 
     "pop-density": {
         name: "Population Density",
@@ -214,7 +214,7 @@ export let property_config = {
         dom_name: "obesity",
         precision: 1,
         attribute: "OBESITY_Cr",
-        summarizer: createSimpleSummarizer("Obesity_Cr")
+        summarizer: createSimpleSummarizer("OBESITY_Cr")
     }, 
     "walkshare": {
         name: "Walking Percent (Walkshare)",
@@ -259,14 +259,14 @@ export let property_config = {
         summarizer: (features) => {
             features = forceArray(features);
 
-            let valid_features = features.filter((f) => isNumeric(f.properties["hh_type1_vmt"]));
+            let valid_features = features.filter((f) => isNumeric(f.properties["hh_type1_v"]));
 
             if (valid_features.length == 0) {
                 return undefined;
             }
 
             let sum = valid_features.reduce((total, f) => {
-                return total + f.properties["hh_type1_vmt"] * .90
+                return total + f.properties["hh_type1_v"] * .90
             }, 0);
 
             return sum / features.length;

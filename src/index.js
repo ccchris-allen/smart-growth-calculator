@@ -56,7 +56,7 @@ const areas = {
   },
   "btn-sm-county": {
     files: {
-      polygons: "data/SanMateoCounty.json",
+      polygons: "data/SanMateoCounty.geojson",
       stations: "data/SanMateoStations.geojson",
       ces: "data/SanMateoDC.geojson"
     },
@@ -92,7 +92,7 @@ const areas = {
   },
   "btn-la-county": {
     files: {
-      polygons: "data/LosAngelesCounty.json",
+      polygons: "data/LosAngelesCounty.geojson",
       stations: "data/LosAngelesStations.geojson",
       ces: "data/LosAngelesDC.geojson"
     },
@@ -101,7 +101,7 @@ const areas = {
   },
   "btn-alcc-county": {
     files: {
-      polygons: "data/AlamedaContraCostaCounty.json",
+      polygons: "data/AlamedaContraCostaCounty.geojson",
       stations: "data/AlamedaStations.geojson",
       ces: "data/AlamedaDC.geojson"
     },
@@ -110,7 +110,7 @@ const areas = {
   },
   "btn-oc-county": {
     files: {
-      polygons: "data/OrangeCounty.json",
+      polygons: "data/OrangeCounty.geojson",
       stations: "data/OrangeStations.geojson",
       ces: "data/OrangeDC.geojson"
     },
@@ -119,7 +119,7 @@ const areas = {
   },
   "btn-sa-county": {
     files: {
-      polygons: "data/SacramentoCounty.json",
+      polygons: "data/SacramentoCounty.geojson",
       stations: "data/SacramentoStations.geojson",
       ces: "data/SacramentoDC.geojson"
     },
@@ -128,7 +128,7 @@ const areas = {
   },
   "btn-sf-county": {
     files: {
-      polygons: "data/SanFranciscoCounty.json",
+      polygons: "data/SanFranciscoCounty.geojson",
       stations: "data/SanFranciscoStations.geojson",
       ces: "data/SanFranciscoDC.geojson"
     },
@@ -137,7 +137,7 @@ const areas = {
   },
   "btn-sc-county": {
     files: {
-      polygons: "data/SantaClaraCounty.json",
+      polygons: "data/SantaClaraCounty.geojson",
       stations: "data/SantaClaraStation.geojson",
       ces: "data/SantaClaraDC.geojson"
     },
