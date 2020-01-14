@@ -64222,9 +64222,10 @@ const IS_PROD = "development" === "production";
 const areas = {
   "btn-sd-county": {
     files: {
-      polygons: "data/SanDiegoCounty-new-polygon.geojson",
+      polygons: "data/SanDiegoCounty.geojson",
       stations: "data/SanDiegoStations.geojson",
-      ces: "data/SanDiegoDC-old.geojson"
+      ces: "data/SanDiegoDC-old.geojson",
+      placetype: "data/SanDiegoCountyPlaceType.geojson"
     },
     center: [32.7157, -117.11],
     zoom: 12
@@ -64328,6 +64329,7 @@ let geojsonLayer;
 let stationsLayer;
 let stationsPtsLayer;
 let cesLayer;
+let placetypeLayer; 
 
 // create a leaflet map object
 var map = leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.map("map").setView([32.7157, -117.11], 12);
@@ -64383,12 +64385,13 @@ $(".btn-squared").click(function() {
   const GEOJSON_FILES = [
     area.files.polygons,
     area.files.stations,
-    area.files.ces
+    area.files.ces,
+    area.files.placetype
   ];
 
   // use axios to get the geojson files we need for this map
   axios__WEBPACK_IMPORTED_MODULE_2___default.a.all(GEOJSON_FILES.map(axios__WEBPACK_IMPORTED_MODULE_2___default.a.get)).then(resp => {
-    let [resp1, resp2, resp3] = resp;
+    let [resp1, resp2, resp3, resp4] = resp;
 
     let feats = resp1.data.features;
 
@@ -64518,6 +64521,39 @@ $(".btn-squared").click(function() {
       interactive: false // need this to allow for selection of cbgs UNDER this layer
     }).addTo(map);
 
+    // add place type layer to the map 
+    placetypeLayer = leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.geoJSON(resp4.data, {
+      style: f => {
+        var style = {
+          weight: 3.0,
+          fillOpacity: 0.0
+        };
+        if (f.properties.FinalTYPE === "Urban Center"){
+          style.color = "#001f3f"
+        }
+        else if(f.properties.FinalTYPE === "Urban"){
+          style.color = "#0074D9"
+        }
+        else if(f.properties.FinalTYPE === "Compact Suburban Place"){
+          style.color = "#7FDBFF"
+        }
+        else if(f.properties.FinalTYPE === "Suburban Place"){
+          style.color = "#2ECC40"
+        }
+        else if(f.properties.FinalTYPE === "Rural Place"){
+          style.color = "#FF4136"
+        }
+        else if(f.properties.FinalTYPE === "Employment Center"){
+          style.color = "#85144b"
+        }
+        else{
+          style.color = "#AAAAAA"
+        }
+        return style; 
+      },
+      interactive: false
+    }).addTo(map); 
+
     // add control to map (allows users to turn off/on layers)
     let opts = { position: "topright" };
     leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.control
@@ -64527,7 +64563,8 @@ $(".btn-squared").click(function() {
           "Livability Attributes": geojsonLayer,
           "Rail Transit Station .5 Mile Buffers": stationsLayer,
           /*"Rail Transit Stations": stationsPtsLayer,*/
-          "Disadvantage Communities": cesLayer
+          "Disadvantage Communities": cesLayer, 
+          "Place Type": placetypeLayer
         },
         opts
       )
