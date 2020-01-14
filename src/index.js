@@ -250,7 +250,7 @@ $(".btn-squared").click(function() {
     // create a choropleth map using the CBG features
     // initially use VMT as the choropleth property
     geojsonLayer = new Choropleth(resp1.data, {
-      property: property_config["vmt"].summarizer,
+      property: property_config["vmt_cap"].summarizer,
       style: f => {
         return {
           color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,

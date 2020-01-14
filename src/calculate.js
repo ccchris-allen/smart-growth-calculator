@@ -102,11 +102,13 @@ function createSimpleSummarizer(prop) {
 // array that defines order of metrics to be dispayed
 // if you want to change the order, change the order of these items.
 export const PROPERTY_ORDER = [
-    "vmt",
+    "vmt_cap",
+    "vmt_emp",
     "housing",
     "afford-transport",
     "afford-house-transport",
-    "ghg",
+    "ghg_cap",
+    "ghg_emp",
     "pop-density",
     "jobs-density",
     "dwelling-density",
@@ -126,13 +128,20 @@ related to the display and aggregation of multiple values.  The `summarizer` pro
 defines how values will be aggregated (in cases where mutiple features have been selected).
 */
 export let property_config = {
-    "vmt": {
-        name: "Vehicle Miles Traveled",
-        dom_name: "vmt",
+    "vmt_cap": {
+        name: "Vehicle Miles Traveled per Capita",
+        dom_name: "vmt_cap",
         precision: 0,
-        attribute: "hh_type1_v",
-        summarizer: createSimpleSummarizer("hh_type1_v")
+        attribute: "vmt_perCap",
+        summarizer: createSimpleSummarizer("vmt_perCap")
     }, 
+    "vmt_emp": {
+        name: "Vehicle Miles Traveled per Employee",
+        dom_name: "vmt_emp",
+        precision: 0, 
+        attribute: "vmt_perEmp",
+        summarizer: createSimpleSummarizer("vmt_perEmp")
+    },
     "housing": {
         name: "Housing Affordability",
         dom_name: "housing",
@@ -252,21 +261,41 @@ export let property_config = {
             return 100 * sums['JTW_WALK'] / sums['JTW_TOTAL'];
         }
     }, 
-    "ghg": {
-        name: "Carbon Emissions",
-        dom_name: "ghg",
+    "ghg_cap": {
+        name: "Carbon Emissions per Capita",
+        dom_name: "ghg_cap",
         precision: 0,
         summarizer: (features) => {
             features = forceArray(features);
 
-            let valid_features = features.filter((f) => isNumeric(f.properties["hh_type1_v"]));
+            let valid_features = features.filter((f) => isNumeric(f.properties["vmt_perCap"]));
 
             if (valid_features.length == 0) {
                 return undefined;
             }
 
             let sum = valid_features.reduce((total, f) => {
-                return total + f.properties["hh_type1_v"] * .90
+                return total + f.properties["vmt_perCap"] * .90
+            }, 0);
+
+            return sum / features.length;
+        }
+    }, 
+    "ghg_emp": {
+        name: "Carbon Emissions per Employee",
+        dom_name: "ghg_emp",
+        precision: 0,
+        summarizer: (features) => {
+            features = forceArray(features);
+
+            let valid_features = features.filter((f) => isNumeric(f.properties["vmt_perEmp"]));
+
+            if (valid_features.length == 0) {
+                return undefined;
+            }
+
+            let sum = valid_features.reduce((total, f) => {
+                return total + f.properties["vmt_perEmp"] * .90
             }, 0);
 
             return sum / features.length;

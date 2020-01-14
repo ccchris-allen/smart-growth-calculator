@@ -145,17 +145,19 @@
                     <span id="select-property" class="dropdown">
                         <button type="button" id="dropdownMenuButton" class="btn btn-xs dropdown-toggle"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                                <span id="btn-label"> Vehicle Miles Traveled </span> <span class="caret"></span>
+                                <span id="btn-label"> Vehicle Miles Traveled per Capita</span> <span class="caret"></span>
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a id="vmt" class="dropdown-item" href="#"> Vehicle Miles Traveled </a></li>
+                            <li><a id="vmt_cap" class="dropdown-item" href="#"> Vehicle Miles Traveled per Capita</a></li>
+                            <li><a id="vmt_emp" class="dropdown-item" href="#"> Vehicle Miles Traveled per Employee</a></li>
                             <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
                             <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
                             <li><a id="afford-transport" class="dropdown-item" href="#"> Transportation Affordability </a></li>
                             <li><a id="afford-house-transport" class="dropdown-item" href="#"> Housing + Transportation Affordability </a></li>
                             <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
-                            <li><a id="ghg" class="dropdown-item" href="#"> Carbon Emissions </a></li>
+                            <li><a id="ghg_cap" class="dropdown-item" href="#"> Carbon Emissions by Person </a></li>
+                            <li><a id="ghg_emp" class="dropdown-item" href="#"> Carbon Emissions by Employee</a></li>
                             <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
                             <li><a id="pop-density" class="dropdown-item" href="#"> Population Density </a></li>
                             <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
@@ -224,16 +226,31 @@
                         <li> <span style="font-size: .6em;"> Lower Values are Better </span> </li>
 
                         <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
-                                title="Vehicle Miles Traveled reflect the number of miles driving each year per household.">
+                                title="Vehicle Miles Traveled reflect the number of miles driving each year per person.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Vehicle Miles Traveled <br> (per household)
+                                    Vehicle Miles Traveled <br> (per capita)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-vmt"> N/A </span>
+                                    <span id="stat-vmt_cap"> N/A </span>
                                 </span>
                             </div>
-                            <div id='bar-vmt' class="bar bar-full">
+                            <div id='bar-vmt_cap' class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
+                                title="Vehicle Miles Traveled reflect the number of miles driving each year per employee.">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">
+                                    Vehicle Miles Traveled <br> (per employee)
+                                </span>
+                                <span class="value">
+                                    <span id="stat-vmt_emp"> N/A </span>
+                                </span>
+                            </div>
+                            <div id='bar-vmt_emp' class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>
@@ -286,13 +303,27 @@
                         <li class="statistic" data-toggle="tooltip" data-placement="top">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Carbon Emissions <br> (lbs per household)
+                                    Carbon Emissions <br> (lbs per person)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-ghg"> N/A </span>
+                                    <span id="stat-ghg_cap"> N/A </span>
                                 </span>
                             </div>
-                            <div id="bar-ghg" class="bar bar-full">
+                            <div id="bar-ghg_cap" class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic" data-toggle="tooltip" data-placement="top">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">
+                                    Carbon Emissions <br> (lbs per employee)
+                                </span>
+                                <span class="value">
+                                    <span id="stat-ghg_emp"> N/A </span>
+                                </span>
+                            </div>
+                            <div id="bar-ghg_emp" class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>
