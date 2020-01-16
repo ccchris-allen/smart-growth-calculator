@@ -49,14 +49,15 @@ const areas = {
     files: {
       polygons: "data/SanDiegoCounty.geojson",
       stations: "data/SanDiegoStations.geojson",
-      ces: "data/SanDiegoDC-old.geojson"
+      ces: "data/SanDiegoDC-old.geojson",
+      placetype: "data/SanDiegoCountyPlaceType.geojson"
     },
     center: [32.7157, -117.11],
     zoom: 12
   },
   "btn-sm-county": {
     files: {
-      polygons: "data/SanMateoCounty.json",
+      polygons: "data/SanMateoCounty.geojson",
       stations: "data/SanMateoStations.geojson",
       ces: "data/SanMateoDC.geojson"
     },
@@ -92,7 +93,7 @@ const areas = {
   },
   "btn-la-county": {
     files: {
-      polygons: "data/LosAngelesCounty.json",
+      polygons: "data/LosAngelesCounty.geojson",
       stations: "data/LosAngelesStations.geojson",
       ces: "data/LosAngelesDC.geojson"
     },
@@ -101,7 +102,7 @@ const areas = {
   },
   "btn-alcc-county": {
     files: {
-      polygons: "data/AlamedaContraCostaCounty.json",
+      polygons: "data/AlamedaContraCostaCounty.geojson",
       stations: "data/AlamedaStations.geojson",
       ces: "data/AlamedaDC.geojson"
     },
@@ -110,7 +111,7 @@ const areas = {
   },
   "btn-oc-county": {
     files: {
-      polygons: "data/OrangeCounty.json",
+      polygons: "data/OrangeCounty.geojson",
       stations: "data/OrangeStations.geojson",
       ces: "data/OrangeDC.geojson"
     },
@@ -119,7 +120,7 @@ const areas = {
   },
   "btn-sa-county": {
     files: {
-      polygons: "data/SacramentoCounty.json",
+      polygons: "data/SacramentoCounty.geojson",
       stations: "data/SacramentoStations.geojson",
       ces: "data/SacramentoDC.geojson"
     },
@@ -128,7 +129,7 @@ const areas = {
   },
   "btn-sf-county": {
     files: {
-      polygons: "data/SanFranciscoCounty.json",
+      polygons: "data/SanFranciscoCounty.geojson",
       stations: "data/SanFranciscoStations.geojson",
       ces: "data/SanFranciscoDC.geojson"
     },
@@ -137,7 +138,7 @@ const areas = {
   },
   "btn-sc-county": {
     files: {
-      polygons: "data/SantaClaraCounty.json",
+      polygons: "data/SantaClaraCounty.geojson",
       stations: "data/SantaClaraStation.geojson",
       ces: "data/SantaClaraDC.geojson"
     },
@@ -153,6 +154,7 @@ let geojsonLayer;
 let stationsLayer;
 let stationsPtsLayer;
 let cesLayer;
+let placetypeLayer; 
 
 // create a leaflet map object
 var map = L.map("map").setView([32.7157, -117.11], 12);
@@ -211,12 +213,13 @@ $(".btn-squared").click(function() {
   const GEOJSON_FILES = [
     area.files.polygons,
     area.files.stations,
-    area.files.ces
+    area.files.ces,
+    area.files.placetype
   ];
 
   // use axios to get the geojson files we need for this map
   axios.all(GEOJSON_FILES.map(axios.get)).then(resp => {
-    let [resp1, resp2, resp3] = resp;
+    let [resp1, resp2, resp3, resp4] = resp;
 
     let feats = resp1.data.features;
 
@@ -250,7 +253,7 @@ $(".btn-squared").click(function() {
     // create a choropleth map using the CBG features
     // initially use VMT as the choropleth property
     geojsonLayer = new Choropleth(resp1.data, {
-      property: property_config["vmt"].summarizer,
+      property: property_config["vmt_cap"].summarizer,
       style: f => {
         return {
           color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
@@ -325,7 +328,8 @@ $(".btn-squared").click(function() {
                         )}`;
 
         //l.bindPopup(msg);
-      }
+      },
+      interactive: false
     }).addTo(map);
 
     let stripes = new L.StripePattern({
@@ -346,6 +350,40 @@ $(".btn-squared").click(function() {
       interactive: false // need this to allow for selection of cbgs UNDER this layer
     }).addTo(map);
 
+    // add place type layer to the map 
+    placetypeLayer = L.geoJSON(resp4.data, {
+      style: f => {
+        var style = {
+          weight: 5.0,
+          fillOpacity: 0.6,
+          opacity: 0.0
+        };
+        if (f.properties.FinalTYPE == "Urban Center"){
+          style.color = "Cyan"
+        }
+        else if(f.properties.FinalTYPE == "Urban Place"){
+          style.color = "LawnGreen"
+        }
+        else if(f.properties.FinalTYPE == "Compact Suburban Place"){
+          style.color = "DeepPink"
+        }
+        else if(f.properties.FinalTYPE == "Suburban Place"){
+          style.color = "DarkOrange"
+        }
+        else if(f.properties.FinalTYPE == "Rural Place"){
+          style.color = "Red"
+        }
+        else if(f.properties.FinalTYPE == "Employment Center"){
+          style.color = "Brown"
+        }
+        else{
+          style.color = "Yellow"
+        }
+        return style;
+      },
+      interactive: false
+    })
+
     // add control to map (allows users to turn off/on layers)
     let opts = { position: "topright" };
     L.control
@@ -355,7 +393,8 @@ $(".btn-squared").click(function() {
           "Livability Attributes": geojsonLayer,
           "Rail Transit Station .5 Mile Buffers": stationsLayer,
           /*"Rail Transit Stations": stationsPtsLayer,*/
-          "Disadvantage Communities": cesLayer
+          "Disadvantage Communities": cesLayer, 
+          "Caltrans SMF Place Type": placetypeLayer
         },
         opts
       )

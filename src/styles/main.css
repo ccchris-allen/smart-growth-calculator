@@ -52,6 +52,14 @@ body {
   text-transform: uppercase;
 }
 
+.placetype-header {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 .fa {
   color: rgb(52, 58, 64);
   cursor: pointer;
