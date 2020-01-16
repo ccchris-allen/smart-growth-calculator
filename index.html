@@ -117,6 +117,8 @@
         </div>
         -->
 
+        
+
         <!-- h-100 ensures body will take up entire space -->
         <div id="container-body" class="row h-100">
 
@@ -132,7 +134,17 @@
             -->
 
             <!-- Map -->
-            <div id="map" class="col h-100"> </div>
+            <div id="map" class="col h-100">
+                
+                <div id="slideout" style="z-index: 1000">
+                    <div id="slidecontent">
+                        <img style="max-width:100%; max-height:auto;" src="img/smf placetype.jpg" />
+                    </div>
+                    <div id="clickme" >
+                    </div>
+                </div>
+                
+            </div>
             
             <!-- Sidebar -->
             <div id="sidebar" class="col-3 d-flex flex-column align-items-center h-100">
@@ -809,6 +821,16 @@
         $(window).ready(function() {
             $("#modal-select-city").modal('show');
             $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+    
+    <script>
+        $(function () {
+            var leftVal = -260;
+            $("#clickme").click(function () {
+                leftVal = (leftVal * -1) - 260;
+                $(this).parent().animate({left: leftVal + 'px'}, {queue: false, duration: 500});
+            });
         });
     </script>
 </body>
