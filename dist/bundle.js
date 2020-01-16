@@ -64527,7 +64527,7 @@ $(".btn-squared").click(function() {
       style: f => {
         var style = {
           weight: 5.0,
-          fillOpacity: 0.5,
+          fillOpacity: 0.6,
           opacity: 0.0
         };
         if (f.properties.FinalTYPE == "Urban Center"){
@@ -64566,7 +64566,7 @@ $(".btn-squared").click(function() {
           "Rail Transit Station .5 Mile Buffers": stationsLayer,
           /*"Rail Transit Stations": stationsPtsLayer,*/
           "Disadvantage Communities": cesLayer, 
-          "Place Type": placetypeLayer
+          "SMF Place Type": placetypeLayer
         },
         opts
       )

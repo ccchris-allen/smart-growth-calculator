@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <title> Smart Growth Equity Calculator </title>
+    <title> A Caltrans Transportation, Housing, Climate Action Coordination Tool </title>
 
     <!-- Bootstrap CSS -->
     <link 
@@ -60,7 +60,7 @@
         <!-- Title and navigation bar -->
         <nav class="navbar navbar-dark navbar-expand-xl bg-dark fixed-top navbar-default row">
             <a class="navbar-brand" href="#"> 
-                <img id="logo" src="img/logo.png" />
+                <img id="logo" src="https://centralca.cdn-anvilcms.net/media/images/2018/06/20/images/caltrans_logo.gif.max-752x423.jpg" />
                 <!-- Old logo
                 Smart Growth Equity Calculator<br>
                 <span style="font-size: .7em;">A Housing, Transportation, & Climate Action Coordination Tool</span>
@@ -149,15 +149,15 @@
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a id="vmt_cap" class="dropdown-item" href="#"> Vehicle Miles Traveled per Capita</a></li>
-                            <li><a id="vmt_emp" class="dropdown-item" href="#"> Vehicle Miles Traveled per Employee</a></li>
+                            <li><a id="vmt_cap" class="dropdown-item" href="#"> Daily Vehicle Miles Traveled per Capita</a></li>
+                            <li><a id="vmt_emp" class="dropdown-item" href="#"> Daily Vehicle Miles Traveled per Employee</a></li>
                             <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
                             <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
                             <li><a id="afford-transport" class="dropdown-item" href="#"> Transportation Affordability </a></li>
                             <li><a id="afford-house-transport" class="dropdown-item" href="#"> Housing + Transportation Affordability </a></li>
                             <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
-                            <li><a id="ghg_cap" class="dropdown-item" href="#"> Carbon Emissions by Person </a></li>
-                            <li><a id="ghg_emp" class="dropdown-item" href="#"> Carbon Emissions by Employee</a></li>
+                            <li><a id="ghg_cap" class="dropdown-item" href="#"> Daily Carbon Emissions by Person </a></li>
+                            <li><a id="ghg_emp" class="dropdown-item" href="#"> Daily Carbon Emissions by Employee</a></li>
                             <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
                             <li><a id="pop-density" class="dropdown-item" href="#"> Population Density </a></li>
                             <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
@@ -212,6 +212,78 @@
                     </div>
                 </div>
 
+                <div class="section legend">
+                    <h6 class="section-header"> PLACETYPE LEGEND </h6>
+                    <div id="legend-items">
+                        <div id="scale-swatches" class="d-flex flex-wrap justify-content-around">
+                            <!-- Add container divs with flex: 1 to space things out right?-->
+                            <div class="swatch-container">
+                                <svg width="100" height="50">
+                                    <circle cx="50%" cy="50%" r="25" fill="Cyan"/>
+                                    <text x="50%" y="50%" text-anchor="middle" style="font-size: 9px; color: black; font-weight: bold; font-family: verdana, sans-serif"> 
+                                        <tspan x="50%" dy="0em">URBAN</tspan>
+                                        <tspan x="50%" dy="1em">CENTER</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <div class="swatch-container">
+                                <svg width="100" height="50">
+                                    <circle cx="50%" cy="50%" r="25" fill="LawnGreen"/>
+                                    <text x="50%" y="50%" text-anchor="middle" style="font-size: 9px; color: black; font-weight: bold; font-family: verdana, sans-serif"> 
+                                        <tspan x="50%" dy="0em">URBAN</tspan>
+                                        <tspan x="50%" dy="1em">PLACE</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <div class="swatch-container">
+                                <svg width="100" height="50">
+                                    <circle cx="50%" cy="50%" r="25" fill="DeepPink"/>
+                                    <text x="50%" y="50%" text-anchor="middle" style="font-size: 9px; color: black; font-weight: bold; font-family: verdana, sans-serif"> 
+                                        <tspan x="50%" dy="0em">COMPACT</tspan>
+                                        <tspan x="50%" dy="1em">SUBURBAN</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <div class="swatch-container">
+                                <svg width="100" height="50">
+                                    <circle cx="50%" cy="50%" r="25" fill="DarkOrange"/>
+                                    <text x="50%" y="50%" text-anchor="middle" style="font-size: 9px; color: black; font-weight: bold; font-family: verdana, sans-serif"> 
+                                        <tspan x="50%" dy="0em">SUBURBAN</tspan>
+                                        <tspan x="50%" dy="1em">PLACES</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <div class="swatch-container">
+                                <svg width="100" height="50">
+                                    <circle cx="50%" cy="50%" r="25" fill="Red"/>
+                                    <text x="50%" y="50%" text-anchor="middle" style="font-size: 9px; color: black; font-weight: bold; font-family: verdana, sans-serif"> 
+                                        <tspan x="50%" dy="0em">RURAL</tspan>
+                                        <tspan x="50%" dy="1em">PLACES</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <div class="swatch-container">
+                                <svg width="100" height="50">
+                                    <circle cx="50%" cy="50%" r="25" fill="Brown"/>
+                                    <text x="50%" y="50%" text-anchor="middle" style="font-size: 9px; color: black; font-weight: bold; font-family: verdana, sans-serif"> 
+                                        <tspan x="50%" dy="0em">EMPLOYMENT</tspan>
+                                        <tspan x="50%" dy="1em">CENTER</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <div class="swatch-container">
+                                <svg width="100" height="50">
+                                    <circle cx="50%" cy="50%" r="25" fill="Yellow"/>
+                                    <text x="50%" y="50%" text-anchor="middle" style="font-size: 9px; color: black; font-weight: bold; font-family: verdana, sans-serif"> 
+                                        <tspan x="50%" dy="0em">SPECIAL</tspan>
+                                        <tspan x="50%" dy="1em">DISTRICT</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Container for statistics -->
                 <div id="container-statistics" class="section">
 
@@ -224,12 +296,13 @@
                         <li> <hr /> </li>
                         <li> <span style="font-size: .85em; font-weight: bold;"> Sustainability, Livability, Equity Performance </span> </li>
                         <li> <span style="font-size: .6em;"> Lower Values are Better </span> </li>
+                        <li> <span style="font-size: .6em;"> VMT Data from Caltrans 2017- Official State Data </span> </li>
 
                         <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
                                 title="Vehicle Miles Traveled reflect the number of miles driving each year per person.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Vehicle Miles Traveled <br> (per capita)
+                                    Daily Vehicle Miles Traveled <br> (per capita)
                                 </span>
                                 <span class="value">
                                     <span id="stat-vmt_cap"> N/A </span>
@@ -244,7 +317,7 @@
                                 title="Vehicle Miles Traveled reflect the number of miles driving each year per employee.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Vehicle Miles Traveled <br> (per employee)
+                                    Daily Vehicle Miles Traveled <br> (per employee)
                                 </span>
                                 <span class="value">
                                     <span id="stat-vmt_emp"> N/A </span>
@@ -303,7 +376,7 @@
                         <li class="statistic" data-toggle="tooltip" data-placement="top">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Carbon Emissions <br> (lbs per person)
+                                    Daily Carbon Emissions <br> (lbs per person)
                                 </span>
                                 <span class="value">
                                     <span id="stat-ghg_cap"> N/A </span>
@@ -317,7 +390,7 @@
                         <li class="statistic" data-toggle="tooltip" data-placement="top">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Carbon Emissions <br> (lbs per employee)
+                                    Daily Carbon Emissions <br> (lbs per employee)
                                 </span>
                                 <span class="value">
                                     <span id="stat-ghg_emp"> N/A </span>
