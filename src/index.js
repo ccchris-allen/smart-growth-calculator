@@ -328,7 +328,8 @@ $(".btn-squared").click(function() {
                         )}`;
 
         //l.bindPopup(msg);
-      }
+      },
+      interactive: false
     }).addTo(map);
 
     let stripes = new L.StripePattern({
@@ -353,34 +354,35 @@ $(".btn-squared").click(function() {
     placetypeLayer = L.geoJSON(resp4.data, {
       style: f => {
         var style = {
-          weight: 3.0,
-          fillOpacity: 0.0
+          weight: 5.0,
+          fillOpacity: 0.6,
+          opacity: 0.0
         };
-        if (f.properties.FinalTYPE === "Urban Center"){
-          style.color = "#001f3f"
+        if (f.properties.FinalTYPE == "Urban Center"){
+          style.color = "Cyan"
         }
-        else if(f.properties.FinalTYPE === "Urban"){
-          style.color = "#0074D9"
+        else if(f.properties.FinalTYPE == "Urban Place"){
+          style.color = "LawnGreen"
         }
-        else if(f.properties.FinalTYPE === "Compact Suburban Place"){
-          style.color = "#7FDBFF"
+        else if(f.properties.FinalTYPE == "Compact Suburban Place"){
+          style.color = "DeepPink"
         }
-        else if(f.properties.FinalTYPE === "Suburban Place"){
-          style.color = "#2ECC40"
+        else if(f.properties.FinalTYPE == "Suburban Place"){
+          style.color = "DarkOrange"
         }
-        else if(f.properties.FinalTYPE === "Rural Place"){
-          style.color = "#FF4136"
+        else if(f.properties.FinalTYPE == "Rural Place"){
+          style.color = "Red"
         }
-        else if(f.properties.FinalTYPE === "Employment Center"){
-          style.color = "#85144b"
+        else if(f.properties.FinalTYPE == "Employment Center"){
+          style.color = "Brown"
         }
         else{
-          style.color = "#AAAAAA"
+          style.color = "Yellow"
         }
-        return style; 
+        return style;
       },
       interactive: false
-    }).addTo(map); 
+    })
 
     // add control to map (allows users to turn off/on layers)
     let opts = { position: "topright" };
