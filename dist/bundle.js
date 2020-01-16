@@ -64566,7 +64566,7 @@ $(".btn-squared").click(function() {
           "Rail Transit Station .5 Mile Buffers": stationsLayer,
           /*"Rail Transit Stations": stationsPtsLayer,*/
           "Disadvantage Communities": cesLayer, 
-          "SMF Place Type": placetypeLayer
+          "Caltrans SMF Place Type": placetypeLayer
         },
         opts
       )

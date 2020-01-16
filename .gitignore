@@ -9,12 +9,3 @@ packages.json
 *.zip
 launch.json
 *.code-workspace
-
-/install_tools.bat
-/node.exe
-/node_etw_provider.man
-/nodeevars.bat
-/npm
-/npm.cmd
-/npx
-/npx.cmd
