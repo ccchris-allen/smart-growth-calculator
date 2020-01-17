@@ -32,7 +32,7 @@
     "leaflet-draw": "^0.4.13",
     "mini-css-extract-plugin": "^0.7.0",
     "node-libs-browser": "^2.2.0",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.13.0",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
     "topojson": "^3.0.2",
