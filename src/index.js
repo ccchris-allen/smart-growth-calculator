@@ -382,7 +382,7 @@ $(".btn-squared").click(function() {
         return style;
       },
       interactive: false
-    }).addTo(map); 
+    })
 
     // add control to map (allows users to turn off/on layers)
     let opts = { position: "topright" };

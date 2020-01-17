@@ -461,6 +461,10 @@ hr {
 #slidecontent {
   float: right; }
 
+.placetype-links + .placetype-links {
+  font-size: 1em;
+  margin-left: 3em; }
+
 /*
 NOTE: This is all in SCSS (a CSS preprocessor).  Didn't use SCSS as much
 as I'd hoped to, so if it simplifies things, you may just want to convert

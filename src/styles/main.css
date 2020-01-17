@@ -604,3 +604,8 @@ button {
 #slidecontent {
   float: right;
 }
+
+.placetype-links + .placetype-links{
+  font-size: 1em;
+  margin-left: 3em;
+}
