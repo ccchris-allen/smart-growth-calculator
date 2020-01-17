@@ -461,7 +461,7 @@ hr {
 #slidecontent {
   float: right; }
 
-.placetype-links + .placetype-links {
+.placetype-links + .placetype-link {
   font-size: 1em;
   margin-left: 3em; }
 
