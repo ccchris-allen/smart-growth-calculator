@@ -444,10 +444,10 @@ hr {
 #slideout {
   background: lightgray;
   position: absolute;
-  width: 280px;
-  height: 200px;
+  width: 560px;
+  height: 400px;
   top: 45%;
-  left: -260px;
+  left: -540px;
   padding-right: 20px; }
 
 #clickme {

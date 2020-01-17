@@ -139,7 +139,7 @@
                 
                 <div id="slideout" style="z-index: 1000">
                     <div id="slidecontent">
-                        <img style="max-width:100%; max-height:auto;" src="img/smf placetype.jpg" />
+                        <img style="max-width:100%; max-height:auto;" src="img/matrixresized.png" />
                     </div>
                     <div id="clickme" >
                     </div>
@@ -856,9 +856,9 @@
     
     <script>
         $(function () {
-            var leftVal = -260;
+            var leftVal = -540;
             $("#clickme").click(function () {
-                leftVal = (leftVal * -1) - 260;
+                leftVal = (leftVal * -1) - 540;
                 $(this).parent().animate({left: leftVal + 'px'}, {queue: false, duration: 500});
             });
         });

@@ -64526,30 +64526,30 @@ $(".btn-squared").click(function() {
     placetypeLayer = leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.geoJSON(resp4.data, {
       style: f => {
         var style = {
-          weight: 5.0,
-          fillOpacity: 0.6,
+          weight: 10.0,
+          fillOpacity: 0.7,
           opacity: 0.0
         };
         if (f.properties.FinalTYPE == "Urban Center"){
-          style.color = "Cyan"
+          style.color = "#7A8FFA"
         }
         else if(f.properties.FinalTYPE == "Urban Place"){
-          style.color = "LawnGreen"
+          style.color = "#7AB6F6"
         }
         else if(f.properties.FinalTYPE == "Compact Suburban Place"){
-          style.color = "DeepPink"
+          style.color = "#FAC561"
         }
         else if(f.properties.FinalTYPE == "Suburban Place"){
-          style.color = "DarkOrange"
+          style.color = "#FFEABE"
         }
         else if(f.properties.FinalTYPE == "Rural Place"){
-          style.color = "Red"
+          style.color = "#B3D99C"
         }
         else if(f.properties.FinalTYPE == "Employment Center"){
-          style.color = "Brown"
+          style.color = "#CA7AF5"
         }
         else{
-          style.color = "Yellow"
+          style.color = "#D89EBD"
         }
         return style;
       },
