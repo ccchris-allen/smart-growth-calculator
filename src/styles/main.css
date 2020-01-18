@@ -421,6 +421,7 @@ button {
   color: #eee !important;
   text-transform: uppercase;
   font-weight: bold;
+  margin-right: 0;
 }
 
 .modal-content {

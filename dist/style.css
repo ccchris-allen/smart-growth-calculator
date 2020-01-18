@@ -315,7 +315,8 @@ hr {
 .navbar-brand {
   color: #eee !important;
   text-transform: uppercase;
-  font-weight: bold; }
+  font-weight: bold;
+  margin-right: 0; }
 
 .modal-content {
   -webkit-border-radius: 0px !important;
