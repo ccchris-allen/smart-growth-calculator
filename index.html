@@ -115,16 +115,6 @@
             </div>
         </nav>
 
-        <!--Radar Graph
-        <div id="radar" class="col-3 h-47 flex-column fixed-bottom section">
-                <h6 class="section-header"> Urban Quality Preformance </h6>
-                <canvas id="myChart"></canvas>
-                <button onclick="updateChart()">Update</button>
-        </div>
-        -->
-
-        
-
         <!-- h-100 ensures body will take up entire space -->
         <div id="container-body" class="row h-100">
 
@@ -161,6 +151,14 @@
                     </div>
                     <div id="clickme" >
                     </div>
+                </div>
+
+                <div style="z-index: 1001; top: 40%;">
+                    <div id="radar" class="col-3 h-47 flex-column fixed-bottom section">
+                            <h6 class="section-header"> Urban Quality Preformance </h6>
+                            <canvas id="myChart"></canvas>
+                            <button onclick="updateChart()">Update</button>
+                    </div>  
                 </div>
                 
             </div>
@@ -880,9 +878,83 @@
             $("#clickme").click(function () {
                 leftVal = (leftVal * -1) - 540;
                 $(this).parent().animate({left: leftVal + 'px'}, {queue: false, duration: 500});
+                console.log("boop")
             });
         });
     </script>
+
+<script src="node_modules/angular/angular.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+<script>
+    //Drawing the initial chart
+    var canvas = document.getElementById("myChart").getContext('2d');
+
+    var config = {
+        type: 'radar',
+        data: {
+            labels: ["High-quality Transit", "Mixed Income Housing", "Econ Opportunities", "Gov Services", "Cultural Opp", "Walkable"],
+            datasets: [{
+                data: [-0.20, -0.025, -0.125, -0.127, -0.208, -0.333],
+                label: 'Emerging',
+                borderColor: 'rgba(246, 71, 71, 1)',
+                fill: 'origin'
+            }, {
+                data: [0.99, 0.224, 0.539, 0.82, 0.995, 0.561],
+                label: 'Transitioning',
+                borderColor: 'rgba(255, 246, 143, 1)',
+                fill: '-1'
+            }, {
+                data: [2.67, 0.473, 1.602, 1.961, 2.781, 1.478],
+                label: 'Integrated/Max',
+                borderColor: 'rgba(123, 239, 178, 1)',
+                fill: '-1'
+            }, {
+                data: [-0.89, -0.277, -0.391, -0.883, -0.829, -1.207],
+                label: 'Input',
+                borderColor: 'rgba(0,0,0 ,1 )'
+            }]
+        },
+        options: {
+            scale: {
+                ticks: {
+                    beginAtZero: false
+                }
+            },
+            tooltips: {
+                enabled: false
+            }
+        }
+    };
+
+    window.onload = function() {
+        myRadar = new Chart(canvas, config);
+    };
+    
+    function updateChart(){
+        //gather data from page
+        var jobAccElem = document.getElementById('stat-jobs-accessibility').innerHTML.split(" ", 1);
+        var jobAccStat = jobAccElem[0];
+        //missing transit service
+        var housingElem = document.getElementById('stat-housing').innerHTML.split(" ", 1);
+        var housingStat = housingElem[0];
+        //missing income diversity 
+        var jobDenElem = document.getElementById('stat-jobs-density').innerHTML.split(" ", 1);
+        var jobDenStat = JobDenElem[0];
+        //missing retail job 
+        //missing ridership balance
+        //missing healthcare opps
+        var popDenElem = document.getElementById('stat-pop-density').innerHTML.split(" ", 1);
+        var popDenStat = popDenElem[0];
+        //missing acc to culture
+        var walkElem = document.getElementById('stat-ped-environment').innerHTML.split(" ", 1); 
+        var walkStat = walkElem[0];
+        //missiing collisons
+        //update values
+        myRadar.data.datasets[3].data = [-0.69, -2.52, -0.16, 2.07, -0.58, -0.05];
+        myRadar.update();
+    }
+</script>
 </body>
 
 </html>

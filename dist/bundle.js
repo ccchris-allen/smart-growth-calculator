@@ -64438,7 +64438,6 @@ $(".btn-squared").click(function() {
         l.on("mouseover", e => {
           f.properties._hovered = true;
           updateSelected();
-          console.log(f.properties.GEOID)
         });
         l.on("mouseout", e => {
           delete f.properties._hovered;
