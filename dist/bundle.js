@@ -63702,11 +63702,12 @@ function populateReadouts(features, verbose=false) {
 
 // in most cases, metrics can be aggregated with this simple summarizer (which just averages)
 function createSimpleSummarizer(prop) {
+    console.log("hi")
     // return function that encloses the `prop` value
     return (features) => {
         features = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["forceArray"])(features);
         let valid_features = features.filter((f) => Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties[prop]));
-
+        
         if (valid_features.length === 0) {
             return undefined;
         }
@@ -63721,8 +63722,8 @@ function createSimpleSummarizer(prop) {
 // array that defines order of metrics to be dispayed
 // if you want to change the order, change the order of these items.
 const PROPERTY_ORDER = [
-    "vmt_cap",
-    "vmt_emp",
+    "vmt_perCapita2010",
+    "vmt_perEmploy2010",
     "housing",
     "afford-transport",
     "afford-house-transport",
@@ -63747,19 +63748,19 @@ related to the display and aggregation of multiple values.  The `summarizer` pro
 defines how values will be aggregated (in cases where mutiple features have been selected).
 */
 let property_config = {
-    "vmt_cap": {
+    "vmt_perCapita2010": {
         name: "Vehicle Miles Traveled per Capita",
-        dom_name: "vmt_cap",
+        dom_name: "vmt_perCapita2010",
         precision: 0,
-        attribute: "vmt_perCap",
-        summarizer: createSimpleSummarizer("vmt_perCap")
+        attribute: "vmt_perCapita2010",
+        summarizer: createSimpleSummarizer("vmt_perCapita2010")
     }, 
-    "vmt_emp": {
+    "vmt_perEmploy2010": {
         name: "Vehicle Miles Traveled per Employee",
-        dom_name: "vmt_emp",
+        dom_name: "vmt_perEmploy2010",
         precision: 0, 
-        attribute: "vmt_perEmp",
-        summarizer: createSimpleSummarizer("vmt_perEmp")
+        attribute: "vmt_perEmploy2010",
+        summarizer: createSimpleSummarizer("vmt_perEmploy2010")
     },
     "housing": {
         name: "Housing Affordability",
@@ -63887,14 +63888,14 @@ let property_config = {
         summarizer: (features) => {
             features = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["forceArray"])(features);
 
-            let valid_features = features.filter((f) => Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties["vmt_perCap"]));
+            let valid_features = features.filter((f) => Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties["vmt_perCapita2010"]));
 
             if (valid_features.length == 0) {
                 return undefined;
             }
 
             let sum = valid_features.reduce((total, f) => {
-                return total + f.properties["vmt_perCap"] * .90
+                return total + f.properties["vmt_perCapita2010"] * .90
             }, 0);
 
             return sum / features.length;
@@ -63907,14 +63908,14 @@ let property_config = {
         summarizer: (features) => {
             features = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["forceArray"])(features);
 
-            let valid_features = features.filter((f) => Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties["vmt_perEmp"]));
+            let valid_features = features.filter((f) => Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties["vmt_perEmploy2010"]));
 
             if (valid_features.length == 0) {
                 return undefined;
             }
 
             let sum = valid_features.reduce((total, f) => {
-                return total + f.properties["vmt_perEmp"] * .90
+                return total + f.properties["vmt_perEmploy2010"] * .90
             }, 0);
 
             return sum / features.length;
@@ -63958,13 +63959,6 @@ let property_config = {
         }
     }
 };
-
-
-        
-
-
-
-
 
 /***/ }),
 
@@ -64225,7 +64219,7 @@ const areas = {
       polygons: "data/SanDiegoCounty.geojson",
       stations: "data/SanDiegoStations.geojson",
       ces: "data/SanDiegoDC-old.geojson",
-      placetype: "data/SanDiegoCountyPlaceType.geojson"
+      placetype: "data/SanDiegoPlacetype.geojson"
     },
     center: [32.7157, -117.11],
     zoom: 12
@@ -64234,7 +64228,8 @@ const areas = {
     files: {
       polygons: "data/SanMateoCounty.geojson",
       stations: "data/SanMateoStations.geojson",
-      ces: "data/SanMateoDC.geojson"
+      ces: "data/SanMateoDC.geojson", 
+      placetype: "data/SanMateoPlacetype.geojson"
     },
     center: [37.56, -122.313],
     zoom: 12
@@ -64270,16 +64265,18 @@ const areas = {
     files: {
       polygons: "data/LosAngelesCounty.geojson",
       stations: "data/LosAngelesStations.geojson",
-      ces: "data/LosAngelesDC.geojson"
+      ces: "data/LosAngelesDC.geojson",
+      placetype: "data/LosAngelesPlacetype.geojson"
     },
     center: [34.05, -118.24],
     zoom: 12
   },
   "btn-alcc-county": {
     files: {
-      polygons: "data/AlamedaContraCostaCounty.geojson",
+      polygons: "data/AlamedaContraCostaCounties.geojson",
       stations: "data/AlamedaStations.geojson",
-      ces: "data/AlamedaDC.geojson"
+      ces: "data/AlamedaDC.geojson",
+      placetype: "data/AlamedaPlacetype.geojson"
     },
     center: [37.66, -121.87],
     zoom: 12
@@ -64288,7 +64285,8 @@ const areas = {
     files: {
       polygons: "data/OrangeCounty.geojson",
       stations: "data/OrangeStations.geojson",
-      ces: "data/OrangeDC.geojson"
+      ces: "data/OrangeDC.geojson",
+      placetype: "data/OrangePlacetype.geojson"
     },
     center: [33.83, -117.91],
     zoom: 12
@@ -64297,7 +64295,8 @@ const areas = {
     files: {
       polygons: "data/SacramentoCounty.geojson",
       stations: "data/SacramentoStations.geojson",
-      ces: "data/SacramentoDC.geojson"
+      ces: "data/SacramentoDC.geojson",
+      placetype: "data/SacramentoPlacetype.geojson"
     },
     center: [38.58, -121.49],
     zoom: 12
@@ -64306,7 +64305,8 @@ const areas = {
     files: {
       polygons: "data/SanFranciscoCounty.geojson",
       stations: "data/SanFranciscoStations.geojson",
-      ces: "data/SanFranciscoDC.geojson"
+      ces: "data/SanFranciscoDC.geojson",
+      placetype: "data/SanFranciscoPlacetype.geojson"
     },
     center: [37.77, -122.41],
     zoom: 12
@@ -64315,7 +64315,8 @@ const areas = {
     files: {
       polygons: "data/SantaClaraCounty.geojson",
       stations: "data/SantaClaraStation.geojson",
-      ces: "data/SantaClaraDC.geojson"
+      ces: "data/SantaClaraDC.geojson",
+      placetype: "data/SantaClaraPlacetype.geojson"
     },
     center: [37.35, -121.95],
     zoom: 12
@@ -64425,7 +64426,7 @@ $(".btn-squared").click(function() {
     // create a choropleth map using the CBG features
     // initially use VMT as the choropleth property
     geojsonLayer = new _choro__WEBPACK_IMPORTED_MODULE_12___default.a(resp1.data, {
-      property: _calculate__WEBPACK_IMPORTED_MODULE_14__["property_config"]["vmt_cap"].summarizer,
+      property: _calculate__WEBPACK_IMPORTED_MODULE_14__["property_config"]["vmt_perCapita2010"].summarizer,
       style: f => {
         return {
           color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
@@ -64438,7 +64439,6 @@ $(".btn-squared").click(function() {
         l.on("mouseover", e => {
           f.properties._hovered = true;
           updateSelected();
-          console.log(f.properties.GEOID)
         });
         l.on("mouseout", e => {
           delete f.properties._hovered;
@@ -64531,22 +64531,22 @@ $(".btn-squared").click(function() {
           fillOpacity: 0.7,
           opacity: 0.0
         };
-        if (f.properties.FinalTYPE == "Urban Center"){
+        if (f.properties.FinalTYPE == 1){
           style.color = "#7A8FFA"
         }
-        else if(f.properties.FinalTYPE == "Urban Place"){
+        else if(f.properties.FinalTYPE == 2){
           style.color = "#7AB6F6"
         }
-        else if(f.properties.FinalTYPE == "Compact Suburban Place"){
+        else if(f.properties.FinalTYPE == 3){
           style.color = "#FAC561"
         }
-        else if(f.properties.FinalTYPE == "Suburban Place"){
+        else if(f.properties.FinalTYPE == 4){
           style.color = "#FFEABE"
         }
-        else if(f.properties.FinalTYPE == "Rural Place"){
+        else if(f.properties.FinalTYPE == 5){
           style.color = "#B3D99C"
         }
-        else if(f.properties.FinalTYPE == "Employment Center"){
+        else if(f.properties.FinalTYPE == 6){
           style.color = "#CA7AF5"
         }
         else{

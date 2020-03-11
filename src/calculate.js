@@ -83,11 +83,12 @@ export function populateReadouts(features, verbose=false) {
 
 // in most cases, metrics can be aggregated with this simple summarizer (which just averages)
 function createSimpleSummarizer(prop) {
+    console.log("hi")
     // return function that encloses the `prop` value
     return (features) => {
         features = forceArray(features);
         let valid_features = features.filter((f) => isNumeric(f.properties[prop]));
-
+        
         if (valid_features.length === 0) {
             return undefined;
         }
@@ -102,8 +103,8 @@ function createSimpleSummarizer(prop) {
 // array that defines order of metrics to be dispayed
 // if you want to change the order, change the order of these items.
 export const PROPERTY_ORDER = [
-    "vmt_cap",
-    "vmt_emp",
+    "vmt_perCapita2010",
+    "vmt_perEmploy2010",
     "housing",
     "afford-transport",
     "afford-house-transport",
@@ -128,19 +129,19 @@ related to the display and aggregation of multiple values.  The `summarizer` pro
 defines how values will be aggregated (in cases where mutiple features have been selected).
 */
 export let property_config = {
-    "vmt_cap": {
+    "vmt_perCapita2010": {
         name: "Vehicle Miles Traveled per Capita",
-        dom_name: "vmt_cap",
+        dom_name: "vmt_perCapita2010",
         precision: 0,
-        attribute: "vmt_perCap",
-        summarizer: createSimpleSummarizer("vmt_perCap")
+        attribute: "vmt_perCapita2010",
+        summarizer: createSimpleSummarizer("vmt_perCapita2010")
     }, 
-    "vmt_emp": {
+    "vmt_perEmploy2010": {
         name: "Vehicle Miles Traveled per Employee",
-        dom_name: "vmt_emp",
+        dom_name: "vmt_perEmploy2010",
         precision: 0, 
-        attribute: "vmt_perEmp",
-        summarizer: createSimpleSummarizer("vmt_perEmp")
+        attribute: "vmt_perEmploy2010",
+        summarizer: createSimpleSummarizer("vmt_perEmploy2010")
     },
     "housing": {
         name: "Housing Affordability",
@@ -268,14 +269,14 @@ export let property_config = {
         summarizer: (features) => {
             features = forceArray(features);
 
-            let valid_features = features.filter((f) => isNumeric(f.properties["vmt_perCap"]));
+            let valid_features = features.filter((f) => isNumeric(f.properties["vmt_perCapita2010"]));
 
             if (valid_features.length == 0) {
                 return undefined;
             }
 
             let sum = valid_features.reduce((total, f) => {
-                return total + f.properties["vmt_perCap"] * .90
+                return total + f.properties["vmt_perCapita2010"] * .90
             }, 0);
 
             return sum / features.length;
@@ -288,14 +289,14 @@ export let property_config = {
         summarizer: (features) => {
             features = forceArray(features);
 
-            let valid_features = features.filter((f) => isNumeric(f.properties["vmt_perEmp"]));
+            let valid_features = features.filter((f) => isNumeric(f.properties["vmt_perEmploy2010"]));
 
             if (valid_features.length == 0) {
                 return undefined;
             }
 
             let sum = valid_features.reduce((total, f) => {
-                return total + f.properties["vmt_perEmp"] * .90
+                return total + f.properties["vmt_perEmploy2010"] * .90
             }, 0);
 
             return sum / features.length;
@@ -339,9 +340,3 @@ export let property_config = {
         }
     }
 };
-
-
-        
-
-
-

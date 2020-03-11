@@ -50,7 +50,7 @@ const areas = {
       polygons: "data/SanDiegoCounty.geojson",
       stations: "data/SanDiegoStations.geojson",
       ces: "data/SanDiegoDC-old.geojson",
-      placetype: "data/SanDiegoCountyPlaceType.geojson"
+      placetype: "data/SanDiegoPlacetype.geojson"
     },
     center: [32.7157, -117.11],
     zoom: 12
@@ -59,7 +59,8 @@ const areas = {
     files: {
       polygons: "data/SanMateoCounty.geojson",
       stations: "data/SanMateoStations.geojson",
-      ces: "data/SanMateoDC.geojson"
+      ces: "data/SanMateoDC.geojson", 
+      placetype: "data/SanMateoPlacetype.geojson"
     },
     center: [37.56, -122.313],
     zoom: 12
@@ -95,16 +96,18 @@ const areas = {
     files: {
       polygons: "data/LosAngelesCounty.geojson",
       stations: "data/LosAngelesStations.geojson",
-      ces: "data/LosAngelesDC.geojson"
+      ces: "data/LosAngelesDC.geojson",
+      placetype: "data/LosAngelesPlacetype.geojson"
     },
     center: [34.05, -118.24],
     zoom: 12
   },
   "btn-alcc-county": {
     files: {
-      polygons: "data/AlamedaContraCostaCounty.geojson",
+      polygons: "data/AlamedaContraCostaCounties.geojson",
       stations: "data/AlamedaStations.geojson",
-      ces: "data/AlamedaDC.geojson"
+      ces: "data/AlamedaDC.geojson",
+      placetype: "data/AlamedaPlacetype.geojson"
     },
     center: [37.66, -121.87],
     zoom: 12
@@ -113,7 +116,8 @@ const areas = {
     files: {
       polygons: "data/OrangeCounty.geojson",
       stations: "data/OrangeStations.geojson",
-      ces: "data/OrangeDC.geojson"
+      ces: "data/OrangeDC.geojson",
+      placetype: "data/OrangePlacetype.geojson"
     },
     center: [33.83, -117.91],
     zoom: 12
@@ -122,7 +126,8 @@ const areas = {
     files: {
       polygons: "data/SacramentoCounty.geojson",
       stations: "data/SacramentoStations.geojson",
-      ces: "data/SacramentoDC.geojson"
+      ces: "data/SacramentoDC.geojson",
+      placetype: "data/SacramentoPlacetype.geojson"
     },
     center: [38.58, -121.49],
     zoom: 12
@@ -131,7 +136,8 @@ const areas = {
     files: {
       polygons: "data/SanFranciscoCounty.geojson",
       stations: "data/SanFranciscoStations.geojson",
-      ces: "data/SanFranciscoDC.geojson"
+      ces: "data/SanFranciscoDC.geojson",
+      placetype: "data/SanFranciscoPlacetype.geojson"
     },
     center: [37.77, -122.41],
     zoom: 12
@@ -140,7 +146,8 @@ const areas = {
     files: {
       polygons: "data/SantaClaraCounty.geojson",
       stations: "data/SantaClaraStation.geojson",
-      ces: "data/SantaClaraDC.geojson"
+      ces: "data/SantaClaraDC.geojson",
+      placetype: "data/SantaClaraPlacetype.geojson"
     },
     center: [37.35, -121.95],
     zoom: 12
@@ -253,7 +260,7 @@ $(".btn-squared").click(function() {
     // create a choropleth map using the CBG features
     // initially use VMT as the choropleth property
     geojsonLayer = new Choropleth(resp1.data, {
-      property: property_config["vmt_cap"].summarizer,
+      property: property_config["vmt_perCapita2010"].summarizer,
       style: f => {
         return {
           color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
@@ -358,22 +365,22 @@ $(".btn-squared").click(function() {
           fillOpacity: 0.7,
           opacity: 0.0
         };
-        if (f.properties.FinalTYPE == "Urban Center"){
+        if (f.properties.FinalTYPE == 1){
           style.color = "#7A8FFA"
         }
-        else if(f.properties.FinalTYPE == "Urban Place"){
+        else if(f.properties.FinalTYPE == 2){
           style.color = "#7AB6F6"
         }
-        else if(f.properties.FinalTYPE == "Compact Suburban Place"){
+        else if(f.properties.FinalTYPE == 3){
           style.color = "#FAC561"
         }
-        else if(f.properties.FinalTYPE == "Suburban Place"){
+        else if(f.properties.FinalTYPE == 4){
           style.color = "#FFEABE"
         }
-        else if(f.properties.FinalTYPE == "Rural Place"){
+        else if(f.properties.FinalTYPE == 5){
           style.color = "#B3D99C"
         }
-        else if(f.properties.FinalTYPE == "Employment Center"){
+        else if(f.properties.FinalTYPE == 6){
           style.color = "#CA7AF5"
         }
         else{
