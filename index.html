@@ -153,13 +153,13 @@
                     </div>
                 </div>
 
-                <div style="z-index: 1001; top: 40%;">
+                <!-- <div style="z-index: 1001; top: 40%;">
                     <div id="radar" class="col-3 h-47 flex-column fixed-bottom section">
                             <h6 class="section-header"> Urban Quality Preformance </h6>
                             <canvas id="myChart"></canvas>
                             <button onclick="updateChart()">Update</button>
                     </div>  
-                </div>
+                </div> -->
                 
             </div>
             
@@ -180,6 +180,7 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li><a id="vmt_perCapita2010" class="dropdown-item" href="#"> Daily Vehicle Miles Traveled per Capita</a></li>
                             <li><a id="vmt_perEmploy2010" class="dropdown-item" href="#"> Daily Vehicle Miles Traveled per Employee</a></li>
+                            <li><a id="vmt_hbw2010" class="dropdown-item" href="#">Home Base Work Vehicle Miles Traveled per Capita</a></li>
                             <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
                             <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
                             <li><a id="afford-transport" class="dropdown-item" href="#"> Transportation Affordability </a></li>
@@ -278,6 +279,20 @@
                                 </span>
                             </div>
                             <div id='bar-vmt_perEmploy2010' class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
+                                title="Home Base Work Vechile Miles Traveled">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">Home Base Work VMT Per Capita (Daily)</span>
+                                <span class="vmt-label" style="font-size: .6em;">Caltrans 2017-<br/> Official State Data</span>
+                                <span class="value">
+                                    <span id="stat-vmt_hbw2010"> N/A </span>
+                                </span>
+                            </div>
+                            <div id='bar-vmt_hbw2010' class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>

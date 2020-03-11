@@ -105,6 +105,7 @@ function createSimpleSummarizer(prop) {
 export const PROPERTY_ORDER = [
     "vmt_perCapita2010",
     "vmt_perEmploy2010",
+    "vmt_hbw2010",
     "housing",
     "afford-transport",
     "afford-house-transport",
@@ -142,6 +143,13 @@ export let property_config = {
         precision: 0, 
         attribute: "vmt_perEmploy2010",
         summarizer: createSimpleSummarizer("vmt_perEmploy2010")
+    },
+    "vmt_hbw2010": {
+        name: "Home Base Work Vehicle Miles Traveled per Capita",
+        dom_name: "vmt_hbw2010",
+        precision: 0, 
+        attribute: "vmt_hbw2010",
+        summarizer: createSimpleSummarizer("vmt_hbw2010")
     },
     "housing": {
         name: "Housing Affordability",
