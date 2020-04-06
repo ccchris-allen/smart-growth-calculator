@@ -28,7 +28,7 @@ import {
   PROPERTY_ORDER,
   property_config,
   populateReadouts,
-  clearReadouts
+  clearReadouts,
 } from "./calculate";
 
 // global constants
@@ -50,108 +50,108 @@ const areas = {
       polygons: "data/SanDiegoCounty.geojson",
       stations: "data/SanDiegoStations.geojson",
       ces: "data/SanDiegoDC-old.geojson",
-      placetype: "data/SanDiegoPlacetype.geojson"
+      placetype: "data/SanDiegoPlacetype.geojson",
     },
     center: [32.7157, -117.11],
-    zoom: 12
+    zoom: 12,
   },
   "btn-sm-county": {
     files: {
       polygons: "data/SanMateoCounty.geojson",
       stations: "data/SanMateoStations.geojson",
-      ces: "data/SanMateoDC.geojson", 
-      placetype: "data/SanMateoPlacetype.geojson"
+      ces: "data/SanMateoDC.geojson",
+      placetype: "data/SanMateoPlacetype.geojson",
     },
     center: [37.56, -122.313],
-    zoom: 12
+    zoom: 12,
   },
   "btn-ml-county": {
     files: {
       polygons: "data/MultnomahCounty.geojson",
       stations: "",
-      ces: ""
+      ces: "",
     },
     center: [45.515, -122.679],
-    zoom: 12
+    zoom: 12,
   },
   "btn-clk-county": {
     files: {
       polygons: "data/ClackamasCounty.geojson",
       stations: "",
-      ces: ""
+      ces: "",
     },
     center: [45.3364, -122.6],
-    zoom: 12
+    zoom: 12,
   },
   "btn-wa-county": {
     files: {
       polygons: "data/WashingtonCounty.geojson",
       stations: "",
-      ces: ""
+      ces: "",
     },
     center: [45.515, -122.8],
-    zoom: 12
+    zoom: 12,
   },
   "btn-la-county": {
     files: {
       polygons: "data/LosAngelesCounty.geojson",
       stations: "data/LosAngelesStations.geojson",
-      ces: "data/LosAngelesDC.geojson",
-      placetype: "data/LosAngelesPlacetype.geojson"
+      ces: "data/LosAngelesDC-New.json",
+      placetype: "data/LosAngelesPlacetype.geojson",
     },
     center: [34.05, -118.24],
-    zoom: 12
+    zoom: 12,
   },
   "btn-alcc-county": {
     files: {
       polygons: "data/AlamedaContraCostaCounties.geojson",
       stations: "data/AlamedaStations.geojson",
       ces: "data/AlamedaDC.geojson",
-      placetype: "data/AlamedaPlacetype.geojson"
+      placetype: "data/AlamedaPlacetype.geojson",
     },
     center: [37.66, -121.87],
-    zoom: 12
+    zoom: 12,
   },
   "btn-oc-county": {
     files: {
       polygons: "data/OrangeCounty.geojson",
       stations: "data/OrangeStations.geojson",
       ces: "data/OrangeDC.geojson",
-      placetype: "data/OrangePlacetype.geojson"
+      placetype: "data/OrangePlacetype.geojson",
     },
     center: [33.83, -117.91],
-    zoom: 12
+    zoom: 12,
   },
   "btn-sa-county": {
     files: {
       polygons: "data/SacramentoCounty.geojson",
       stations: "data/SacramentoStations.geojson",
       ces: "data/SacramentoDC.geojson",
-      placetype: "data/SacramentoPlacetype.geojson"
+      placetype: "data/SacramentoPlacetype.geojson",
     },
     center: [38.58, -121.49],
-    zoom: 12
+    zoom: 12,
   },
   "btn-sf-county": {
     files: {
       polygons: "data/SanFranciscoCounty.geojson",
       stations: "data/SanFranciscoStations.geojson",
       ces: "data/SanFranciscoDC.geojson",
-      placetype: "data/SanFranciscoPlacetype.geojson"
+      placetype: "data/SanFranciscoPlacetype.geojson",
     },
     center: [37.77, -122.41],
-    zoom: 12
+    zoom: 12,
   },
   "btn-sc-county": {
     files: {
       polygons: "data/SantaClaraCounty.geojson",
       stations: "data/SantaClaraStation.geojson",
       ces: "data/SantaClaraDC.geojson",
-      placetype: "data/SantaClaraPlacetype.geojson"
+      placetype: "data/SantaClaraPlacetype.geojson",
     },
     center: [37.35, -121.95],
-    zoom: 12
-  }
+    zoom: 12,
+  },
 };
 
 //alert(window.location.href.split('/').slice(-1))
@@ -161,7 +161,7 @@ let geojsonLayer;
 let stationsLayer;
 let stationsPtsLayer;
 let cesLayer;
-let placetypeLayer; 
+let placetypeLayer;
 
 // create a leaflet map object
 var map = L.map("map").setView([32.7157, -117.11], 12);
@@ -169,7 +169,7 @@ var map = L.map("map").setView([32.7157, -117.11], 12);
 L.tileLayer(BASEMAP_URL, {
   maxZoom: 18,
   attribution: "",
-  id: "mapbox.streets"
+  id: "mapbox.streets",
 }).addTo(map);
 
 // add layer to hold the drawn features
@@ -180,14 +180,14 @@ map.addLayer(drawnItems);
 var drawControlOptions = {
   edit: {
     featureGroup: drawnItems,
-    edit: false
+    edit: false,
   },
   draw: {
     polygon: true,
     circle: false,
     circlemarker: false,
-    rectangle: false
-  }
+    rectangle: false,
+  },
 };
 
 const drawControl = new L.Control.Draw(drawControlOptions);
@@ -197,7 +197,7 @@ map.addControl(drawControl);
 const provider = new EsriProvider();
 const searchControl = new GeoSearchControl({
   provider: provider,
-  style: "bar"
+  style: "bar",
 });
 
 map.addControl(searchControl);
@@ -221,11 +221,11 @@ $(".btn-squared").click(function() {
     area.files.polygons,
     area.files.stations,
     area.files.ces,
-    area.files.placetype
+    area.files.placetype,
   ];
 
   // use axios to get the geojson files we need for this map
-  axios.all(GEOJSON_FILES.map(axios.get)).then(resp => {
+  axios.all(GEOJSON_FILES.map(axios.get)).then((resp) => {
     let [resp1, resp2, resp3, resp4] = resp;
 
     let feats = resp1.data.features;
@@ -235,7 +235,7 @@ $(".btn-squared").click(function() {
     link.classList.add("emphasize");
     // after animation is complete, remove the `emphasize` class
     // to prevent re-animation on re-draw (NOTE: still not working on IE/Edge?)
-    link.addEventListener("animationend webkitAnimationEnd", e => {
+    link.addEventListener("animationend webkitAnimationEnd", (e) => {
       e.target.classList.remove("emphasize");
     });
 
@@ -244,11 +244,11 @@ $(".btn-squared").click(function() {
             loading.style.display = 'none';
             */
 
-    PROPERTY_ORDER.forEach(p => {
+    PROPERTY_ORDER.forEach((p) => {
       let vals = feats
         .map(property_config[p].summarizer)
-        .filter(v => !isNaN(v) && isFinite(v))
-        .filter(v => v > 0); //do we really want to filter out zeros?
+        .filter((v) => !isNaN(v) && isFinite(v))
+        .filter((v) => v > 0); //do we really want to filter out zeros?
 
       let min = Math.min(...vals);
       let max = Math.max(...vals);
@@ -261,24 +261,24 @@ $(".btn-squared").click(function() {
     // initially use VMT as the choropleth property
     geojsonLayer = new Choropleth(resp1.data, {
       property: property_config["vmt_perCapita2010"].summarizer,
-      style: f => {
+      style: (f) => {
         return {
           color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
           weight: f.properties._selected ? 2 : 0.0,
           opacity: 1.0,
-          fillOpacity: 0.4
+          fillOpacity: 0.4,
         };
       },
       onEachFeature: (f, l) => {
-        l.on("mouseover", e => {
+        l.on("mouseover", (e) => {
           f.properties._hovered = true;
           updateSelected();
         });
-        l.on("mouseout", e => {
+        l.on("mouseout", (e) => {
           delete f.properties._hovered;
           updateSelected();
         });
-      }
+      },
     }).addTo(map);
 
     // cloning the transit station buffers to get the centroid to display as points
@@ -300,10 +300,10 @@ $(".btn-squared").click(function() {
     // add the stations layer to the map
     // set style of stations layer based on typology
     stationsLayer = L.geoJSON(resp2.data, {
-      style: f => {
+      style: (f) => {
         var style = {
           weight: 3.0,
-          fillOpacity: 0.0
+          fillOpacity: 0.0,
         };
 
         // make sure SDSU station (83) is green --hacky!!!
@@ -324,7 +324,7 @@ $(".btn-squared").click(function() {
         l.on("click", () => selectFeatures(f));
 
         // todo: move this to util file
-        const titleCase = s =>
+        const titleCase = (s) =>
           s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
         var msg = `
@@ -336,14 +336,14 @@ $(".btn-squared").click(function() {
 
         //l.bindPopup(msg);
       },
-      interactive: false
+      interactive: false,
     }).addTo(map);
 
     let stripes = new L.StripePattern({
       angle: 45,
       weight: 4,
       color: "black",
-      opacity: 1.0
+      opacity: 1.0,
     });
     stripes.addTo(map);
 
@@ -352,44 +352,38 @@ $(".btn-squared").click(function() {
       style: {
         fillPattern: stripes,
         fillOpacity: 0.3,
-        opacity: 0.0
+        opacity: 0.0,
       },
-      interactive: false // need this to allow for selection of cbgs UNDER this layer
+      interactive: false, // need this to allow for selection of cbgs UNDER this layer
     }).addTo(map);
 
-    // add place type layer to the map 
+    // add place type layer to the map
     placetypeLayer = L.geoJSON(resp4.data, {
-      style: f => {
+      style: (f) => {
         var style = {
           weight: 10.0,
           fillOpacity: 0.7,
-          opacity: 0.0
+          opacity: 0.0,
         };
-        if (f.properties.FinalTYPE == 1){
-          style.color = "#7A8FFA"
-        }
-        else if(f.properties.FinalTYPE == 2){
-          style.color = "#7AB6F6"
-        }
-        else if(f.properties.FinalTYPE == 3){
-          style.color = "#FAC561"
-        }
-        else if(f.properties.FinalTYPE == 4){
-          style.color = "#FFEABE"
-        }
-        else if(f.properties.FinalTYPE == 5){
-          style.color = "#B3D99C"
-        }
-        else if(f.properties.FinalTYPE == 6){
-          style.color = "#CA7AF5"
-        }
-        else{
-          style.color = "#D89EBD"
+        if (f.properties.FinalTYPE == 1) {
+          style.color = "#7A8FFA";
+        } else if (f.properties.FinalTYPE == 2) {
+          style.color = "#7AB6F6";
+        } else if (f.properties.FinalTYPE == 3) {
+          style.color = "#FAC561";
+        } else if (f.properties.FinalTYPE == 4) {
+          style.color = "#FFEABE";
+        } else if (f.properties.FinalTYPE == 5) {
+          style.color = "#B3D99C";
+        } else if (f.properties.FinalTYPE == 6) {
+          style.color = "#CA7AF5";
+        } else {
+          style.color = "#D89EBD";
         }
         return style;
       },
-      interactive: false
-    })
+      interactive: false,
+    });
 
     // add control to map (allows users to turn off/on layers)
     let opts = { position: "topright" };
@@ -400,8 +394,8 @@ $(".btn-squared").click(function() {
           "Livability Attributes": geojsonLayer,
           "Rail Transit Station .5 Mile Buffers": stationsLayer,
           /*"Rail Transit Stations": stationsPtsLayer,*/
-          "Disadvantage Communities": cesLayer, 
-          "Caltrans SMF Place Type": placetypeLayer
+          "Disadvantage Communities": cesLayer,
+          "Caltrans SMF Place Type": placetypeLayer,
         },
         opts
       )
@@ -421,22 +415,22 @@ $(".dropdown-menu a").click(function() {
 
   // update the choropleth layer with the new property
   if (invert) {
-    geojsonLayer.setProperty(f => max - summarizer(f), true);
+    geojsonLayer.setProperty((f) => max - summarizer(f), true);
   } else {
     geojsonLayer.setProperty(summarizer, true);
   }
 });
 
 // add event handler for when a drawn feature is deleted
-map.on(L.Draw.Event.DELETESTOP, e => {
-  geojsonLayer.eachLayer(l => {
+map.on(L.Draw.Event.DELETESTOP, (e) => {
+  geojsonLayer.eachLayer((l) => {
     delete l.feature.properties._selected;
   });
 
-  geojsonLayer.setStyle(f => {
+  geojsonLayer.setStyle((f) => {
     return {
       color: NORMAL_COLOR,
-      weight: 0.0
+      weight: 0.0,
     };
   });
 
@@ -469,8 +463,8 @@ function selectFeatures(buffer) {
         var polygon = {
           geometry: {
             type: "Polygon",
-            coordinates: polys_coords[i]
-          }
+            coordinates: polys_coords[i],
+          },
         };
 
         if (intersect(a, polygon)) {
@@ -482,7 +476,7 @@ function selectFeatures(buffer) {
     return false;
   }
 
-  cbgs.features.forEach(f => {
+  cbgs.features.forEach((f) => {
     if (intersects(buffer, f)) {
       f.properties._selected = true;
     }
@@ -493,17 +487,17 @@ function updateSelected(layer = geojsonLayer) {
   var cbgs = layer.toGeoJSON();
 
   // set style of selected CBGs
-  geojsonLayer.setStyle(f => {
+  geojsonLayer.setStyle((f) => {
     let is_selected = f.properties._selected || f.properties._hovered;
     return {
       color: is_selected ? SELECTED_COLOR : NORMAL_COLOR,
       dashArray: "3 3",
-      weight: is_selected ? 2 : 0.0
+      weight: is_selected ? 2 : 0.0,
     };
   });
 
   var selected_features = cbgs.features.filter(
-    f => f.properties._selected || f.properties._hovered
+    (f) => f.properties._selected || f.properties._hovered
   );
 
   populateReadouts(selected_features);
@@ -512,7 +506,7 @@ function updateSelected(layer = geojsonLayer) {
 }
 
 // add event handler for when a feature is drawn by the user
-map.on(L.Draw.Event.CREATED, e => {
+map.on(L.Draw.Event.CREATED, (e) => {
   let buffer;
   let { layer, layerType } = e;
   let opts = { units: "miles" };
@@ -525,13 +519,13 @@ map.on(L.Draw.Event.CREATED, e => {
     var coords = [layer._latlng.lng, layer._latlng.lat];
     buffer = circle(coords, BUFFER_RADIUS, opts);
   } else if (layerType === "polyline") {
-    var coords = layer._latlngs.map(item => {
+    var coords = layer._latlngs.map((item) => {
       return [item.lng, item.lat];
     });
     buffer = turfBuffer(lineString(coords), BUFFER_RADIUS, opts);
   } else {
-    var coords = layer._latlngs.map(ring => {
-      return ring.map(poly => {
+    var coords = layer._latlngs.map((ring) => {
+      return ring.map((poly) => {
         return [poly.lng, poly.lat];
       });
     });
@@ -547,14 +541,14 @@ map.on(L.Draw.Event.CREATED, e => {
 
 $("#download-csv").on("click", () => {
   let cbgs = geojsonLayer.toGeoJSON();
-  let selected = cbgs.features.filter(f => f.properties._selected);
+  let selected = cbgs.features.filter((f) => f.properties._selected);
 
   if (selected.length == 0) {
     alert("Select features first!");
     return;
   }
 
-  let rows = selected.map(s => {
+  let rows = selected.map((s) => {
     // sometimes the geoid is called 'GEOIDCLEAN' and sometimes 'GEOID' (need to fix this in future...)
     let fips = s.properties["GEOIDCLEAN"] || s.properties["GEOID"];
 

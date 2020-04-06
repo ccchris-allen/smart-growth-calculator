@@ -59,8 +59,11 @@
 
         <!-- Title and navigation bar -->
         <nav class="navbar navbar-dark navbar-expand-xl bg-dark fixed-top navbar-default row">
-            <img style="height: 60px" id="logo" src="img/caltrans-logo.png" />
-            <div class="container">
+            <div class="col col-md-1 col-lg-1 col-xl-1 d-none d-sm-block" style="text-align: center;">
+                <img style="height: 60px" id="logo" src="img/caltrans-logo.png" />
+            </div>
+
+            <div class="container col">
                 <a class="navbar-brand" href="#"> 
                     <div class="col">
                         <a class="navbar-brand text-left">Caltrans Smart Mobility Tool</a><br/>
@@ -73,7 +76,7 @@
                 </a>
             </div>
 
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            <button class="navbar-toggler navbar-toggler-right col col-md-2 col-lg-2 " type="button" data-toggle="collapse"
                 data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
