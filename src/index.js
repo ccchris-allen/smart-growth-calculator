@@ -105,7 +105,7 @@ const areas = {
   "btn-alcc-county": {
     files: {
       polygons: "data/AlamedaContraCostaCounties.geojson",
-      stations: "data/AlamedaStations.geojson",
+      stations: "data/AlamedaContraCostaStations.geojson",
       ces: "data/AlamedaDC.geojson",
       placetype: "data/AlamedaPlacetype.geojson",
     },
