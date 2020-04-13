@@ -49,7 +49,7 @@ const areas = {
     files: {
       polygons: "data/SanDiegoCounty.geojson",
       stations: "data/SanDiegoStations.geojson",
-      ces: "data/SanDiegoDC-old.geojson",
+      ces: "data/SanDiegoDC.geojson",
       placetype: "data/SanDiegoPlacetype.geojson",
     },
     center: [32.7157, -117.11],
@@ -96,7 +96,7 @@ const areas = {
     files: {
       polygons: "data/LosAngelesCounty.geojson",
       stations: "data/LosAngelesStations.geojson",
-      ces: "data/LosAngelesDC-New.json",
+      ces: "data/LosAngelesDC.json",
       placetype: "data/LosAngelesPlacetype.geojson",
     },
     center: [34.05, -118.24],
@@ -106,7 +106,7 @@ const areas = {
     files: {
       polygons: "data/AlamedaContraCostaCounties.geojson",
       stations: "data/AlamedaContraCostaStations.geojson",
-      ces: "data/AlamedaDC.geojson",
+      ces: "data/AlamedaContraCostaDC.geojson",
       placetype: "data/AlamedaPlacetype.geojson",
     },
     center: [37.66, -121.87],
