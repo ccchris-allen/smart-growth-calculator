@@ -345,6 +345,20 @@ button {
   position: relative;
 }
 
+@media only screen and (max-width: 800px) {
+  #container-body {
+    padding-top: 25px;
+    display: flex;
+    flex-direction: column;
+  }
+  #sidebar {
+    min-width: 410px;
+  }
+}
+
+#map {
+}
+
 .loading {
   position: absolute;
   top: 0;
