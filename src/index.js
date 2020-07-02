@@ -550,7 +550,10 @@ $("#download-csv").on("click", () => {
 
   let rows = selected.map((s) => {
     // sometimes the geoid is called 'GEOIDCLEAN' and sometimes 'GEOID' (need to fix this in future...)
-    let fips = s.properties["GEOIDCLEAN"] || s.properties["GEOID"];
+    let fips =
+      s.properties["GEOIDCLEAN"] ||
+      s.properties["GEOID"] ||
+      s.properties["GEOID10"];
 
     // grab row data in proper order (defined by `PROPERTY_ORDER`)
     return PROPERTY_ORDER.reduce(
