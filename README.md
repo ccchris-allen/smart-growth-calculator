@@ -2,8 +2,6 @@
 
 [Production Site Link](https://smartgrowthcalculator.netlify.app)
 
-[Test Site Link](https://testsmartgrowthcalculator.netlify.app)
-
 ## Getting Started
 
 First clone this repo to your local machine using Git. Then download and install Node.js. Node.js will allow you to manage the dependancies the calculor requires. Once Node.js is install simply type "npm install" in the command line in the cloned directory. This will read the package.json file and download all dependancies for you. Lastly you will need a way to serve up the web page on your local machine in the same way a website does. The easiest way to do that is by downloading Visual Studio Code and installing the Live Server extension. Press the 'Go Live' button at the botton and if you did everything right you should have a fully functional calculator on your machine ready for development.
