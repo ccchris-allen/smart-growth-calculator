@@ -194,10 +194,9 @@ const drawControl = new L.Control.Draw(drawControlOptions);
 map.addControl(drawControl);
 
 // add geosearch control
-const provider = new EsriProvider();
 const searchControl = new GeoSearchControl({
-  provider: provider,
-  style: "bar",
+  style: "button",
+  provider: new EsriProvider(),
 });
 
 map.addControl(searchControl);

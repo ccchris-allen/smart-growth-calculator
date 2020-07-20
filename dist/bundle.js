@@ -64371,10 +64371,9 @@ const drawControl = new leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.Control.D
 map.addControl(drawControl);
 
 // add geosearch control
-const provider = new leaflet_geosearch__WEBPACK_IMPORTED_MODULE_6__["EsriProvider"]();
 const searchControl = new leaflet_geosearch__WEBPACK_IMPORTED_MODULE_6__["GeoSearchControl"]({
-  provider: provider,
-  style: "bar",
+  style: "button",
+  provider: new leaflet_geosearch__WEBPACK_IMPORTED_MODULE_6__["EsriProvider"](),
 });
 
 map.addControl(searchControl);
