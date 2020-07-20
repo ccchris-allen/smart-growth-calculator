@@ -184,6 +184,8 @@
                             <li><a id="vmt_perCapita2010" class="dropdown-item" href="#"> Daily Vehicle Miles Traveled per Capita</a></li>
                             <li><a id="vmt_perEmploy2010" class="dropdown-item" href="#"> Daily Vehicle Miles Traveled per Employee</a></li>
                             <li><a id="vmt_hbw2010" class="dropdown-item" href="#">Home Base Work Vehicle Miles Traveled per Capita</a></li>
+                            <li><a id="hh_type1_vmt" class="dropdown-item" href="#"> Annual Vehicle Miles Traveled per Household</a></li>
+                            <li><a id="ghg_hh_annual" class="dropdown-item" href="#"> Annual Carbon Emissions per Household</a></li>
                             <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
                             <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
                             <li><a id="afford-transport" class="dropdown-item" href="#"> Transportation Affordability </a></li>
@@ -261,7 +263,7 @@
                         <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
                                 title="Vehicle Miles Traveled reflect the number of miles driving each year per person.">
                             <div class="d-flex justify-content-between align-items-end">
-                                <span class="label">Per Capita VMT (Daily)</span>
+                                <span class="label">VMT Per Capita (Daily)</span>
                                 <span class="vmt-label" style="font-size: .6em;">Caltrans 2017-<br/> Official State Data</span>
                                 <span class="value">
                                     <span id="stat-vmt_perCapita2010"> N/A </span>
@@ -273,7 +275,7 @@
                         </li>
 
                         <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
-                                title="Home Base Work Vechile Miles Traveled">
+                                title="Home Base Work Vehicle Miles Traveled">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">Home Base Work VMT Per Capita (Daily)</span>
                                 <span class="vmt-label" style="font-size: .6em;">Caltrans 2017-<br/> Official State Data</span>
@@ -287,31 +289,31 @@
                         </li>
 
                         <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
-                                title="Annual Carbon Emissions per Household">
-                            <div class="d-flex justify-content-between align-items-end">
-                                <span class="label">
-                                    Carbon emissions per Household (Annual)
-                                </span>
-                                <span class="value">
-                                    <span id=""> N/A </span>
-                                </span>
-                            </div>
-                            <div id='' class="bar bar-full">
-                                <div class="bar na"> </div>
-                            </div>
-                        </li>
-
-                        <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
                                 title="Annual Vehicle Miles Traveled per Household">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     VMT per Household (Annual)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-hhvmt_annual"> N/A </span>
+                                    <span id="stat-hh_type1_vmt"> N/A </span>
                                 </span>
                             </div>
-                            <div id='bar-hhvmt_annual' class="bar bar-full">
+                            <div id='bar-hh_type1_vmt' class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic showcased" data-toggle="tooltip" data-placement="top"
+                                title="Annual Carbon Emissions per Household">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">
+                                    Carbon emissions per Household (Annual)
+                                </span>
+                                <span class="value">
+                                    <span id="stat-ghg_hh_annual"> N/A </span>
+                                </span>
+                            </div>
+                            <div id='bar-ghg_hh_annual' class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>
@@ -342,21 +344,6 @@
                                 </span>
                             </div>
                             <div id='bar-afford-transport' class="bar bar-full">
-                                <div class="bar na"> </div>
-                            </div>
-                        </li>
-
-                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                title="Housing + Transportation Affordability reflects housing + transportation costs as a percent of income.">
-                            <div class="d-flex justify-content-between align-items-end">
-                                <span class="label">
-                                    Housing + Transportation Affordability
-                                </span>
-                                <span class="value">
-                                    <span id="stat-afford-house-transport"> N/A </span>
-                                </span>
-                            </div>
-                            <div id='bar-afford-house-transport' class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>

@@ -63732,10 +63732,10 @@ function createSimpleSummarizer(prop) {
 const PROPERTY_ORDER = [
   "vmt_perCapita2010",
   "vmt_hbw2010",
-  "hhvmt_annual",
+  "hh_type1_vmt",
+  "ghg_hh_annual",
   "housing",
   "afford-transport",
-  "afford-house-transport",
   "ghg_cap",
   "ghg_emp",
   "pop-density",
@@ -63770,9 +63770,9 @@ let property_config = {
     attribute: "vmt_hbw2010",
     summarizer: createSimpleSummarizer("vmt_hbw2010"),
   },
-  hhvmt_annual: {
+  hh_type1_vmt: {
     name: "Vehicle Miles Traveled per Household (Annual)",
-    dom_name: "hhvmt_annual",
+    dom_name: "hh_type1_vmt",
     precision: 0,
     attribute: "hh_type1_vmt",
     summarizer: createSimpleSummarizer("hh_type1_vmt"),
@@ -63790,13 +63790,6 @@ let property_config = {
     precision: 1,
     attribute: "hh_type1_t",
     summarizer: createSimpleSummarizer("hh_type1_t"),
-  },
-  "afford-house-transport": {
-    name: "Housing + Transportation Affordability",
-    dom_name: "afford-house-transport",
-    precision: 1,
-    attribute: "hh_type1_2",
-    summarizer: createSimpleSummarizer("hh_type1_2"),
   },
   "pop-density": {
     name: "Population Density",
@@ -63985,6 +63978,28 @@ let property_config = {
         (sums["JTW_WALK"] / sums["JTW_TOTAL"]) /
         365.25
       );
+    },
+  },
+  ghg_hh_annual: {
+    name: "Carbon Emissions Per Household (Annual)",
+    dom_name: "ghg_hh_annual",
+    precision: 0,
+    summarizer: (features) => {
+      features = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["forceArray"])(features);
+
+      let valid_features = features.filter((f) =>
+        Object(_utils__WEBPACK_IMPORTED_MODULE_1__["isNumeric"])(f.properties["hh_type1_vmt"])
+      );
+
+      if (valid_features.length == 0) {
+        return undefined;
+      }
+
+      let sum = valid_features.reduce((total, f) => {
+        return total + f.properties["hh_type1_vmt"] * 0.79;
+      }, 0);
+
+      return sum / features.length;
     },
   },
 };
@@ -64393,10 +64408,9 @@ const drawControl = new leaflet__WEBPACK_IMPORTED_MODULE_3___default.a.Control.D
 map.addControl(drawControl);
 
 // add geosearch control
-const provider = new leaflet_geosearch__WEBPACK_IMPORTED_MODULE_6__["EsriProvider"]();
 const searchControl = new leaflet_geosearch__WEBPACK_IMPORTED_MODULE_6__["GeoSearchControl"]({
-  provider: provider,
-  style: "bar",
+  style: "button",
+  provider: new leaflet_geosearch__WEBPACK_IMPORTED_MODULE_6__["EsriProvider"](),
 });
 
 map.addControl(searchControl);

@@ -113,10 +113,10 @@ function createSimpleSummarizer(prop) {
 export const PROPERTY_ORDER = [
   "vmt_perCapita2010",
   "vmt_hbw2010",
-  "hhvmt_annual",
+  "hh_type1_vmt",
+  "ghg_hh_annual",
   "housing",
   "afford-transport",
-  "afford-house-transport",
   "ghg_cap",
   "ghg_emp",
   "pop-density",
@@ -151,9 +151,9 @@ export let property_config = {
     attribute: "vmt_hbw2010",
     summarizer: createSimpleSummarizer("vmt_hbw2010"),
   },
-  hhvmt_annual: {
+  hh_type1_vmt: {
     name: "Vehicle Miles Traveled per Household (Annual)",
-    dom_name: "hhvmt_annual",
+    dom_name: "hh_type1_vmt",
     precision: 0,
     attribute: "hh_type1_vmt",
     summarizer: createSimpleSummarizer("hh_type1_vmt"),
@@ -171,13 +171,6 @@ export let property_config = {
     precision: 1,
     attribute: "hh_type1_t",
     summarizer: createSimpleSummarizer("hh_type1_t"),
-  },
-  "afford-house-transport": {
-    name: "Housing + Transportation Affordability",
-    dom_name: "afford-house-transport",
-    precision: 1,
-    attribute: "hh_type1_2",
-    summarizer: createSimpleSummarizer("hh_type1_2"),
   },
   "pop-density": {
     name: "Population Density",
@@ -366,6 +359,28 @@ export let property_config = {
         (sums["JTW_WALK"] / sums["JTW_TOTAL"]) /
         365.25
       );
+    },
+  },
+  ghg_hh_annual: {
+    name: "Carbon Emissions Per Household (Annual)",
+    dom_name: "ghg_hh_annual",
+    precision: 0,
+    summarizer: (features) => {
+      features = forceArray(features);
+
+      let valid_features = features.filter((f) =>
+        isNumeric(f.properties["hh_type1_vmt"])
+      );
+
+      if (valid_features.length == 0) {
+        return undefined;
+      }
+
+      let sum = valid_features.reduce((total, f) => {
+        return total + f.properties["hh_type1_vmt"] * 0.79;
+      }, 0);
+
+      return sum / features.length;
     },
   },
 };
