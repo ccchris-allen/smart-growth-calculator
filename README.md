@@ -1,8 +1,8 @@
-# SMART GROWTH CALCULATOR CODE OVERVIEW
+# SMART CALCULATOR CODE OVERVIEW
 
-[Production Site Link](https://smartgrowthcalculator.netlify.app)
+[Smart Growth Equity Calculator Link](https://smartgrowthcalculator.netlify.app/)
 
-[Test Site Link](https://testsmartgrowthcalculator.netlify.app)
+[Smart Mobility Calculator Link](https://smartmobilitycalculator.netlify.app/)
 
 ## Getting Started
 
