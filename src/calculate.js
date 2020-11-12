@@ -89,7 +89,6 @@ export function populateReadouts(features, verbose = false) {
 
 // in most cases, metrics can be aggregated with this simple summarizer (which just averages)
 function createSimpleSummarizer(prop) {
-  console.log("hi");
   // return function that encloses the `prop` value
   return (features) => {
     features = forceArray(features);
@@ -113,22 +112,23 @@ function createSimpleSummarizer(prop) {
 export const PROPERTY_ORDER = [
   "vmt_perCapita2010",
   "vmt_hbw2010",
-  "hh_type1_vmt",
+  "hh_type1_v",
   "ghg_hh_annual",
   "housing",
   "afford-transport",
   "ghg_cap",
   "ghg_emp",
+  "pedcol",
+  "cardio",
+  "obesity",
   "pop-density",
   "jobs-density",
   "dwelling-density",
+  "Jobs45Tran",
+  "Jobs45Auto",
   "ped-environment",
-  "pedcol",
   "walkscore",
   "walkshare",
-  "jobs-accessibility",
-  "cardio",
-  "obesity",
 ];
 
 /*
@@ -151,12 +151,34 @@ export let property_config = {
     attribute: "vmt_hbw2010",
     summarizer: createSimpleSummarizer("vmt_hbw2010"),
   },
-  hh_type1_vmt: {
+  hh_type1_v: {
     name: "Vehicle Miles Traveled per Household (Annual)",
-    dom_name: "hh_type1_vmt",
+    dom_name: "hh_type1_v",
     precision: 0,
-    attribute: "hh_type1_vmt",
-    summarizer: createSimpleSummarizer("hh_type1_vmt"),
+    attribute: "hh_type1_v",
+    summarizer: createSimpleSummarizer("hh_type1_v"),
+  },
+  ghg_hh_annual: {
+    name: "Carbon Emissions Per Household (Annual)",
+    dom_name: "ghg_hh_annual",
+    precision: 0,
+    summarizer: (features) => {
+      features = forceArray(features);
+
+      let valid_features = features.filter((f) =>
+        isNumeric(f.properties["hh_type1_v"])
+      );
+
+      if (valid_features.length == 0) {
+        return undefined;
+      }
+
+      let sum = valid_features.reduce((total, f) => {
+        return total + f.properties["hh_type1_v"] * 0.79;
+      }, 0);
+
+      return sum / features.length;
+    },
   },
   housing: {
     name: "Housing Affordability",
@@ -171,107 +193,6 @@ export let property_config = {
     precision: 1,
     attribute: "hh_type1_t",
     summarizer: createSimpleSummarizer("hh_type1_t"),
-  },
-  "pop-density": {
-    name: "Population Density",
-    dom_name: "pop-density",
-    precision: 1,
-    attribute: "D1B",
-    invert: true, // some metrics need to be inverted, to conform with high = bad
-    summarizer: createSimpleSummarizer("D1B"),
-  },
-  "dwelling-density": {
-    name: "Dwelling Density",
-    dom_name: "dwelling-density",
-    precision: 1,
-    attribute: "D1A",
-    invert: true, // some metrics need to be inverted, to conform with high = bad
-    summarizer: createSimpleSummarizer("D1A"),
-  },
-  "jobs-density": {
-    name: "Jobs Density",
-    dom_name: "jobs-density",
-    precision: 1,
-    attribute: "D1C",
-    invert: true, // some metrics need to be inverted, to conform with high = bad
-    summarizer: createSimpleSummarizer("D1C"),
-  },
-  "ped-environment": {
-    name: "Pedestrian Environment (Walkability)",
-    dom_name: "ped-environment",
-    precision: 1,
-    attribute: "D3b",
-    invert: true,
-    summarizer: createSimpleSummarizer("D3b"),
-  },
-  "jobs-accessibility": {
-    name: "Jobs Accessibility",
-    dom_name: "jobs-accessibility",
-    precision: 0,
-    attribute: "D5br",
-    invert: true, // some metrics need to be inverted, to conform with high = bad
-    summarizer: createSimpleSummarizer("D5br"),
-  },
-  walkscore: {
-    name: "WalkScore",
-    dom_name: "walkscore",
-    precision: 1,
-    attribute: "walkscore",
-    invert: true, // some metrics need to be inverted, to conform with high = bad
-    summarizer: createSimpleSummarizer("walkscore"),
-  },
-  cardio: {
-    name: "Cardiovascular Disease",
-    dom_name: "cardio",
-    precision: 1,
-    attribute: "CHD_Crude1",
-    summarizer: createSimpleSummarizer("CHD_Crude1"),
-  },
-  obesity: {
-    name: "Obesity",
-    dom_name: "obesity",
-    precision: 1,
-    attribute: "OBESITY_C1",
-    summarizer: createSimpleSummarizer("OBESITY_C1"),
-  },
-  walkshare: {
-    name: "Walking Percent (Walkshare)",
-    dom_name: "walkshare",
-    precision: 1,
-    invert: true, // some metrics need to be inverted, to conform with high = bad
-    summarizer: (features) => {
-      features = forceArray(features);
-
-      let valid_features = features.filter((f) => {
-        let props = ["JTW_WALK", "JTW_TOTAL"];
-
-        for (let i = 0; i < props.length; i++) {
-          if (!isNumeric(f.properties[props[i]])) {
-            return false;
-          }
-        }
-
-        return true;
-      });
-
-      if (valid_features.length == 0) {
-        return undefined;
-      }
-
-      let sums = valid_features.reduce(
-        (totals, f) => {
-          let props = f.properties;
-
-          totals["JTW_WALK"] += parseFloat(props["JTW_WALK"]);
-          totals["JTW_TOTAL"] += parseFloat(props["JTW_TOTAL"]);
-
-          return totals;
-        },
-        { JTW_WALK: 0, JTW_TOTAL: 0 }
-      );
-
-      return (100 * sums["JTW_WALK"]) / sums["JTW_TOTAL"];
-    },
   },
   ghg_cap: {
     name: "Carbon Emissions per Capita",
@@ -361,26 +282,113 @@ export let property_config = {
       );
     },
   },
-  ghg_hh_annual: {
-    name: "Carbon Emissions Per Household (Annual)",
-    dom_name: "ghg_hh_annual",
+  cardio: {
+    name: "Cardiovascular Disease",
+    dom_name: "cardio",
+    precision: 1,
+    attribute: "CHD_Crude1",
+    summarizer: createSimpleSummarizer("CHD_Crude1"),
+  },
+  obesity: {
+    name: "Obesity",
+    dom_name: "obesity",
+    precision: 1,
+    attribute: "OBESITY_C1",
+    summarizer: createSimpleSummarizer("OBESITY_C1"),
+  },
+  "pop-density": {
+    name: "Population Density",
+    dom_name: "pop-density",
+    precision: 1,
+    attribute: "D1B",
+    invert: true, // some metrics need to be inverted, to conform with high = bad
+    summarizer: createSimpleSummarizer("D1B"),
+  },
+  "jobs-density": {
+    name: "Jobs Density",
+    dom_name: "jobs-density",
+    precision: 1,
+    attribute: "D1C",
+    invert: true, // some metrics need to be inverted, to conform with high = bad
+    summarizer: createSimpleSummarizer("D1C"),
+  },
+  "dwelling-density": {
+    name: "Dwelling Density",
+    dom_name: "dwelling-density",
+    precision: 1,
+    attribute: "D1A",
+    invert: true, // some metrics need to be inverted, to conform with high = bad
+    summarizer: createSimpleSummarizer("D1A"),
+  },
+  Jobs45Tran: {
+    name: "Jobs Accessibility From Transit",
+    dom_name: "Jobs45Tran",
     precision: 0,
+    attribute: "Jobs45Tran",
+    invert: true, // some metrics need to be inverted, to conform with high = bad
+    summarizer: createSimpleSummarizer("Jobs45Tran"),
+  },
+  Jobs45Auto: {
+    name: "Jobs Accessible From Auto",
+    dom_name: "Jobs45Auto",
+    precision: 0,
+    attribute: "Jobs45Auto",
+    invert: true, // some metrics need to be inverted, to conform with high = bad
+    summarizer: createSimpleSummarizer("Jobs45Auto"),
+  },
+  "ped-environment": {
+    name: "Pedestrian Environment (Walkability)",
+    dom_name: "ped-environment",
+    precision: 1,
+    attribute: "D3b",
+    invert: true,
+    summarizer: createSimpleSummarizer("D3b"),
+  },
+  walkscore: {
+    name: "WalkScore",
+    dom_name: "walkscore",
+    precision: 1,
+    attribute: "walkscore",
+    invert: true, // some metrics need to be inverted, to conform with high = bad
+    summarizer: createSimpleSummarizer("walkscore"),
+  },
+  walkshare: {
+    name: "Walking Percent (Walkshare)",
+    dom_name: "walkshare",
+    precision: 1,
+    invert: true, // some metrics need to be inverted, to conform with high = bad
     summarizer: (features) => {
       features = forceArray(features);
 
-      let valid_features = features.filter((f) =>
-        isNumeric(f.properties["hh_type1_vmt"])
-      );
+      let valid_features = features.filter((f) => {
+        let props = ["JTW_WALK", "JTW_TOTAL"];
+
+        for (let i = 0; i < props.length; i++) {
+          if (!isNumeric(f.properties[props[i]])) {
+            return false;
+          }
+        }
+
+        return true;
+      });
 
       if (valid_features.length == 0) {
         return undefined;
       }
 
-      let sum = valid_features.reduce((total, f) => {
-        return total + f.properties["hh_type1_vmt"] * 0.79;
-      }, 0);
+      let sums = valid_features.reduce(
+        (totals, f) => {
+          let props = f.properties;
 
-      return sum / features.length;
+          totals["JTW_WALK"] += parseFloat(props["JTW_WALK"]);
+          totals["JTW_TOTAL"] += parseFloat(props["JTW_TOTAL"]);
+
+          return totals;
+        },
+        { JTW_WALK: 0, JTW_TOTAL: 0 }
+      );
+
+      return (100 * sums["JTW_WALK"]) / sums["JTW_TOTAL"];
     },
   },
 };

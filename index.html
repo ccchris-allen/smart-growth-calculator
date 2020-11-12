@@ -4,6 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
     <title> Smart Mobility Calculator </title>
+    <link rel="icon" 
+      type="image/png" 
+      href="img/caltrans-logo.png">
 
     <!-- Bootstrap CSS -->
     <link 
@@ -38,7 +41,7 @@
         href="https://unpkg.com/leaflet-draw@0.4.9/dist/leaflet.draw.css" 
     />
 
-    <link  href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css" rel="stylesheet" />
+    <link  href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css" rel="stylesheet"/>
 
     <!-- Project CSS -->
     <link 
@@ -177,30 +180,29 @@
                     <span id="select-property" class="dropdown">
                         <button type="button" id="dropdownMenuButton" class="btn btn-xs dropdown-toggle"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                                <span id="btn-label"> Vehicle Miles Traveled per Capita</span> <span class="caret"></span>
+                                <span id="btn-label">Daily Vehicle Miles Traveled per Capita</span> <span class="caret"></span>
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li><a id="vmt_perCapita2010" class="dropdown-item" href="#"> Daily Vehicle Miles Traveled per Capita</a></li>
-                            <li><a id="vmt_perEmploy2010" class="dropdown-item" href="#"> Daily Vehicle Miles Traveled per Employee</a></li>
-                            <li><a id="vmt_hbw2010" class="dropdown-item" href="#">Home Base Work Vehicle Miles Traveled per Capita</a></li>
-                            <li><a id="hh_type1_vmt" class="dropdown-item" href="#"> Annual Vehicle Miles Traveled per Household</a></li>
+                            <li><a id="vmt_hbw2010" class="dropdown-item" href="#">Daily Home Base Work Vehicle Miles Traveled per Capita</a></li>
+                            <li><a id="hh_type1_v" class="dropdown-item" href="#"> Annual Vehicle Miles Traveled per Household</a></li>
                             <li><a id="ghg_hh_annual" class="dropdown-item" href="#"> Annual Carbon Emissions per Household</a></li>
-                            <li><a id="jobs-accessibility" class="dropdown-item" href="#"> Jobs Accessibility </a></li>
                             <li><a id="housing" class="dropdown-item" href="#"> Housing Affordability </a></li>
                             <li><a id="afford-transport" class="dropdown-item" href="#"> Transportation Affordability </a></li>
-                            <li><a id="afford-house-transport" class="dropdown-item" href="#"> Housing + Transportation Affordability </a></li>
-                            <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
                             <li><a id="ghg_cap" class="dropdown-item" href="#"> Daily Carbon Emissions by Person </a></li>
                             <li><a id="ghg_emp" class="dropdown-item" href="#"> Daily Carbon Emissions by Employee</a></li>
                             <li><a id="pedcol" class="dropdown-item" href="#"> Pedestrian Collisions </a></li>
-                            <li><a id="pop-density" class="dropdown-item" href="#"> Population Density </a></li>
-                            <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
-                            <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
-                            <li><a id="walkscore" class="dropdown-item" href="#"> WalkScore </a></li>
-                            <li><a id="walkshare" class="dropdown-item" href="#"> Walking Percent </a></li>
                             <li><a id="cardio" class="dropdown-item" href="#"> Cardiovascular Disease </a></li>
                             <li><a id="obesity" class="dropdown-item" href="#"> Obesity </a></li>
+                            <li><a id="pop-density" class="dropdown-item" href="#"> Population Density </a></li>
+                            <li><a id="jobs-density" class="dropdown-item" href="#"> Jobs Density </a></li>
+                            <li><a id="dwelling-density" class="dropdown-item" href="#"> Dwelling Density </a></li>
+                            <li><a id="Jobs45Tran" class="dropdown-item" href="#"> Jobs Accessible From Transit</a></li>
+                            <li><a id="Jobs45Auto" class="dropdown-item" href="#"> Jobs Accessible From Car</a></li>
+                            <li><a id="ped-environment" class="dropdown-item" href="#"> Walkability </a></li>
+                            <li><a id="walkscore" class="dropdown-item" href="#"> WalkScore </a></li>
+                            <li><a id="walkshare" class="dropdown-item" href="#"> Walking Percent </a></li> 
                         </ul>
                     </span>
                 </div>
@@ -295,10 +297,10 @@
                                     VMT per Household (Annual)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-hh_type1_vmt"> N/A </span>
+                                    <span id="stat-hh_type1_v"> N/A </span>
                                 </span>
                             </div>
-                            <div id='bar-hh_type1_vmt' class="bar bar-full">
+                            <div id='bar-hh_type1_v' class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>
@@ -348,7 +350,8 @@
                             </div>
                         </li>
 
-                        <li class="statistic" data-toggle="tooltip" data-placement="top">
+                        <li class="statistic" data-toggle="tooltip" data-placement="top"
+                                title="Daily Carbon Emissions per Person">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Daily Carbon Emissions <br> (lbs per person)
@@ -362,7 +365,8 @@
                             </div>
                         </li>
 
-                        <li class="statistic" data-toggle="tooltip" data-placement="top">
+                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
+                                title="Daily Carbon Emissions per Employee">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
                                     Daily Carbon Emissions <br> (lbs per employee)
@@ -377,7 +381,8 @@
                         </li>
 
                         <li class="statistic">
-                            <div class="d-flex justify-content-between align-items-end">
+                            <div class="d-flex justify-content-between align-items-end" 
+                                    title="Pedestrian Collisions">
                                 <span class="label">
                                     Pedestrian Collisions <br> (per 100k walkers)
                                 </span>
@@ -465,16 +470,31 @@
                         </li>
 
                         <li class="statistic" data-toggle="tooltip" data-placement="top" 
-                                    title="jobs accessibility reflects the number of jobs accessible within a 45 minute transit commute.">
+                                    title="Jobs accessibility reflects the number of jobs accessible within a 45 minute transit commute.">
                             <div class="d-flex justify-content-between align-items-end">
                                 <span class="label">
-                                    Jobs Accessibility
+                                    Jobs Accessibility (Transit)
                                 </span>
                                 <span class="value">
-                                    <span id="stat-jobs-accessibility"> N/A </span>
+                                    <span id="stat-Jobs45Tran"> N/A </span>
                                 </span>
                             </div>
-                            <div id="bar-jobs-accessibility" class="bar bar-full">
+                            <div id="bar-Jobs45Tran" class="bar bar-full">
+                                <div class="bar na"> </div>
+                            </div>
+                        </li>
+
+                        <li class="statistic" data-toggle="tooltip" data-placement="top" 
+                                    title="Jobs accessibility reflects the number of jobs accessible within a 45 minute auto commute.">
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="label">
+                                    Jobs Accessibility (Auto)
+                                </span>
+                                <span class="value">
+                                    <span id="stat-Jobs45Auto"> N/A </span>
+                                </span>
+                            </div>
+                            <div id="bar-Jobs45Auto" class="bar bar-full">
                                 <div class="bar na"> </div>
                             </div>
                         </li>

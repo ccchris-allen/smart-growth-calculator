@@ -202,7 +202,7 @@ const searchControl = new GeoSearchControl({
 map.addControl(searchControl);
 
 // Commenting out this part because Bruce doesn't want to show the "Select a County" modal right now...
-$(".btn-squared").click(function() {
+$(".btn-squared").click(function () {
   $("#modal-select-city").modal("hide");
 
   // only show annoying popups initially if in production mode
@@ -259,7 +259,7 @@ $(".btn-squared").click(function() {
     // create a choropleth map using the CBG features
     // initially use VMT as the choropleth property
     geojsonLayer = new Choropleth(resp1.data, {
-      property: property_config["vmt_perCapita2010"].summarizer,
+      property: property_config["hh_type1_v"].summarizer,
       style: (f) => {
         return {
           color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
@@ -327,8 +327,9 @@ $(".btn-squared").click(function() {
           s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
         var msg = `
-                        <span class='font-weight-bold'> Station: </span> ${f
-                          .properties.FULL_NAME || "None"} <br>
+                        <span class='font-weight-bold'> Station: </span> ${
+                          f.properties.FULL_NAME || "None"
+                        } <br>
                         <span class='font-weight-bold'> Typology: </span> ${titleCase(
                           f.properties.FINAL_TYPO
                         )}`;
@@ -404,7 +405,7 @@ $(".btn-squared").click(function() {
 
 // create an event handler for when the user clicks the drop-down menu
 // to select a layer for visualization
-$(".dropdown-menu a").click(function() {
+$(".dropdown-menu a").click(function () {
   // first, set button text to selected value
   // (this is a bit of a hack, since bootstrap doesn't really support dropdowns)
   $("#btn-label").text(this.text);
