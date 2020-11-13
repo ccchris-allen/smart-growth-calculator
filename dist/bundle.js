@@ -30520,7 +30520,7 @@ $(".btn-squared").click(function () {
     // create a choropleth map using the CBG features
     // initially use VMT as the choropleth property
     geojsonLayer = new _choro__WEBPACK_IMPORTED_MODULE_12___default.a(resp1.data, {
-      property: _calculate__WEBPACK_IMPORTED_MODULE_14__["property_config"]["hh_type1_v"].summarizer,
+      property: _calculate__WEBPACK_IMPORTED_MODULE_14__["property_config"]["vmt_perCapita2010"].summarizer,
       style: (f) => {
         return {
           color: f.properties._selected ? SELECTED_COLOR : NORMAL_COLOR,
