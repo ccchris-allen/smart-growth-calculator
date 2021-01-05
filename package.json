@@ -14,7 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "@turf/turf": "^5.1.6",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
