@@ -35,8 +35,7 @@ import {
 const SELECTED_COLOR = "#444";
 const NORMAL_COLOR = "#000";
 const BUFFER_RADIUS = 0.5; // units = miles
-const BASEMAP_URL =
-  "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
+const BASEMAP_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 // we're going to only do some things when in production mode, ex: only show 'directions' modal
 // immediately when in production mode (otherwise, it's annoying for debugging purposes to have to
